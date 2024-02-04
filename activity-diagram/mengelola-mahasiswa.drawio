@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-02-04T16:03:15.737Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0" etag="dLhZbSQ9QHYwaPgbRvxf" version="23.1.1" type="github" pages="6">
+<mxfile host="app.diagrams.net" modified="2024-02-04T17:16:32.066Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0" etag="XwekRYUCMWbzcwS7rxhK" version="23.1.1" type="github" pages="6">
   <diagram name="Menambah Mahasiswa" id="K08iiiFk2Sr4iGjwIVKi">
-    <mxGraphModel dx="96" dy="1671" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -279,22 +279,13 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="9i_MheCGn6rZNigH5LI9-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="9Wp_tbhXeIbLLrKuJZ7A-7" source="9Wp_tbhXeIbLLrKuJZ7A-22" target="9Wp_tbhXeIbLLrKuJZ7A-24" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="9i_MheCGn6rZNigH5LI9-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="9Wp_tbhXeIbLLrKuJZ7A-7" source="9Wp_tbhXeIbLLrKuJZ7A-22" target="9Wp_tbhXeIbLLrKuJZ7A-26" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="371.5" y="473" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="9Wp_tbhXeIbLLrKuJZ7A-22" value="Menampilkan Seluruh Mahasiswa" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCFCFC;arcSize=36;strokeWidth=0.5;fontSize=15;" parent="9Wp_tbhXeIbLLrKuJZ7A-7" vertex="1">
           <mxGeometry x="300.24999999999955" y="360" width="142.5" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="9Wp_tbhXeIbLLrKuJZ7A-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="9Wp_tbhXeIbLLrKuJZ7A-7" source="9Wp_tbhXeIbLLrKuJZ7A-24" target="9Wp_tbhXeIbLLrKuJZ7A-26" edge="1">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="9Wp_tbhXeIbLLrKuJZ7A-24" value="Menampilkan Detil Absensi Berdasarkan Mahasiswa" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCFCFC;arcSize=36;strokeWidth=0.5;fontSize=15;" parent="9Wp_tbhXeIbLLrKuJZ7A-7" vertex="1">
-          <mxGeometry x="271.5" y="473" width="200" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="9Wp_tbhXeIbLLrKuJZ7A-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="9Wp_tbhXeIbLLrKuJZ7A-7" target="9Wp_tbhXeIbLLrKuJZ7A-26" edge="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="371.5" y="555" as="sourcePoint" />
-          </mxGeometry>
         </mxCell>
         <mxCell id="9Wp_tbhXeIbLLrKuJZ7A-26" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" parent="9Wp_tbhXeIbLLrKuJZ7A-7" vertex="1">
           <mxGeometry x="351.5" y="593" width="40" height="40" as="geometry" />
