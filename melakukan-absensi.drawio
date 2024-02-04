@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-02-04T17:04:56.334Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0" etag="t3sry6uQZyFOfdOJ0_1g" version="23.1.1" type="github">
+<mxfile host="app.diagrams.net" modified="2024-02-04T17:05:36.179Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0" etag="XJW3j6l-FLu1RJ53K8Ew" version="23.1.1" type="github">
   <diagram name="Melakukan Absensi" id="fqRPTw9rEbrpvfVbGFxZ">
     <mxGraphModel dx="10" dy="1619" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -42,7 +42,7 @@
         <mxCell id="yT5bd3Vj3d8P9JNHRMUm-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="yT5bd3Vj3d8P9JNHRMUm-7" source="yT5bd3Vj3d8P9JNHRMUm-31" target="yT5bd3Vj3d8P9JNHRMUm-32">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="yT5bd3Vj3d8P9JNHRMUm-31" value="Memeriksa Absensi" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCFCFC;arcSize=36;strokeWidth=0.5;fontSize=15;" vertex="1" parent="yT5bd3Vj3d8P9JNHRMUm-7">
+        <mxCell id="yT5bd3Vj3d8P9JNHRMUm-31" value="Memeriksa Database" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCFCFC;arcSize=36;strokeWidth=0.5;fontSize=15;" vertex="1" parent="yT5bd3Vj3d8P9JNHRMUm-7">
           <mxGeometry x="220.06000000000017" y="260" width="229.87" height="40" as="geometry" />
         </mxCell>
         <mxCell id="yT5bd3Vj3d8P9JNHRMUm-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="yT5bd3Vj3d8P9JNHRMUm-7" source="yT5bd3Vj3d8P9JNHRMUm-32" target="yT5bd3Vj3d8P9JNHRMUm-30">
