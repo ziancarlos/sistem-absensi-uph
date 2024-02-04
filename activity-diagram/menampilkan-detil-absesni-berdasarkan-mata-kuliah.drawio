@@ -1,9 +1,102 @@
-<mxfile host="app.diagrams.net" modified="2024-02-04T17:12:32.478Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0" version="23.1.1" etag="JCWUYtsQi_EmbPKE6OC-" type="github">
-  <diagram name="Page-1" id="5-7BBZHSPum1tGIYJsKc">
-    <mxGraphModel>
+<mxfile host="app.diagrams.net" modified="2024-02-04T17:13:14.470Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0" etag="1ONp0Ogcyx_3nV73oDn-" version="23.1.1" type="github">
+  <diagram name="Menampilkan Detil Absesni Berdasarkan Mata Kuliah" id="5-7BBZHSPum1tGIYJsKc">
+    <mxGraphModel dx="96" dy="1671" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="n44TwZKHmZswfRtms-6A-1" value="Menampilkan Detil Absensi Berdasarkan Mata Kuliah" style="swimlane;childLayout=stackLayout;resizeParent=1;resizeParentMax=0;startSize=20;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="-120" width="990" height="540" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-2" value="Admin/Dosen" style="swimlane;startSize=20;html=1;" vertex="1" parent="n44TwZKHmZswfRtms-6A-1">
+          <mxGeometry y="20" width="320" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="n44TwZKHmZswfRtms-6A-2" source="n44TwZKHmZswfRtms-6A-4" target="n44TwZKHmZswfRtms-6A-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-4" value="" style="ellipse;html=1;shape=startState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="n44TwZKHmZswfRtms-6A-2">
+          <mxGeometry x="145.06999999999954" y="30" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-5" value="Memilih&amp;nbsp;Detil Absensi Berdasarkan Mata Kuliah" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCFCFC;arcSize=36;strokeWidth=0.5;fontSize=15;" vertex="1" parent="n44TwZKHmZswfRtms-6A-2">
+          <mxGeometry x="50.13" y="110" width="229.87" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="n44TwZKHmZswfRtms-6A-1" source="n44TwZKHmZswfRtms-6A-5" target="n44TwZKHmZswfRtms-6A-13">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="330" y="150" as="sourcePoint" />
+            <mxPoint x="559.9999999999995" y="150" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-7" value="Sistem" style="swimlane;startSize=20;html=1;" vertex="1" parent="n44TwZKHmZswfRtms-6A-1">
+          <mxGeometry x="320" y="20" width="670" height="520" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-8" value="&amp;lt;&amp;lt;Valid&amp;gt;&amp;gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="n44TwZKHmZswfRtms-6A-7" target="n44TwZKHmZswfRtms-6A-12">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="311.25" y="270" as="targetPoint" />
+            <mxPoint x="311.1333333333332" y="229.88333333333367" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="n44TwZKHmZswfRtms-6A-7" target="n44TwZKHmZswfRtms-6A-10">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="630" y="210" />
+              <mxPoint x="630" y="460" />
+            </Array>
+            <mxPoint x="603.7499999999995" y="210.0666666666666" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-10" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="n44TwZKHmZswfRtms-6A-7">
+          <mxGeometry x="291.25" y="440" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="n44TwZKHmZswfRtms-6A-7" source="n44TwZKHmZswfRtms-6A-12" target="n44TwZKHmZswfRtms-6A-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-12" value="Menampilkan&amp;nbsp;Detil Absensi Berdasarkan Mata Kuliah" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCFCFC;arcSize=36;strokeWidth=0.5;fontSize=15;" vertex="1" parent="n44TwZKHmZswfRtms-6A-7">
+          <mxGeometry x="201.25" y="350" width="220" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-13" value="Memeriksa Status Login" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCFCFC;arcSize=36;strokeWidth=0.5;fontSize=15;" vertex="1" parent="n44TwZKHmZswfRtms-6A-7">
+          <mxGeometry x="239.99999999999955" y="110" width="142.5" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-14" value="" style="rhombus;" vertex="1" parent="n44TwZKHmZswfRtms-6A-7">
+          <mxGeometry x="291.24999999999955" y="190" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="n44TwZKHmZswfRtms-6A-7" source="n44TwZKHmZswfRtms-6A-13" target="n44TwZKHmZswfRtms-6A-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-16" value="Memeriksa Aktor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCFCFC;arcSize=36;strokeWidth=0.5;fontSize=15;" vertex="1" parent="n44TwZKHmZswfRtms-6A-7">
+          <mxGeometry x="239.99999999999955" y="270" width="142.5" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-17" value="&amp;lt;&amp;lt;Admin/Dosen&amp;gt;&amp;gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="n44TwZKHmZswfRtms-6A-7" source="n44TwZKHmZswfRtms-6A-14" target="n44TwZKHmZswfRtms-6A-16">
+          <mxGeometry x="1" y="-60" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="311.25" y="240" />
+              <mxPoint x="311.25" y="240" />
+            </Array>
+            <mxPoint x="58" y="60" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-18" value="&amp;lt;&amp;lt;Valid&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="n44TwZKHmZswfRtms-6A-17">
+          <mxGeometry x="-0.2635" y="-1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-19" value="Menampilkan Pesan Kesalahan" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCFCFC;arcSize=36;strokeWidth=0.5;fontSize=15;" vertex="1" parent="n44TwZKHmZswfRtms-6A-7">
+          <mxGeometry x="461.24999999999955" y="190" width="142.5" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="n44TwZKHmZswfRtms-6A-7" source="n44TwZKHmZswfRtms-6A-14" target="n44TwZKHmZswfRtms-6A-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-21" value="&amp;lt;&amp;lt;Invalid&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="n44TwZKHmZswfRtms-6A-20">
+          <mxGeometry x="-0.3809" y="2" relative="1" as="geometry">
+            <mxPoint x="20" y="2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="n44TwZKHmZswfRtms-6A-7" source="n44TwZKHmZswfRtms-6A-16" target="n44TwZKHmZswfRtms-6A-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="n44TwZKHmZswfRtms-6A-23" value="&amp;lt;&amp;lt;Selain Admin/Dosen&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" connectable="0" vertex="1" parent="n44TwZKHmZswfRtms-6A-22">
+          <mxGeometry x="-0.5948" relative="1" as="geometry">
+            <mxPoint x="35" as="offset" />
+          </mxGeometry>
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
