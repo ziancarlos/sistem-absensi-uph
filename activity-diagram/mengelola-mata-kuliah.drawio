@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-02-04T16:03:18.244Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0" etag="KhykudEsGAWklFpVC_aE" version="23.1.1" type="github" pages="6">
+<mxfile host="app.diagrams.net" modified="2024-02-04T17:16:11.196Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0" etag="T_TVJzYvgWbAOIvPuxqG" version="23.1.1" type="github" pages="6">
   <diagram name="Menambah Mata Kuliah" id="-wSa1XFoGFf5lEfilS_o">
     <mxGraphModel dx="96" dy="1671" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -185,7 +185,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="qM9_HgfTBBtKq2JEMk2w" name="Menampilkan Mata Kuliah">
-    <mxGraphModel dx="96" dy="1671" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="333" dy="1814" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -279,22 +279,13 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="FFGnPfF_-iirlS1dnnD6-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="FFGnPfF_-iirlS1dnnD6-7" source="FFGnPfF_-iirlS1dnnD6-24" target="FFGnPfF_-iirlS1dnnD6-26">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="FFGnPfF_-iirlS1dnnD6-23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="FFGnPfF_-iirlS1dnnD6-7" source="FFGnPfF_-iirlS1dnnD6-24" target="FFGnPfF_-iirlS1dnnD6-28">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="371.5" y="473" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="FFGnPfF_-iirlS1dnnD6-24" value="Menampilkan Seluruh Mata Kuliah" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCFCFC;arcSize=36;strokeWidth=0.5;fontSize=15;" vertex="1" parent="FFGnPfF_-iirlS1dnnD6-7">
           <mxGeometry x="300.24999999999955" y="360" width="142.5" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="FFGnPfF_-iirlS1dnnD6-25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="FFGnPfF_-iirlS1dnnD6-7" source="FFGnPfF_-iirlS1dnnD6-26" target="FFGnPfF_-iirlS1dnnD6-28">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="FFGnPfF_-iirlS1dnnD6-26" value="Menampilkan Detil Absensi Berdasarkan Mata Kuliah" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FCFCFC;arcSize=36;strokeWidth=0.5;fontSize=15;" vertex="1" parent="FFGnPfF_-iirlS1dnnD6-7">
-          <mxGeometry x="271.5" y="473" width="200" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="FFGnPfF_-iirlS1dnnD6-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="FFGnPfF_-iirlS1dnnD6-7" target="FFGnPfF_-iirlS1dnnD6-28">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="371.5" y="555" as="sourcePoint" />
-          </mxGeometry>
         </mxCell>
         <mxCell id="FFGnPfF_-iirlS1dnnD6-28" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" vertex="1" parent="FFGnPfF_-iirlS1dnnD6-7">
           <mxGeometry x="351.5" y="593" width="40" height="40" as="geometry" />
