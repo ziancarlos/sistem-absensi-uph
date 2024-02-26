@@ -48,8 +48,6 @@ function loginController()
 
     header('location: ../dashboard/dashboard.php');
 
-
-
     return;
 }
 

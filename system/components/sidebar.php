@@ -16,7 +16,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="index.php">
+        <a class="nav-link" href="../dashboard/dashboard.php">
             <span class="material-symbols-outlined sidebar-dashboard">dashboard</span>
             <span>Dashboard</span></a>
     </li>
@@ -38,7 +38,7 @@
         </a>
         <div id="collapseMhs" class="collapse" aria-labelledby="headingMhs" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
-                <a class="collapse-item" href="admin_list_mahasiswa.php">List Mahasiswa</a>
+                <a class="collapse-item" href="../students/dataStudent.php">List Mahasiswa</a>
                 <a class="collapse-item" href="admin_tambah_mahasiswa.php">Tambah Mahasiswa</a>
             </div>
         </div>
