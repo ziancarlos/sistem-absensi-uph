@@ -5,10 +5,7 @@ require_once("../../helper/dbHelper.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["login"])) {
     loginController();
-} else if (isset($_SESSION["ID_USER"])) {
-
 }
-
 function loginController()
 {
     $email = htmlspecialchars($_POST["email"]);
