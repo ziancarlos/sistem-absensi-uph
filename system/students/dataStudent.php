@@ -35,57 +35,30 @@ require_once("dataStudentFunction.php");
                             <tr>
                                 <th>Nama Mahasiswa</th>
                                 <th>NIM</th>
-                                <th>Semester</th>
                                 <th>Tahun Angkatan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach ($data["students"] as $student): ?>
                             <tr>
-                                <td>Kelvin</td>
-                                <td>01081210011</td>
-                                <td>8</td>
-                                <td>2021</td>
-                                <td style="display: flex; gap: 5px;">
-                                    <a class="btn btn-success btn-sm" href="" style="width: 90px">Detail</a>
-                                    <a class="btn btn-primary btn-sm" href="dosen_list_mahasiswa_edit.html"
-                                        style="width: 90px">Edit</a>
-                                    <a class="btn btn-danger btn-sm" href="" style="width: 90px">Non Aktif</a>
+                                <td>
+                                    <?= $student["Name"] ?>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>Nathania Michaela</td>
-                                <td>01081210007</td>
-                                <td>8</td>
-                                <td>2021</td>
+                                <td>
+                                    <?= $student["StudentId"] ?>
+                                </td>
+                                <td>
+                                    <?= $student["YearIn"] ?>
+                                </td>
                                 <td style="display: flex; gap: 5px;">
                                     <a class="btn btn-success btn-sm" href="" style="width: 90px">Detail</a>
                                     <a class="btn btn-primary btn-sm" href="" style="width: 90px">Edit</a>
                                     <a class="btn btn-danger btn-sm" href="" style="width: 90px">Non Aktif</a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>Yoana Sonia</td>
-                                <td>01081210001</td>
-                                <td>8</td>
-                                <td>2021</td>
-                                <td style="display: flex; gap: 5px;">
-                                    <a class="btn btn-success btn-sm" href="" style="width: 90px">Detail</a>
-                                    <a class="btn btn-primary btn-sm" href="" style="width: 90px">Edit</a>
-                                    <a class="btn btn-danger btn-sm" href="" style="width: 90px">Non Aktif</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Zian Carlos</td>
-                                <td>01081210013</td>
-                                <td>8</td>
-                                <td>2021</td>
-                                <td style="display: flex; gap: 5px;">
-                                    <a class="btn btn-success btn-sm" href="" style="width: 90px">Detail</a>
-                                    <a class="btn btn-primary btn-sm" href="" style="width: 90px">Edit</a>
-                                    <a class="btn btn-danger btn-sm" href="" style="width: 90px">Non Aktif</a>
-                                </td>
-                            </tr>
+
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -153,15 +126,12 @@ require_once("dataStudentFunction.php");
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script>
-        new DataTable('#example', {
-            columns: [{
+    new DataTable('#example', {
+        columns: [{
                 data: 'nama_mahasiswa'
             },
             {
                 data: 'nim'
-            },
-            {
-                data: 'semester'
             },
             {
                 data: 'angakatan'
@@ -169,8 +139,8 @@ require_once("dataStudentFunction.php");
             {
                 data: 'aksi'
             }
-            ]
-        });
+        ]
+    });
     </script>
 
 </body>

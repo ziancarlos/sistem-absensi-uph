@@ -27,12 +27,13 @@ WHERE UserId = :userId FOR UPDATE";
             // Check if the fetched role is in the permitted roles array
             if (!in_array($result['user_role'], $permittedRole)) {
                 // User does not have the required authorization
-                header('location: ../auth/login.php');
+                return false;
             }
         } else {
             // User not found or role not defined
-            header('location: ../auth/login.php');
+            return false;
         }
+
     } catch (PDOException $e) {
         // Handle exceptions
         throw $e;
@@ -43,4 +44,6 @@ WHERE UserId = :userId FOR UPDATE";
         }
         $connection = null; // Close connection
     }
+
+    return true;
 }
