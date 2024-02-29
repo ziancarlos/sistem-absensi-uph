@@ -55,7 +55,7 @@ function loginModel($email, $password)
     $statement = null;
 
     try {
-        $sql = "SELECT UserId FROM users WHERE email = :email AND password = :password FOR UPDATE";
+        $sql = "SELECT UserId FROM Users WHERE email = :email AND password = :password FOR UPDATE";
 
         $statement = $connection->prepare($sql);
         $statement->bindParam('email', $email);

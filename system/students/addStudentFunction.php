@@ -20,9 +20,12 @@ function addStudentController()
     $yearIn = htmlspecialchars($_POST["yearIn"]);
     $password = htmlspecialchars($_POST["password"]);
 
+
     // Check if any required field is empty
     if (empty($name) || empty($nim) || empty($email) || empty($yearIn) || empty($password)) {
         $_SESSION["error"] = "Nama, NIM, email, tahun masuk, atau password kosong, silakan isi semuanya!";
+        // var_dump("halo");
+
         return;
     }
 
@@ -53,31 +56,58 @@ function addStudentController()
     // Hash the password using MD5
     $hashedPassword = md5($password);
 
-    // Add data to the 'users' table
+    // Connect to database using PDO
     $connection = getConnection();
-    $sqlUsers = "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)";
-    $statementUsers = $connection->prepare($sqlUsers);
-    $statementUsers->bindParam(':name', $name);
-    $statementUsers->bindParam(':email', $email);
-    $statementUsers->bindParam(':password', $hashedPassword);
-    $statementUsers->execute();
 
-    // Get the ID of the inserted user
-    $userId = $connection->lastInsertId();
+    try {
+        $connection->beginTransaction();
 
-    // Add data to the 'students' table
-    $sqlStudents = "INSERT INTO students (user_id, nim, yearIn) VALUES (:userId, :nim, :yearIn)";
-    $statementStudents = $connection->prepare($sqlStudents);
-    $statementStudents->bindParam(':userId', $userId);
-    $statementStudents->bindParam(':nim', $nim);
-    $statementStudents->bindParam(':yearIn', $yearIn);
-    $statementStudents->execute();
+        // Check if the nim already exists in the Students table
+        $nimCheckQuery = "SELECT * FROM Students WHERE StudentId = :nim";
+        $nimCheckStmt = $connection->prepare($nimCheckQuery);
+        $nimCheckStmt->bindParam(':nim', $nim);
+        $nimCheckStmt->execute();
 
-    // Close connection
+        if ($nimCheckStmt->rowCount() > 0) {
+            $_SESSION["error"] = "NIM sudah digunakan!";
+            $connection->rollBack();
+            return;
+        }
+
+        // Check if the email already exists in the Users table
+        $emailCheckQuery = "SELECT * FROM Users WHERE email = :email";
+        $emailCheckStmt = $connection->prepare($emailCheckQuery);
+        $emailCheckStmt->bindParam(':email', $email);
+        $emailCheckStmt->execute();
+
+        if ($emailCheckStmt->rowCount() > 0) {
+            $_SESSION["error"] = "Alamat email sudah terdaftar!";
+            $connection->rollBack();
+            return;
+        }
+
+        // Insert data into Students table
+        $insertStudentQuery = "INSERT INTO Students (StudentId, YearIn) VALUES (:nim, :yearIn)";
+        $insertStudentStmt = $connection->prepare($insertStudentQuery);
+        $insertStudentStmt->bindParam(':nim', $nim);
+        $insertStudentStmt->bindParam(':yearIn', $yearIn);
+        $insertStudentStmt->execute();
+
+        // Insert data into Users table
+        $insertUserQuery = "INSERT INTO Users (Name, Email, StudentId, Password) VALUES (:name, :email, :nim, :password)";
+        $insertUserStmt = $connection->prepare($insertUserQuery);
+        $insertUserStmt->bindParam(':name', $name);
+        $insertUserStmt->bindParam(':email', $email);
+        $insertUserStmt->bindParam(':nim', $nim);
+        $insertUserStmt->bindParam(':password', $hashedPassword);
+        $insertUserStmt->execute();
+
+        $connection->commit();
+        $_SESSION["success"] = "Data mahasiswa berhasil ditambahkan!";
+    } catch (PDOException $e) {
+        $_SESSION["error"] = "Tidak berhasil menambahkan data mahasiswa!";
+        $connection->rollBack();
+    }
+
     $connection = null;
-
-    // Redirect or show a success message
-    // For example:
-    header("Location: success_page.php");
-    exit();
 }

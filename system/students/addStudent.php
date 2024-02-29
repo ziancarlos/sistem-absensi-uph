@@ -69,7 +69,7 @@ require_once("addStudentFunction.php");
                                                     name="password">
                                             </div>
                                         </div>
-                                        <button name="simpan" type="submit"
+                                        <button name="add" type="submit"
                                             class="btn btn-primary tambah_btn">Simpan</button>
                                     </form>
                                 </div>
@@ -125,49 +125,25 @@ require_once("addStudentFunction.php");
     </div>
 
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="../../assets/vendor/jquery/jquery.min.js"></script>
-    <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="../../assets/js/sb-admin-2.min.js"></script>
+    <?php require_once("../components/js.php"); ?>
 
 
 
-    <!-- Custom scripts for all pages-->
-    <script src="../../assets/js/sb-admin-2.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script>
-        new DataTable('#example', {
-            columns: [{
-                data: 'nama_mahasiswa'
-            },
-            {
-                data: 'nim'
-            },
-            {
-                data: 'angakatan'
-            },
-            {
-                data: 'aksi'
-            }
-            ]
-        });
-    </script>
+
 
     <script>
-        function isNumberKey(evt) {
-            var charCode = (evt.which) ? evt.which : event.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                return false;
-            }
-            return true;
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
         }
+        return true;
+    }
     </script>
+
+
 
 </body>
 

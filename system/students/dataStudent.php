@@ -33,9 +33,11 @@ require_once("dataStudentFunction.php");
                     <table id="example" class="display cell-border" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Nama Mahasiswa</th>
+                                <th>Id</th>
                                 <th>NIM</th>
+                                <th>Nama Mahasiswa</th>
                                 <th>Tahun Angkatan</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -43,18 +45,48 @@ require_once("dataStudentFunction.php");
                             <?php foreach ($data["students"] as $student): ?>
                             <tr>
                                 <td>
-                                    <?= $student["Name"] ?>
+                                    <?= $student["UserId"] ?>
                                 </td>
                                 <td>
                                     <?= $student["StudentId"] ?>
                                 </td>
                                 <td>
+                                    <?= $student["Name"] ?>
+                                </td>
+
+                                <td>
                                     <?= $student["YearIn"] ?>
                                 </td>
+                                <td>
+                                    <?php if ($student["Status"] == 1): ?>
+                                    <span class="badge badge-primary">Aktif</span>
+                                    <?php else: ?>
+                                    <span class="badge badge-danger">Tidak Aktif</span>
+                                    <?php endif; ?>
+
+
+                                </td>
                                 <td style="display: flex; gap: 5px;">
-                                    <a class="btn btn-success btn-sm" href="" style="width: 90px">Detail</a>
-                                    <a class="btn btn-primary btn-sm" href="" style="width: 90px">Edit</a>
-                                    <a class="btn btn-danger btn-sm" href="" style="width: 90px">Non Aktif</a>
+                                    <a class="btn btn-info btn-sm" href="" style="width: 90px">Detail</a>
+
+                                    <form action="updateStudent.php" method="post" style="display: inline-block;">
+                                        <button type="submit" name="ubahView" value="<?= $student["UserId"]; ?>"
+                                            class="btn btn-primary btn-sm" style="width: 90px">Edit</button>
+                                    </form>
+
+                                    <?php if ($student["Status"] == 1): ?>
+                                    <form action="deactivateStudentFunction.php" method="post"
+                                        style="display: inline-block;">
+                                        <button type="submit" name="deactivate" value="<?= $student["UserId"]; ?>"
+                                            class="btn btn-danger btn-sm" style="width: 90px">Non Aktif</button>
+                                    </form>
+                                    <?php else: ?>
+                                    <form action="activateStudentFunction.php" method="post"
+                                        style="display: inline-block;">
+                                        <button type="submit" name="activate" value="<?= $student["UserId"]; ?>"
+                                            class="btn btn-success btn-sm" style="width: 90px">Aktifkan</button>
+                                    </form>
+                                    <?php endif; ?>
                                 </td>
                             </tr>
 
@@ -109,25 +141,19 @@ require_once("dataStudentFunction.php");
     </div>
 
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="../../assets/vendor/jquery/jquery.min.js"></script>
-    <script src="../../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="../../assets/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="../../assets/js/sb-admin-2.min.js"></script>
 
 
 
-    <!-- Custom scripts for all pages-->
-    <script src="../../assets/js/sb-admin-2.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
+    <?php require_once("../components/js.php"); ?>
+
+
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script>
     new DataTable('#example', {
         columns: [{
+                data: 'id'
+            }, {
                 data: 'nama_mahasiswa'
             },
             {
@@ -135,6 +161,9 @@ require_once("dataStudentFunction.php");
             },
             {
                 data: 'angakatan'
+            },
+            {
+                data: 'aksi1'
             },
             {
                 data: 'aksi'

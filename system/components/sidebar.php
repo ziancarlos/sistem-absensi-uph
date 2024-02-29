@@ -39,7 +39,7 @@
         <div id="collapseMhs" class="collapse" aria-labelledby="headingMhs" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
                 <a class="collapse-item" href="../students/dataStudent.php">List Mahasiswa</a>
-                <a class="collapse-item" href="admin_tambah_mahasiswa.php">Tambah Mahasiswa</a>
+                <a class="collapse-item" href="../students/addStudent.php">Tambah Mahasiswa</a>
             </div>
         </div>
     </li>
