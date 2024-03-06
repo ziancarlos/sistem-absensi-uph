@@ -54,7 +54,6 @@ require_once("detailStudentFunction.php");
                                     <?= $course["Room"] ?>
                                 </td>
                                 <td style="display: flex; gap: 5px;">
-                                    <a class="btn btn-info btn-sm" href="" style="width: 90px">Detil</a>
                                     <a class="btn btn-danger btn-sm" href="" style="width: 90px">Non Aktif</a>
                                 </td>
                             </tr>
