@@ -1,3 +1,5 @@
+<?php $role = getUserRole($_SESSION["UserId"]); ?>
+
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
@@ -30,19 +32,21 @@
     </div>
 
     <!-- Nav Item - Mahasiswa Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMhs" aria-expanded="true"
-            aria-controls="collapseMhs">
-            <i class="fas fa-fw fa-user-friends	"></i>
-            <span>Mahasiswa</span>
-        </a>
-        <div id="collapseMhs" class="collapse" aria-labelledby="headingMhs" data-parent="#accordionSidebar">
-            <div class="py-2 collapse-inner rounded">
-                <a class="collapse-item" href="../students/dataStudent.php">List Mahasiswa</a>
-                <a class="collapse-item" href="../students/addStudent.php">Tambah Mahasiswa</a>
+    <?php if ($role != "student"): ?>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMhs" aria-expanded="true"
+                aria-controls="collapseMhs">
+                <i class="fas fa-fw fa-user-friends	"></i>
+                <span>Mahasiswa</span>
+            </a>
+            <div id="collapseMhs" class="collapse" aria-labelledby="headingMhs" data-parent="#accordionSidebar">
+                <div class="py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="../students/dataStudent.php">List Mahasiswa</a>
+                    <a class="collapse-item" href="../students/addStudent.php">Tambah Mahasiswa</a>
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
+    <?php endif; ?>
 
     <!-- Nav Item - MK Collapse Menu -->
     <li class="nav-item">
@@ -53,7 +57,7 @@
         </a>
         <div id="collapseMK" class="collapse" aria-labelledby="headingMK" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
-                <a class="collapse-item" href="admin_list_MK.php">List Mata Kuliah</a>
+                <a class="collapse-item" href="../courses/dataCourse.php">List Mata Kuliah</a>
                 <a class="collapse-item" href="admin_tambah_MK.php">Tambah Mata Kuliah</a>
             </div>
         </div>
