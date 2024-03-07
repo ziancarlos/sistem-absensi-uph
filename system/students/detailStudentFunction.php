@@ -45,7 +45,7 @@ function detailStudentView()
         // Proceed with other actions if needed
         $stmt = $connection->prepare("
         SELECT enrollments.EnrollmentId,  courses.Name, courses.Code AS Code,courses.StartDate, 
-               courses.EndDate, CONCAT(buildings.Letter, classrooms.Code) AS Room
+               courses.EndDate, CONCAT(buildings.Letter, classrooms.Code) AS Room, enrollments.Status
         FROM courses
         INNER JOIN classrooms ON courses.ClassroomId = classrooms.ClassroomId
         INNER JOIN buildings ON classrooms.BuildingId = buildings.BuildingId
