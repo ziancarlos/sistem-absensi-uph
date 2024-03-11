@@ -29,6 +29,7 @@ require_once("detailStudentFunction.php");
                             <tr>
                                 <th>ID Pendaftaran</th>
                                 <th>Mata Kuliah</th>
+                                <th>Kode MK</th>
                                 <th>Tanggal Mulai</th>
                                 <th>Tanggal Selesai</th>
                                 <th>Ruang</th>
@@ -45,6 +46,9 @@ require_once("detailStudentFunction.php");
                                 </td>
                                 <td>
                                     <?= $course["Name"] ?>
+                                </td>
+                                <td>
+                                    <?= $course["Code"] ?>
                                 </td>
                                 <td>
                                     <?= $course["StartDate"] ?>
@@ -117,6 +121,8 @@ require_once("detailStudentFunction.php");
                 data: 'tangalMulai'
             },
             {
+                data: 'tangalSelesai'
+            }, {
                 data: 'tangalSelesai'
             },
             {

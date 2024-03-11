@@ -65,76 +65,80 @@ require_once("dataCourseFunction.php");
                                 <th>Tanggal Mulai</th>
                                 <th>Tanggal Selesai</th>
                                 <th>Mata Kuliah</th>
+                                <th>Kode MK</th>
                                 <th>Ruang</th>
                                 <?php if ($role == "student"): ?>
-                                    <th>Status MK Mhs</th>
+                                <th>Status MK Mhs</th>
                                 <?php else: ?>
-                                    <th>Status MK</th>
+                                <th>Status MK</th>
                                 <?php endif; ?>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data['courses'] as $course): ?>
-                                <tr>
-                                    <td>
-                                        <?= $course["CourseId"] ?>
-                                    </td>
-                                    <td>
-                                        <?= $course['StartDate'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $course['EndDate'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $course['Name'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $course['Room'] ?>
-                                    </td>
-                                    <td>
+                            <tr>
+                                <td>
+                                    <?= $course["CourseId"] ?>
+                                </td>
+                                <td>
+                                    <?= $course['StartDate'] ?>
+                                </td>
+                                <td>
+                                    <?= $course['EndDate'] ?>
+                                </td>
+                                <td>
+                                    <?= $course['Name'] ?>
+                                </td>
+                                <td>
+                                    <?= $course['Code'] ?>
+                                </td>
+                                <td>
+                                    <?= $course['Room'] ?>
+                                </td>
+                                <td>
 
-                                        <?php if ($role == "student"): ?>
-                                            <?php if ($course["EnrollmentStatus"] == 1): ?>
-                                                <span class="badge badge-primary">Aktif</span>
-                                            <?php else: ?>
-                                                <span class="badge badge-danger">Tidak Aktif</span>
-                                            <?php endif; ?>
-                                        <?php else: ?>
-                                            <?php if ($course["CoursesStatus"] == 1): ?>
-                                                <span class="badge badge-primary">Aktif</span>
-                                            <?php else: ?>
-                                                <span class="badge badge-danger">Tidak Aktif</span>
-                                            <?php endif; ?>
-                                        <?php endif; ?>
+                                    <?php if ($role == "student"): ?>
+                                    <?php if ($course["EnrollmentStatus"] == 1): ?>
+                                    <span class="badge badge-primary">Aktif</span>
+                                    <?php else: ?>
+                                    <span class="badge badge-danger">Tidak Aktif</span>
+                                    <?php endif; ?>
+                                    <?php else: ?>
+                                    <?php if ($course["CoursesStatus"] == 1): ?>
+                                    <span class="badge badge-primary">Aktif</span>
+                                    <?php else: ?>
+                                    <span class="badge badge-danger">Tidak Aktif</span>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
 
-                                    </td>
-                                    <td style="display: flex; gap: 5px;">
-                                        <a class="btn btn-success btn-sm" href="dosen_list_MK_detail.html"
-                                            style="width: 90px">Detail</a>
+                                </td>
+                                <td style="display: flex; gap: 5px;">
+                                    <a class="btn btn-success btn-sm" href="dosen_list_MK_detail.html"
+                                        style="width: 90px">Detail</a>
 
-                                        <?php if ($role == "admin"): ?>
-                                            <a class="btn btn-primary btn-sm" href="dosen_list_MK_edit.html"
-                                                style="width: 90px">Edit</a>
-                                            <?php if ($course["CoursesStatus"] == 1): ?>
-                                                <form action="deactivateCourseFunction.php" method="post"
-                                                    style="display: inline-block;">
-                                                    <button type="submit" name="deactivate" value="<?= $course["CourseId"]; ?>"
-                                                        class="btn btn-danger btn-sm" style="width: 90px">Non Aktif</button>
-                                                </form>
-                                            <?php else: ?>
-                                                <form action="activateCourseFunction.php" method="post"
-                                                    style="display: inline-block;">
-                                                    <button type="submit" name="activate" value="<?= $course["CourseId"]; ?>"
-                                                        class="btn btn-success btn-sm" style="width: 90px">Aktif</button>
-                                                </form>
-                                            <?php endif; ?>
+                                    <?php if ($role == "admin"): ?>
+                                    <a class="btn btn-primary btn-sm" href="dosen_list_MK_edit.html"
+                                        style="width: 90px">Edit</a>
+                                    <?php if ($course["CoursesStatus"] == 1): ?>
+                                    <form action="deactivateCourseFunction.php" method="post"
+                                        style="display: inline-block;">
+                                        <button type="submit" name="deactivate" value="<?= $course["CourseId"]; ?>"
+                                            class="btn btn-danger btn-sm" style="width: 90px">Non Aktif</button>
+                                    </form>
+                                    <?php else: ?>
+                                    <form action="activateCourseFunction.php" method="post"
+                                        style="display: inline-block;">
+                                        <button type="submit" name="activate" value="<?= $course["CourseId"]; ?>"
+                                            class="btn btn-success btn-sm" style="width: 90px">Aktif</button>
+                                    </form>
+                                    <?php endif; ?>
 
-                                            <a class="btn btn-warning btn-sm" href="dosen_list_MK_enroll.html"
-                                                style="width: 90px">Enroll</a>
-                                        <?php endif; ?>
-                                    </td>
-                                </tr>
+                                    <a class="btn btn-warning btn-sm" href="dosen_list_MK_enroll.html"
+                                        style="width: 90px">Enroll</a>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -190,8 +194,8 @@ require_once("dataCourseFunction.php");
 
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script>
-        new DataTable('#example', {
-            columns: [{
+    new DataTable('#example', {
+        columns: [{
                 data: 'idMk'
             }, {
                 data: 'tanggalMulai'
@@ -203,6 +207,9 @@ require_once("dataCourseFunction.php");
                 data: 'mata_kuliah'
             },
             {
+                data: 'mata_kulia1h'
+            },
+            {
                 data: 'ruang'
             }, {
                 data: 'status'
@@ -210,8 +217,8 @@ require_once("dataCourseFunction.php");
             {
                 data: 'aksi'
             },
-            ]
-        });
+        ]
+    });
     </script>
 
 </body>

@@ -33,19 +33,21 @@
 
     <!-- Nav Item - Mahasiswa Collapse Menu -->
     <?php if ($role != "student"): ?>
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMhs" aria-expanded="true"
-                aria-controls="collapseMhs">
-                <i class="fas fa-fw fa-user-friends	"></i>
-                <span>Mahasiswa</span>
-            </a>
-            <div id="collapseMhs" class="collapse" aria-labelledby="headingMhs" data-parent="#accordionSidebar">
-                <div class="py-2 collapse-inner rounded">
-                    <a class="collapse-item" href="../students/dataStudent.php">List Mahasiswa</a>
-                    <a class="collapse-item" href="../students/addStudent.php">Tambah Mahasiswa</a>
-                </div>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMhs" aria-expanded="true"
+            aria-controls="collapseMhs">
+            <i class="fas fa-fw fa-user-friends	"></i>
+            <span>Mahasiswa</span>
+        </a>
+        <div id="collapseMhs" class="collapse" aria-labelledby="headingMhs" data-parent="#accordionSidebar">
+            <div class="py-2 collapse-inner rounded">
+                <a class="collapse-item" href="../students/dataStudent.php">List Mahasiswa</a>
+
+                <a class="collapse-item" href="../students/addStudent.php">Tambah Mahasiswa</a>
+
             </div>
-        </li>
+        </div>
+    </li>
     <?php endif; ?>
 
     <!-- Nav Item - MK Collapse Menu -->
@@ -58,7 +60,9 @@
         <div id="collapseMK" class="collapse" aria-labelledby="headingMK" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
                 <a class="collapse-item" href="../courses/dataCourse.php">List Mata Kuliah</a>
-                <a class="collapse-item" href="admin_tambah_MK.php">Tambah Mata Kuliah</a>
+                <?php if ($role != "student"): ?>
+                <a class="collapse-item" href="../courses/addCourse.php">Tambah Mata Kuliah</a>
+                <?php endif; ?>
             </div>
         </div>
     </li>
