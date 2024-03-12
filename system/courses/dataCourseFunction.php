@@ -6,7 +6,7 @@ $permittedRole = ["lecturer", "admin", "student"];
 $pageName = "Sistem Absensi UPH - Data Mahasiswa";
 $data = [];
 if (!authorization($permittedRole, $_SESSION["UserId"])) {
-    header('location: ../auth/login.php');
+    header('location: ../auth/logout.php');
 }
 
 dataCourseView();
@@ -30,7 +30,6 @@ function dataCourseView()
                 FROM courses
                 INNER JOIN classrooms ON courses.ClassroomId = classrooms.ClassroomId
                 INNER JOIN buildings ON classrooms.BuildingId = buildings.BuildingId
-                INNER JOIN enrollments ON courses.CourseId = enrollments.CourseId
             ");
             $stmt->execute();
             $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -52,7 +51,6 @@ function dataCourseView()
                 FROM courses
                 INNER JOIN classrooms ON courses.ClassroomId = classrooms.ClassroomId
                 INNER JOIN buildings ON classrooms.BuildingId = buildings.BuildingId
-                INNER JOIN enrollments ON courses.CourseId = enrollments.CourseId
                 INNER JOIN lecturerhascourses ON courses.CourseId = lecturerhascourses.CourseId
                 WHERE lecturerhascourses.LecturerId = ?
             ");

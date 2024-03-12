@@ -7,7 +7,7 @@ require_once("../../helper/authHelper.php");
 $permittedRole = ["lecturer", "admin"];
 
 if (!authorization($permittedRole, $_SESSION["UserId"])) {
-    header('location: ../auth/login.php');
+    header('location: ../auth/logout.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["deactivate"])) {

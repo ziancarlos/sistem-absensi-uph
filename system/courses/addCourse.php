@@ -34,38 +34,39 @@ require_once("addCourseFunction.php");
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form>
+                                    <form method="post">
 
                                         <div class="form-group row">
                                             <label for="inputNamaMK" class="col-sm-3 col-form-label">Nama Mata
                                                 Kuliah</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputNamaMK">
+                                                <input type="text" class="form-control" id="inputNamaMK" name="name">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputNamaDosen" class="col-sm-3 col-form-label">Kode
                                                 Kelas</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputNamaDosen">
+                                                <input type="text" class="form-control" id="inputNamaDosen" name="kode">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputRuang" class="col-sm-3 col-form-label">Ruang</label>
                                             <div class="col-sm-9">
-                                                <select class="custom-select">
+                                                <select class="custom-select" name="ruang">
                                                     <option selected>Pilih Kelas</option>
                                                     <?php foreach ($data["classrooms"] as $classroom): ?>
-                                                    <option value="<?= $classroom["ClassroomId"] ?>">
-                                                        <?= $classroom["Room"] ?> / Kapasitas
-                                                        <?= $classroom["Capacity"] ?> Orang
-                                                    </option>
+                                                        <option value="<?= $classroom["ClassroomId"] ?>">
+                                                            <?= $classroom["Room"] ?> / Kapasitas
+                                                            <?= $classroom["Capacity"] ?> Orang
+                                                        </option>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary tambah_btn">Simpan</button>
+                                        <button name="add" type="submit"
+                                            class="btn btn-primary tambah_btn">Simpan</button>
                                     </form>
                                 </div>
                             </div>

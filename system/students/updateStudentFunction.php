@@ -6,7 +6,7 @@ $permittedRole = ["lecturer", "admin"];
 $pageName = "Sistem Absensi UPH - Ubah Mahasiswa";
 $data = [];
 if (!authorization($permittedRole, $_SESSION["UserId"])) {
-    header('location: ../auth/login.php');
+    header('location: ../auth/logout.php');
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["ubahView"])) {
