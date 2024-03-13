@@ -26,13 +26,10 @@ function updateLecturerController()
 {
     try {
         // Ambil nilai-nilai yang dikirimkan dalam permintaan POST
-        $userId = htmlspecialchars($_POST["UserId"]);
         $name = htmlspecialchars($_POST["name"]);
-        $nip = htmlspecialchars($_POST["nip"]);
-        $new_nip = htmlspecialchars($_POST["new_nip"]);
         $email = htmlspecialchars($_POST["email"]);
         $password = htmlspecialchars($_POST["password"]);
-
+        $userId = htmlspecialchars($_POST["UserId"]); // Mengambil UserId dari form
 
         // Cek apakah ada perubahan dalam data
         $connection = getConnection(); // Mengasumsikan Anda memiliki fungsi bernama getConnection() untuk membuat koneksi PDO
@@ -49,24 +46,45 @@ function updateLecturerController()
         }
 
         // Bandingkan nilai-nilai yang baru dengan nilai-nilai yang ada dalam database
-        if ($existingLecturer['Name'] === $name && $existingLecturer['UserId'] === $nip && $existingLecturer['Email'] === $email && empty($password)) {
+        if ($existingLecturer['Name'] === $name && $existingLecturer['Email'] === $email && empty($password)) {
             throw new Exception("Tidak ada perubahan yang dilakukan!");
         }
 
+        // Lakukan pengecekan apakah nama atau email sudah ada dalam database
+        $nameCheckQuery = "SELECT * FROM Users WHERE Name = :name AND UserId != :userId";
+        $emailCheckQuery = "SELECT * FROM Users WHERE Email = :email AND UserId != :userId";
+
+        $nameCheckStmt = $connection->prepare($nameCheckQuery);
+        $nameCheckStmt->bindParam(':name', $name);
+        $nameCheckStmt->bindParam(':userId', $userId);
+        $nameCheckStmt->execute();
+
+        if ($nameCheckStmt->rowCount() > 0) {
+            throw new Exception("Nama sudah terdaftar!");
+        }
+
+        $emailCheckStmt = $connection->prepare($emailCheckQuery);
+        $emailCheckStmt->bindParam(':email', $email);
+        $emailCheckStmt->bindParam(':userId', $userId);
+        $emailCheckStmt->execute();
+
+        if ($emailCheckStmt->rowCount() > 0) {
+            throw new Exception("Alamat email sudah terdaftar!");
+        }
+
         // Lakukan perubahan jika ada perubahan dalam data
-        $updateUserStmt = $connection->prepare("UPDATE Users SET Name = :name, Email = :email, UserId = :new_nip WHERE UserId = :nip");
+        $updateUserStmt = $connection->prepare("UPDATE Users SET Name = :name, Email = :email WHERE UserId = :userId");
         $updateUserStmt->bindParam(':name', $name);
         $updateUserStmt->bindParam(':email', $email);
-        $updateUserStmt->bindParam(':new_nip', $nip); // Update NIP juga
-        $updateUserStmt->bindParam(':nip', $existingLecturer['UserId']);
+        $updateUserStmt->bindParam(':userId', $userId);
         $updateUserStmt->execute();
 
         // Jika password tidak kosong, update password
         if (!empty($password)) {
             $hashedPassword = md5($password);
-            $updatePasswordStmt = $connection->prepare("UPDATE Users SET Password = :password WHERE UserId = :nip");
+            $updatePasswordStmt = $connection->prepare("UPDATE Users SET Password = :password WHERE UserId = :userId");
             $updatePasswordStmt->bindParam(':password', $hashedPassword);
-            $updatePasswordStmt->bindParam(':nip', $existingLecturer['UserId']);
+            $updatePasswordStmt->bindParam(':userId', $userId);
             $updatePasswordStmt->execute();
         }
 
@@ -79,27 +97,25 @@ function updateLecturerController()
     exit;
 }
 
-
-
-
-
 function updateLecturerView()
 {
     global $data;
 
-    $nip = htmlspecialchars($_POST["ubahView"]);
+    $userId = htmlspecialchars($_POST["ubahView"]); // Mengambil UserId dari form
 
     try {
-        $connection = getConnection(); // Assuming you have a function named getConnection() to establish a PDO connection
+        $connection = getConnection(); // Mengasumsikan Anda memiliki fungsi bernama getConnection() untuk membuat koneksi PDO
 
-        // Query to fetch the required information from tables
-        $stmt = $connection->prepare("SELECT Name, UserId, Email FROM Users WHERE UserId = :nip");
-        $stmt->bindParam(':nip', $nip);
+        // Query untuk mengambil informasi dosen
+        $stmt = $connection->prepare("SELECT Name, UserId, Email FROM Users WHERE UserId = :userId");
+        $stmt->bindParam(':userId', $userId);
         $stmt->execute();
 
+        // Ambil data dosen
         $data["lecturer"] = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (!$data) {
+        // Periksa apakah data dosen ditemukan
+        if (!$data["lecturer"]) {
             throw new Exception("Data dosen tidak ditemukan!");
         }
     } catch (Exception $e) {
