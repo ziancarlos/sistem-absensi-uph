@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 06, 2024 at 05:20 PM
+-- Generation Time: Mar 13, 2024 at 04:06 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -38,19 +38,19 @@ CREATE TABLE `attendances` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `building`
+-- Table structure for table `buildings`
 --
 
-CREATE TABLE `building` (
+CREATE TABLE `buildings` (
   `BuildingId` int(11) NOT NULL,
   `Letter` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `building`
+-- Dumping data for table `buildings`
 --
 
-INSERT INTO `building` (`BuildingId`, `Letter`) VALUES
+INSERT INTO `buildings` (`BuildingId`, `Letter`) VALUES
 (1, 'A'),
 (2, 'B'),
 (3, 'C'),
@@ -76,6 +76,14 @@ CREATE TABLE `classrooms` (
   `BuildingId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `classrooms`
+--
+
+INSERT INTO `classrooms` (`ClassroomId`, `Capacity`, `Code`, `BuildingId`) VALUES
+(1, 10, 402, 2),
+(2, 12, 301, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -86,9 +94,10 @@ CREATE TABLE `courses` (
   `CourseId` int(11) NOT NULL,
   `Name` varchar(45) NOT NULL,
   `Code` varchar(5) NOT NULL,
-  `ClassroomId` INT(11) NOT NULL,
-  `StartDate` datetime NOT NULL,
-  `EndDate` datetime NOT NULL
+  `ClassroomId` int(11) NOT NULL,
+  `StartDate` date DEFAULT NULL,
+  `EndDate` date DEFAULT NULL,
+  `Status` int(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -100,7 +109,8 @@ CREATE TABLE `courses` (
 CREATE TABLE `enrollments` (
   `EnrollmentId` int(11) NOT NULL,
   `StudentId` varchar(13) NOT NULL,
-  `CourseId` int(11) NOT NULL
+  `CourseId` int(11) NOT NULL,
+  `Status` int(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -168,9 +178,9 @@ ALTER TABLE `attendances`
   ADD KEY `ScheduleId` (`ScheduleId`);
 
 --
--- Indexes for table `building`
+-- Indexes for table `buildings`
 --
-ALTER TABLE `building`
+ALTER TABLE `buildings`
   ADD PRIMARY KEY (`BuildingId`),
   ADD UNIQUE KEY `Letter` (`Letter`);
 
@@ -186,7 +196,8 @@ ALTER TABLE `classrooms`
 --
 ALTER TABLE `courses`
   ADD PRIMARY KEY (`CourseId`),
-  ADD UNIQUE KEY `CourseId` (`CourseId`);
+  ADD UNIQUE KEY `CourseId` (`CourseId`),
+  ADD KEY `courses_ibfk_1` (`ClassroomId`);
 
 --
 -- Indexes for table `enrollments`
@@ -233,10 +244,16 @@ ALTER TABLE `users`
 --
 
 --
--- AUTO_INCREMENT for table `building`
+-- AUTO_INCREMENT for table `buildings`
 --
-ALTER TABLE `building`
+ALTER TABLE `buildings`
   MODIFY `BuildingId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `classrooms`
+--
+ALTER TABLE `classrooms`
+  MODIFY `ClassroomId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `courses`
@@ -262,13 +279,9 @@ ALTER TABLE `schedules`
 ALTER TABLE `users`
   MODIFY `UserId` int(11) NOT NULL AUTO_INCREMENT;
 
-  
-
 --
 -- Constraints for dumped tables
 --
-ALTER TABLE `courses`
-  ADD CONSTRAINT `courses_ibfk_1` FOREIGN KEY (`ClassroomId`) REFERENCES `classrooms` (`ClassroomId`);
 
 --
 -- Constraints for table `attendances`
@@ -281,14 +294,21 @@ ALTER TABLE `attendances`
 -- Constraints for table `classrooms`
 --
 ALTER TABLE `classrooms`
-  ADD CONSTRAINT `fk_Classrooms_Building` FOREIGN KEY (`BuildingId`) REFERENCES `building` (`BuildingId`);
+  ADD CONSTRAINT `fk_Classrooms_Building` FOREIGN KEY (`BuildingId`) REFERENCES `buildings` (`BuildingId`);
 
+--
+-- Constraints for table `courses`
+--
+ALTER TABLE `courses`
+  ADD CONSTRAINT `courses_ibfk_1` FOREIGN KEY (`ClassroomId`) REFERENCES `classrooms` (`ClassroomId`);
 
+--
 -- Constraints for table `enrollments`
 --
 ALTER TABLE `enrollments`
   ADD CONSTRAINT `enrollments_ibfk_1` FOREIGN KEY (`StudentId`) REFERENCES `students` (`StudentId`),
-  ADD CONSTRAINT `enrollments_ibfk_2` FOREIGN KEY (`CourseId`) REFERENCES `courses` (`CourseId`);
+  ADD CONSTRAINT `enrollments_ibfk_2` FOREIGN KEY (`CourseId`) REFERENCES `courses` (`CourseId`),
+  ADD CONSTRAINT `fk_student_id` FOREIGN KEY (`StudentId`) REFERENCES `students` (`StudentId`);
 
 --
 -- Constraints for table `lecturerhascourses`
