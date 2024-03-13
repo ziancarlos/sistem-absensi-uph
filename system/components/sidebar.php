@@ -33,21 +33,21 @@
 
     <!-- Nav Item - Mahasiswa Collapse Menu -->
     <?php if ($role != "student"): ?>
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMhs" aria-expanded="true"
-            aria-controls="collapseMhs">
-            <i class="fas fa-fw fa-user-friends	"></i>
-            <span>Mahasiswa</span>
-        </a>
-        <div id="collapseMhs" class="collapse" aria-labelledby="headingMhs" data-parent="#accordionSidebar">
-            <div class="py-2 collapse-inner rounded">
-                <a class="collapse-item" href="../students/dataStudent.php">List Mahasiswa</a>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMhs" aria-expanded="true"
+                aria-controls="collapseMhs">
+                <i class="fas fa-fw fa-user-friends	"></i>
+                <span>Mahasiswa</span>
+            </a>
+            <div id="collapseMhs" class="collapse" aria-labelledby="headingMhs" data-parent="#accordionSidebar">
+                <div class="py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="../students/dataStudent.php">List Mahasiswa</a>
 
-                <a class="collapse-item" href="../students/addStudent.php">Tambah Mahasiswa</a>
+                    <a class="collapse-item" href="../students/addStudent.php">Tambah Mahasiswa</a>
 
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
     <?php endif; ?>
 
     <!-- Nav Item - MK Collapse Menu -->
@@ -61,7 +61,7 @@
             <div class="py-2 collapse-inner rounded">
                 <a class="collapse-item" href="../courses/dataCourse.php">List Mata Kuliah</a>
                 <?php if ($role != "student"): ?>
-                <a class="collapse-item" href="../courses/addCourse.php">Tambah Mata Kuliah</a>
+                    <a class="collapse-item" href="../courses/addCourse.php">Tambah Mata Kuliah</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -85,25 +85,25 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
     <?php if ($role == "admin"): ?>
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        DOSEN
-    </div>
-
-    <!-- Nav Item - Dosen Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDosen" aria-expanded="true"
-            aria-controls="collapseDosen">
-            <i class="fas fa-fw fas fa-user-alt	"></i>
-            <span>Dosen</span>
-        </a>
-        <div id="collapseDosen" class="collapse" aria-labelledby="headingDosen" data-parent="#accordionSidebar">
-            <div class="py-2 collapse-inner rounded">
-                <a class="collapse-item" href="admin_list_dosen.php">List Dosen</a>
-                <a class="collapse-item" href="admin_tambah_dosen.php">Tambah Dosen</a>
-            </div>
+        <!-- Heading -->
+        <div class="sidebar-heading">
+            DOSEN
         </div>
-    </li>
+
+        <!-- Nav Item - Dosen Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDosen" aria-expanded="true"
+                aria-controls="collapseDosen">
+                <i class="fas fa-fw fas fa-user-alt	"></i>
+                <span>Dosen</span>
+            </a>
+            <div id="collapseDosen" class="collapse" aria-labelledby="headingDosen" data-parent="#accordionSidebar">
+                <div class="py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="../lecturers/dataLecturer.php">List Dosen</a>
+                    <a class="collapse-item" href="../lecturers/addLecturer.php">Tambah Dosen</a>
+                </div>
+            </div>
+        </li>
 
     <?php endif; ?>
 </ul>

@@ -26,21 +26,22 @@ function updateLecturerController()
 {
     try {
         // Ambil nilai-nilai yang dikirimkan dalam permintaan POST
+        $userId = htmlspecialchars($_POST["UserId"]);
         $name = htmlspecialchars($_POST["name"]);
         $nip = htmlspecialchars($_POST["nip"]);
         $new_nip = htmlspecialchars($_POST["new_nip"]);
         $email = htmlspecialchars($_POST["email"]);
         $password = htmlspecialchars($_POST["password"]);
-        
+
 
         // Cek apakah ada perubahan dalam data
         $connection = getConnection(); // Mengasumsikan Anda memiliki fungsi bernama getConnection() untuk membuat koneksi PDO
 
         // Query untuk mendapatkan data dosen sebelum perubahan
-        $stmt = $connection->prepare("SELECT * FROM Users WHERE UserId = :nip");
-        $stmt->bindParam(':nip', $nip);
+        $stmt = $connection->prepare("SELECT * FROM Users WHERE UserId = :userId");
+        $stmt->bindParam(':userId', $userId);
         $stmt->execute();
-        
+
         // Periksa apakah ada hasil yang dikembalikan
         $existingLecturer = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!$existingLecturer) {
