@@ -118,8 +118,10 @@ require_once("dataCourseFunction.php");
                                             style="width: 90px">Detail</a>
 
                                         <?php if ($role == "admin"): ?>
-                                            <a class="btn btn-primary btn-sm" href="dosen_list_MK_edit.html"
-                                                style="width: 90px">Edit</a>
+                                            <form action="updateCourse.php" method="post" style="display: inline-block;">
+                                                <button type="submit" name="edit" value="<?= $course["CourseId"]; ?>"
+                                                    class="btn btn-info btn-sm" style="width: 90px">Edit</button>
+                                            </form>
                                             <?php if ($course["CoursesStatus"] == 1): ?>
                                                 <form action="deactivateCourseFunction.php" method="post"
                                                     style="display: inline-block;">
