@@ -84,7 +84,7 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-
+    <?php if ($role == "admin"): ?>
     <!-- Heading -->
     <div class="sidebar-heading">
         DOSEN
@@ -104,4 +104,6 @@
             </div>
         </div>
     </li>
+
+    <?php endif; ?>
 </ul>
