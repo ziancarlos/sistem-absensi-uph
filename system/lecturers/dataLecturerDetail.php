@@ -48,17 +48,17 @@ $lecturerId = $_POST['lecturerId'];
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if(isset($data["users"]) && is_array($data["users"])): ?>
+                            <?php if (isset($data["users"]) && is_array($data["users"])): ?>
                                 <?php foreach ($data["users"] as $lecturerCourse): ?>
                                     <tr>
                                         <td>
                                             <?= $lecturerCourse["LecturerName"] ?>
                                         </td>
                                         <td>
-                                            <?= $lecturerCourse["StartDate"] ?>
+                                            <?= ($lecturerCourse["StartDate"] == null) ? "-" : $lecturerCourse["StartDate"] ?>
                                         </td>
                                         <td>
-                                            <?= $lecturerCourse["EndDate"] ?>
+                                            <?= ($lecturerCourse["EndDate"] == null) ? "-" : $lecturerCourse["EndDate"] ?>
                                         </td>
                                         <td>
                                             <?= $lecturerCourse["CourseCode"] ?>
@@ -71,31 +71,36 @@ $lecturerId = $_POST['lecturerId'];
                                         </td>
                                         <td>
                                             <?php if ($lecturerCourse["Status"] == 1): ?>
-                                            <span class="badge badge-primary">Aktif</span>
+                                                <span class="badge badge-primary">Aktif</span>
                                             <?php else: ?>
-                                            <span class="badge badge-danger">Tidak Aktif</span>
+                                                <span class="badge badge-danger">Tidak Aktif</span>
                                             <?php endif; ?>
                                         </td>
                                         <td style="display: flex; gap: 5px;">
-                                            <form action="dataLecturerDetailEdit.php" method="post" style="display: inline-block;">
-                                                <input type="hidden" name="lecturerId" value="<?= $lecturerCourse["LecturerName"]; ?>">
-                                                <button type="submit" name="ubahView" value="<?= $lecturerCourse["CourseCode"]; ?>"
-                                                    class="btn btn-primary btn-sm" style="width: 90px">Edit</button>
+                                            <form action="dataLecturerDetailEdit.php" method="post"
+                                                style="display: inline-block;">
+                                                <input type="hidden" name="lecturerId"
+                                                    value="<?= $lecturerCourse["LecturerName"]; ?>">
+                                                <button type="submit" name="ubahView"
+                                                    value="<?= $lecturerCourse["CourseCode"]; ?>" class="btn btn-primary btn-sm"
+                                                    style="width: 90px">Edit</button>
                                             </form>
 
-                                            
+
                                             <?php if ($lecturerCourse["Status"] == 1): ?>
-                                            <form action="deactivateDataLecturerDetailFunction.php" method="post"
-                                                style="display: inline-block;">
-                                                <button type="submit" name="deactivate" value="<?= $lecturerCourse["CourseCode"]; ?>"
-                                                    class="btn btn-danger btn-sm" style="width: 90px">Non Aktif</button>
-                                            </form>
+                                                <form action="deactivateDataLecturerDetailFunction.php" method="post"
+                                                    style="display: inline-block;">
+                                                    <button type="submit" name="deactivate"
+                                                        value="<?= $lecturerCourse["CourseCode"]; ?>" class="btn btn-danger btn-sm"
+                                                        style="width: 90px">Non Aktif</button>
+                                                </form>
                                             <?php else: ?>
-                                            <form action="activateDataLecturerDetailFunction.php" method="post"
-                                                style="display: inline-block;">
-                                                <button type="submit" name="activate" value="<?= $lecturerCourse["CourseCode"]; ?>"
-                                                    class="btn btn-success btn-sm" style="width: 90px">Aktifkan</button>
-                                            </form>
+                                                <form action="activateDataLecturerDetailFunction.php" method="post"
+                                                    style="display: inline-block;">
+                                                    <button type="submit" name="activate"
+                                                        value="<?= $lecturerCourse["CourseCode"]; ?>" class="btn btn-success btn-sm"
+                                                        style="width: 90px">Aktifkan</button>
+                                                </form>
                                             <?php endif; ?>
 
                                         </td>
@@ -165,8 +170,8 @@ $lecturerId = $_POST['lecturerId'];
 
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script>
-    new DataTable('#example', {
-        columns: [{
+        new DataTable('#example', {
+            columns: [{
                 data: 'nama_dosen'
             },
             {
@@ -190,8 +195,8 @@ $lecturerId = $_POST['lecturerId'];
             {
                 data: 'aksi'
             }
-        ]
-    });
+            ]
+        });
     </script>
 
 </body>
