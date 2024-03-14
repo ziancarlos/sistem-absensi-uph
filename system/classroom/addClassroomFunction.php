@@ -23,7 +23,7 @@
         // Retrieve courses and classrooms information for both admin and lecturer
         try {
             $stmt = $connection->prepare("
-            SELECT classrooms.Capacity, CONCAT(buildings.Letter, classrooms.Code) AS Room 
+            SELECT classrooms.ClassroomId, classrooms.Capacity, CONCAT(buildings.Letter, classrooms.Code) AS Room 
             FROM classrooms INNER JOIN buildings ON classrooms.BuildingId = buildings.BuildingId;
             ");
             $stmt->execute();
@@ -98,6 +98,8 @@
             exit;
         }
     }
+
+    
 
 ?>
 
