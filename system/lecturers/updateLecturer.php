@@ -36,14 +36,6 @@ require_once("updateLecturerFunction.php");
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputNIP" class="col-sm-2 col-form-label">NIP</label>
-                                            <div class="col-sm-10">
-                                                <input type="number" class="form-control" id="inputNIP" name="new_nip"
-                                                    onkeypress="return isNumberKey(event)"
-                                                    value="<?php echo $data['lecturer']['UserId']; ?>">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
                                             <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-10">
                                                 <input type="email" class="form-control" id="inputEmail" name="email"

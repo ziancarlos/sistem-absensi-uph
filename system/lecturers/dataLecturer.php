@@ -33,8 +33,8 @@ require_once("dataLecturerFunction.php");
                     <table id="example" class="display cell-border" style="width:100%">
                         <thead>
                             <tr>
+                                <th>ID</th>
                                 <th>Nama Dosen</th>
-                                <th>NIP</th>
                                 <th>Email</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
@@ -44,10 +44,10 @@ require_once("dataLecturerFunction.php");
                             <?php foreach ($data["users"] as $lecturer): ?>
                             <tr>
                                 <td>
-                                    <?= $lecturer["Name"] ?>
+                                    <?= $lecturer["UserId"] ?>
                                 </td>
                                 <td>
-                                    <?= $lecturer["UserId"] ?>
+                                    <?= $lecturer["Name"] ?>
                                 </td>
                                 <td>
                                     <?= $lecturer["Email"] ?>

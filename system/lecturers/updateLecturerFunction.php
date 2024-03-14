@@ -26,7 +26,6 @@ function updateLecturerController()
 {
     try {
         // Ambil nilai-nilai yang dikirimkan dalam permintaan POST
-        $userId = htmlspecialchars($_POST["UserId"]);
         $name = htmlspecialchars($_POST["name"]);
         $nip = htmlspecialchars($_POST["nip"]);
         $new_nip = htmlspecialchars($_POST["new_nip"]);
@@ -38,8 +37,8 @@ function updateLecturerController()
         $connection = getConnection(); // Mengasumsikan Anda memiliki fungsi bernama getConnection() untuk membuat koneksi PDO
 
         // Query untuk mendapatkan data dosen sebelum perubahan
-        $stmt = $connection->prepare("SELECT * FROM Users WHERE UserId = :userId");
-        $stmt->bindParam(':userId', $userId);
+        $stmt = $connection->prepare("SELECT * FROM Users WHERE UserId = :nip");
+        $stmt->bindParam(':nip', $nip);
         $stmt->execute();
 
         // Periksa apakah ada hasil yang dikembalikan
@@ -49,16 +48,16 @@ function updateLecturerController()
         }
 
         // Bandingkan nilai-nilai yang baru dengan nilai-nilai yang ada dalam database
-        if ($existingLecturer['Name'] === $name && $existingLecturer['Email'] === $email && empty($password)) {
+        if ($existingLecturer['Name'] === $name && $existingLecturer['UserId'] === $nip && $existingLecturer['Email'] === $email && empty($password)) {
             throw new Exception("Tidak ada perubahan yang dilakukan!");
         }
 
         // Lakukan perubahan jika ada perubahan dalam data
-        $updateUserStmt = $connection->prepare("UPDATE Users SET Name = :name, Email = :email,  WHERE UserId = :userId");
+        $updateUserStmt = $connection->prepare("UPDATE Users SET Name = :name, Email = :email, UserId = :new_nip WHERE UserId = :nip");
         $updateUserStmt->bindParam(':name', $name);
         $updateUserStmt->bindParam(':email', $email);
         $updateUserStmt->bindParam(':new_nip', $nip); // Update NIP juga
-        $updateUserStmt->bindParam(':userId', $existingLecturer['UserId']);
+        $updateUserStmt->bindParam(':nip', $existingLecturer['UserId']);
         $updateUserStmt->execute();
 
         // Jika password tidak kosong, update password

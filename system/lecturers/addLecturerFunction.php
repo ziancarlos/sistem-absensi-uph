@@ -15,21 +15,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["add"])) {
 function addLecturerController()
 {
     $name = htmlspecialchars($_POST["name"]);
-    $nip = htmlspecialchars($_POST["nip"]);
     $email = htmlspecialchars($_POST["email"]);
     $password = htmlspecialchars($_POST["password"]);
 
 
     // Check if any required field is empty
-    if (empty($name) || empty($nip) || empty($email) || empty($password)) {
+    if (empty($name) || empty($email) || empty($password)) {
         $_SESSION["error"] = "Nama, NIP, email, atau password kosong, silakan isi semuanya!";
 
-        return;
-    }
-
-    // Validate NIP length and format
-    if (!preg_match("/^\d{11,}$/", $nip)) {
-        $_SESSION["error"] = "NIP harus terdiri dari 11 karakter atau lebih dan hanya boleh berisi angka!";
         return;
     }
 
@@ -54,18 +47,6 @@ function addLecturerController()
     try {
         $connection->beginTransaction();
 
-        // Check if the nip already exists in the Users table
-        $nipCheckQuery = "SELECT * FROM Users WHERE UserId = :nip";
-        $nipCheckStmt = $connection->prepare($nipCheckQuery);
-        $nipCheckStmt->bindParam(':nip', $nip);
-        $nipCheckStmt->execute();
-
-        if ($nipCheckStmt->rowCount() > 0) {
-            $_SESSION["error"] = "NIP sudah ada!";
-            $connection->rollBack();
-            return;
-        }
-
         // Check if the email already exists in the Users table
         $emailCheckQuery = "SELECT * FROM Users WHERE email = :email";
         $emailCheckStmt = $connection->prepare($emailCheckQuery);
@@ -74,6 +55,18 @@ function addLecturerController()
 
         if ($emailCheckStmt->rowCount() > 0) {
             $_SESSION["error"] = "Alamat email sudah terdaftar!";
+            $connection->rollBack();
+            return;
+        }
+
+        // Check if the name already exists in the Users table
+        $nameCheckQuery = "SELECT * FROM Users WHERE Name = :name";
+        $nameCheckStmt = $connection->prepare($nameCheckQuery);
+        $nameCheckStmt->bindParam(':name', $name);
+        $nameCheckStmt->execute();
+
+        if ($nameCheckStmt->rowCount() > 0) {
+            $_SESSION["error"] = "Nama sudah terdaftar!";
             $connection->rollBack();
             return;
         }
