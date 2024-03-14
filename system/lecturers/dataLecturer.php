@@ -63,8 +63,8 @@ require_once("dataLecturerFunction.php");
                                 </td>
                                 <td style="display: flex; gap: 5px;">
                                     <form action="dataLecturerDetail.php" method="post" style="display: inline-block;">
-                                        <button type="submit" name="detailView" value="<?= $lecturer["UserId"]; ?>"
-                                            class="btn btn-info btn-sm" style="width: 90px">Detail</button>
+                                        <input type="hidden" name="lecturerId" value="<?= $lecturer["UserId"]; ?>">
+                                        <button type="submit" name="detailView" class="btn btn-info btn-sm" style="width: 90px">Detail</button>
                                     </form>
                                     <form action="updateLecturer.php" method="post" style="display: inline-block;">
                                         <button type="submit" name="ubahView" value="<?= $lecturer["UserId"]; ?>"
