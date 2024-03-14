@@ -51,6 +51,7 @@ function dataLecturerDetailModel($lecturerId)
 
         $sql = "SELECT 
         users.Name AS LecturerName, 
+        courses.CourseId,
         courses.StartDate, 
         courses.EndDate, 
         courses.Code AS CourseCode, 
