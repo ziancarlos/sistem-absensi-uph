@@ -1,5 +1,9 @@
 <?php
 require_once("dataLecturerDetailFunction.php");
+
+// Ambil ID dosen dari formulir yang dikirimkan
+$lecturerId = $_POST['lecturerId'];
+
 ?>
 
 <?php require_once("../components/header.php"); ?>
@@ -39,54 +43,69 @@ require_once("dataLecturerDetailFunction.php");
                                 <th>Kode Mata Kuliah</th>
                                 <th>Mata Kuliah</th>
                                 <th>Ruang</th>
-                                <th>Jam Mulai</th>
+                                <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($data["users"] as $lecturerCourse): ?>
-                            <tr>
-                                <td>
-                                    <?= $lecturerCourse["LecturerName"] ?>
-                                </td>
-                                <td>
-                                    <?= $lecturerCourse["StartDate"] ?>
-                                </td>
-                                <td>
-                                    <?= $lecturerCourse["EndDate"] ?>
-                                </td>
-                                <td>
-                                    <?= $lecturerCourse["CourseCode"] ?>
-                                </td>
-                                <td>
-                                    <?= $lecturerCourse["CourseName"] ?>
-                                </td>
-                                <td>
-                                    <?= $lecturerCourse["Class"] ?>
-                                </td>
-                                <td>
-                                    <?= $lecturerCourse["DateTime"] ?>
-                                </td>
-                                <td style="display: flex; gap: 5px;">
-                                    <form action="dataLecturerDetailEdit.php" method="post" style="display: inline-block;">
-                                        <button type="submit" name="ubahView" value="<?= $lecturerCourse["CourseCode"]; ?>"
-                                            class="btn btn-primary btn-sm" style="width: 90px">Edit</button>
-                                    </form>
+                            <?php if(isset($data["users"]) && is_array($data["users"])): ?>
+                                <?php foreach ($data["users"] as $lecturerCourse): ?>
+                                    <tr>
+                                        <td>
+                                            <?= $lecturerCourse["LecturerName"] ?>
+                                        </td>
+                                        <td>
+                                            <?= $lecturerCourse["StartDate"] ?>
+                                        </td>
+                                        <td>
+                                            <?= $lecturerCourse["EndDate"] ?>
+                                        </td>
+                                        <td>
+                                            <?= $lecturerCourse["CourseCode"] ?>
+                                        </td>
+                                        <td>
+                                            <?= $lecturerCourse["CourseName"] ?>
+                                        </td>
+                                        <td>
+                                            <?= $lecturerCourse["Class"] ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($lecturerCourse["Status"] == 1): ?>
+                                            <span class="badge badge-primary">Aktif</span>
+                                            <?php else: ?>
+                                            <span class="badge badge-danger">Tidak Aktif</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td style="display: flex; gap: 5px;">
+                                            <form action="dataLecturerDetailEdit.php" method="post" style="display: inline-block;">
+                                                <input type="hidden" name="lecturerId" value="<?= $lecturerCourse["LecturerName"]; ?>">
+                                                <button type="submit" name="ubahView" value="<?= $lecturerCourse["CourseCode"]; ?>"
+                                                    class="btn btn-primary btn-sm" style="width: 90px">Edit</button>
+                                            </form>
 
-                                    <form action="deactivateDataLecturerDetailFunction.php" method="post"
-                                        style="display: inline-block;">
-                                        <button type="submit" name="deactivate" value="<?= $lecturerCourse["CourseCode"]; ?>"
-                                            class="btn btn-danger btn-sm" style="width: 90px">Non Aktif</button>
-                                    </form>
-                                    <form action="activateDataLecturerDetailFunction.php" method="post"
-                                        style="display: inline-block;">
-                                        <button type="submit" name="activate" value="<?= $lecturerCourse["CourseCode"]; ?>"
-                                            class="btn btn-success btn-sm" style="width: 90px">Aktifkan</button>
-                                    </form>
-                                </td>
-                            </tr>
+                                            
+                                            <?php if ($lecturerCourse["Status"] == 1): ?>
+                                            <form action="deactivateDataLecturerDetailFunction.php" method="post"
+                                                style="display: inline-block;">
+                                                <button type="submit" name="deactivate" value="<?= $lecturerCourse["CourseCode"]; ?>"
+                                                    class="btn btn-danger btn-sm" style="width: 90px">Non Aktif</button>
+                                            </form>
+                                            <?php else: ?>
+                                            <form action="activateDataLecturerDetailFunction.php" method="post"
+                                                style="display: inline-block;">
+                                                <button type="submit" name="activate" value="<?= $lecturerCourse["CourseCode"]; ?>"
+                                                    class="btn btn-success btn-sm" style="width: 90px">Aktifkan</button>
+                                            </form>
+                                            <?php endif; ?>
 
-                            <?php endforeach; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td colspan="8">Tidak ada data yang tersedia</td>
+                                </tr>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -166,7 +185,7 @@ require_once("dataLecturerDetailFunction.php");
                 data: 'ruang'
             },
             {
-                data: 'jam_mulai'
+                data: 'status'
             },
             {
                 data: 'aksi'
