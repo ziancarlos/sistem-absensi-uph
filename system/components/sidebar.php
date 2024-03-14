@@ -63,6 +63,7 @@
                 <?php if ($role != "student"): ?>
                     <a class="collapse-item" href="../courses/addCourse.php">Tambah Mata Kuliah</a>
                     <a class="collapse-item" href="../classroom/addClassroom.php">Ruang Kelas</a>
+                    <a class="collapse-item" href="../courses/courseSchedule.php">Jadwal Mata Kuliah</a>
                 <?php endif; ?>
             </div>
         </div>
@@ -77,8 +78,7 @@
         </a>
         <div id="collapseAbsensi" class="collapse" aria-labelledby="headingAbsensi" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded">
-                <a class="collapse-item" href="admin_histori_absensi.php">Histori Absensi</a>
-                <a class="collapse-item" href="admin_edit_absensi.php">Edit Absensi</a>
+                <a class="collapse-item" href="../attendances/historyAttendance.php">Histori Absensi</a>
             </div>
         </div>
     </li>
