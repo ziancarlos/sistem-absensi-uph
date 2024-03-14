@@ -60,17 +60,31 @@
     function addClassroom($buildingId, $roomNumber, $capacity)
     {
         $connection = getConnection();
-
+    
         try {
-            $stmt = $connection->prepare("
+            // Periksa apakah nomor ruang sudah ada dalam database
+            $stmt_check = $connection->prepare("SELECT COUNT(*) AS count FROM classrooms WHERE Code = :roomNumber");
+            $stmt_check->bindParam(':roomNumber', $roomNumber);
+            $stmt_check->execute();
+            $result = $stmt_check->fetch(PDO::FETCH_ASSOC);
+    
+            if ($result['count'] > 0) {
+                // Nomor ruang sudah ada, kembalikan error
+                $_SESSION["error"] = "Nomor ruang sudah ada dalam database.";
+                header("location: addClassroom.php");
+                exit();
+            }
+    
+            // Nomor ruang belum ada, tambahkan ke dalam database
+            $stmt_insert = $connection->prepare("
                 INSERT INTO classrooms (BuildingId, Code, Capacity) 
                 VALUES (:buildingId, :roomNumber, :capacity)
             ");
-            $stmt->bindParam(':buildingId', $buildingId);
-            $stmt->bindParam(':roomNumber', $roomNumber);
-            $stmt->bindParam(':capacity', $capacity);
-            $stmt->execute();
-
+            $stmt_insert->bindParam(':buildingId', $buildingId);
+            $stmt_insert->bindParam(':roomNumber', $roomNumber);
+            $stmt_insert->bindParam(':capacity', $capacity);
+            $stmt_insert->execute();
+    
             // Redirect to avoid resubmission on refresh
             header("location: addClassroom.php");
             exit();
