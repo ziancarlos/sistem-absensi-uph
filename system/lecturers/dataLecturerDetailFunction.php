@@ -2,7 +2,7 @@
 session_start();
 require_once("../../helper/dbHelper.php");
 require_once("../../helper/authHelper.php");
-$permittedRole = ["lecturer", "admin"];
+$permittedRole = ["admin"];
 $pageName = "Sistem Absensi UPH - Detail Mata Kuliah Dosen";
 $data = [];
 if (!authorization($permittedRole, $_SESSION["UserId"])) {
@@ -12,29 +12,37 @@ if (!authorization($permittedRole, $_SESSION["UserId"])) {
 dataLecturerDetailView();
 
 
-
 function dataLecturerDetailView()
 {
     global $data;
 
     try {
-        $statement = dataLecturerDetailModel();
+        // Ambil ID dosen dari formulir yang dikirimkan
+        $lecturerId = $_POST['lecturerId'];
+
+        // Panggil fungsi dataLecturerDetailModel() dengan menyertakan $lecturerId
+        $statement = dataLecturerDetailModel($lecturerId);
+
+        if ($statement) {
+            // Fetch data jika statement berhasil dieksekusi
+            $data["users"] = $statement->fetchAll();
+        } else {
+            // Menangani kesalahan jika statement tidak berhasil dieksekusi
+            $_SESSION["error"] = "Gagal mengeksekusi perintah SQL";
+            // Lakukan tindakan sesuai dengan kebutuhan aplikasi Anda, misalnya, redirect ke halaman kesalahan
+            header('location: error.php');
+            exit(); // Penting untuk menghentikan eksekusi skrip setelah melakukan redirect
+        }
     } catch (PDOException $e) {
         $_SESSION["error"] = "Data tidak dapat diambil, Hubungi admin jika masalah ini terus terjadi!";
+        // Lakukan tindakan sesuai dengan kebutuhan aplikasi Anda, misalnya, redirect ke halaman kesalahan
+        header('location: error.php');
+        exit(); // Penting untuk menghentikan eksekusi skrip setelah melakukan redirect
     }
-
-    if ($statement === null) {
-        $_SESSION["error"] = "Gagal memuat database, hubungi admin!";
-        return;
-    }
-
-    $data["users"] = $statement->fetchAll();
-
-
 }
 
 
-function dataLecturerDetailModel()
+function dataLecturerDetailModel($lecturerId)
 {
     $statement = null;
 
@@ -47,8 +55,8 @@ function dataLecturerDetailModel()
         courses.EndDate, 
         courses.Code AS CourseCode, 
         courses.Name AS CourseName, 
-        CONCAT(building.Letter, classrooms.Code) AS Class, 
-        schedules.DateTime 
+        courses.Status,
+        CONCAT(buildings.Letter, classrooms.Code) AS Class
     FROM 
         Users 
     JOIN 
@@ -58,17 +66,13 @@ function dataLecturerDetailModel()
     JOIN 
         classrooms ON courses.ClassroomId = classrooms.ClassroomId 
     JOIN 
-        building ON classrooms.BuildingId = building.BuildingId 
-    JOIN 
-        schedules ON courses.CourseId = schedules.CourseId 
+        buildings ON classrooms.BuildingId = buildings.BuildingId 
     WHERE 
-        users.Role='1';
-    ;";
+        users.UserId = :lecturerId;";
 
         $statement = $connection->prepare($sql);
+        $statement->bindParam(':lecturerId', $lecturerId);
         $statement->execute();
-
-
     } catch (PDOException $e) {
         throw $e;
     }
