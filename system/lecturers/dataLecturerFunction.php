@@ -2,7 +2,7 @@
 session_start();
 require_once("../../helper/dbHelper.php");
 require_once("../../helper/authHelper.php");
-$permittedRole = ["lecturer", "admin"];
+$permittedRole = ["admin"];
 $pageName = "Sistem Absensi UPH - Data Dosen";
 $data = [];
 if (!authorization($permittedRole, $_SESSION["UserId"])) {
