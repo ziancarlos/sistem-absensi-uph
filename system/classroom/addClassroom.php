@@ -116,7 +116,7 @@
                                     <td><?= $class["Capacity"] ?></td>
                                     <td>
                                     <a class="btn btn-success btn-sm" href="dosen_list_MK_detail.html"
-                                        style="width: 90px">Detail</a>
+                                        style="width: 90px">Edit</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
