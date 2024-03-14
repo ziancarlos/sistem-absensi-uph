@@ -49,16 +49,16 @@ function updateLecturerController()
         }
 
         // Bandingkan nilai-nilai yang baru dengan nilai-nilai yang ada dalam database
-        if ($existingLecturer['Name'] === $name && $existingLecturer['UserId'] === $nip && $existingLecturer['Email'] === $email && empty($password)) {
+        if ($existingLecturer['Name'] === $name && $existingLecturer['Email'] === $email && empty($password)) {
             throw new Exception("Tidak ada perubahan yang dilakukan!");
         }
 
         // Lakukan perubahan jika ada perubahan dalam data
-        $updateUserStmt = $connection->prepare("UPDATE Users SET Name = :name, Email = :email, UserId = :new_nip WHERE UserId = :nip");
+        $updateUserStmt = $connection->prepare("UPDATE Users SET Name = :name, Email = :email,  WHERE UserId = :userId");
         $updateUserStmt->bindParam(':name', $name);
         $updateUserStmt->bindParam(':email', $email);
         $updateUserStmt->bindParam(':new_nip', $nip); // Update NIP juga
-        $updateUserStmt->bindParam(':nip', $existingLecturer['UserId']);
+        $updateUserStmt->bindParam(':userId', $existingLecturer['UserId']);
         $updateUserStmt->execute();
 
         // Jika password tidak kosong, update password

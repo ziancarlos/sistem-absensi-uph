@@ -79,7 +79,7 @@ function addLecturerController()
         }
 
         // Insert data into Users table
-        $insertUserQuery = "INSERT INTO Users (UserId, Name, Email, Password, Role) VALUES (:nip, :name, :email, :password, 1)";
+        $insertUserQuery = "INSERT INTO Users (UzName, Email, Password, Role) VALUES (:nip, :name, :email, :password, 1)";
         $insertUserStmt = $connection->prepare($insertUserQuery);
         $insertUserStmt->bindParam(':nip', $nim);
         $insertUserStmt->bindParam(':name', $name);
