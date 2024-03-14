@@ -31,6 +31,16 @@ function updateLecturerController()
         $password = htmlspecialchars($_POST["password"]);
         $userId = htmlspecialchars($_POST["UserId"]); // Mengambil UserId dari form
 
+        // Validasi email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new Exception("Alamat email tidak valid!");
+        }
+
+        // Validasi password minimum 8 karakter
+        if (!empty($password) && strlen($password) < 8) {
+            throw new Exception("Password harus memiliki minimal 8 karakter!");
+        }
+
         // Cek apakah ada perubahan dalam data
         $connection = getConnection(); // Mengasumsikan Anda memiliki fungsi bernama getConnection() untuk membuat koneksi PDO
 
@@ -96,6 +106,7 @@ function updateLecturerController()
     header("Location: dataLecturer.php");
     exit;
 }
+
 
 function updateLecturerView()
 {
