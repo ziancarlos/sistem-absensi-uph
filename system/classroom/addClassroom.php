@@ -56,7 +56,7 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Ruang Kuliah</h1>
@@ -104,6 +104,7 @@
                     <table id="example" class="display cell-border" style="width:100%">
                         <thead>
                             <tr>
+                                <th>Id</th>
                                 <th>Ruang</th>
                                 <th>Kapasitas</th>
                                 <th>Aksi</th>
@@ -112,18 +113,19 @@
                         <tbody>
                             <?php foreach ($data as $class): ?>
                                 <tr>
+                                    <td><?= $class["ClassroomId"] ?></td>
                                     <td><?= $class["Room"] ?></td>
                                     <td><?= $class["Capacity"] ?></td>
                                     <td>
-                                    <a class="btn btn-success btn-sm" href="dosen_list_MK_detail.html"
-                                        style="width: 90px">Edit</a>
+                                        <!-- Tambahkan tombol "Edit" dengan mengirimkan ID ruang kuliah ke fungsi JavaScript -->
+                                        <button class="btn btn-success btn-sm" style="width: 90px" onclick="editClassroom(<?= $class["ClassroomId"]; ?>)">Edit</button>
                                     </td>
+
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                    &nbsp;
-                </div>
+                    &nbsp;                
                 <!-- /.container-fluid -->
 
             </div>
@@ -175,6 +177,8 @@
     <script>
         new DataTable('#example', {
             columns: [{
+                data: 'id'
+            },{
                 data: 'ruang'
             }, {
                 data: 'kapasitas'
@@ -184,6 +188,14 @@
             },
             ]
         });
+    </script>
+
+    <script>
+        // Fungsi untuk menangani klik tombol "Edit" di tabel
+        function editClassroom(id) {
+            // Kirim ID ruang kuliah ke editClassroom.php
+            window.location.href = "editClassroom.php?ClassroomId=" + id;
+        }
     </script>
 
 
