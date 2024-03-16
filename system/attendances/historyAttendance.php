@@ -109,7 +109,7 @@ require_once("historyAttendanceFunction.php");
                                 </td>
                                 <td style="display: flex; gap: 5px;">
                                     <?php if ($role == "admin" || $role == "lecturer"): ?>
-                                        <form action="updateCourse.php" method="post" style="display: inline-block;">
+                                        <form action="updateAttendance.php" method="post" style="display: inline-block;">
                                             <button type="submit" name="edit" value="<?= $course["CourseId"]; ?>"
                                                 class="btn btn-info btn-sm" style="width: 90px">Edit</button>
                                         </form>
