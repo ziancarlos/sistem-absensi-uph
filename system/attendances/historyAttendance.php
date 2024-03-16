@@ -1,5 +1,5 @@
 <?php
-require_once("updateAttendanceFunction.php");
+require_once("historyAttendanceFunction.php");
 ?>
 
 <?php require_once("../components/header.php"); ?>
@@ -41,9 +41,9 @@ require_once("updateAttendanceFunction.php");
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="inputMK" class="col-xl-4 col-form-label">Kode Mata Kuliah</label>
+                                    <label for="inputKodeMK" class="col-xl-4 col-form-label">Kode Mata Kuliah</label>
                                     <div class="col-xl-8">
-                                        <input type="text" class="form-control" id="inputMK">
+                                        <input type="text" class="form-control" id="inputKodeMK">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -61,33 +61,62 @@ require_once("updateAttendanceFunction.php");
                 </div>
 
                 &nbsp;
-                <!-- Tabel Mata Kuliah -->
+                <!-- Tabel Histori Absensi -->
                 <table id="example" class="display cell-border " style="width:100%">
-                <thead>
-                    <th>Tanggal</th>
-                    <th>Nama Mahasiswa</th>
-                    <th>Kode Mata Kuliah</th>
-                    <th>Mata Kuliah</th>
-                    <th>Nama Dosen</th>
-                    <th>Ruang</th>
-                    <th>Jam Mulai</th>
-                    <th>Jam Absensi</th>
-                    <th>Status</th>
-                    <th>Aksi</th>
-                </thead>
+                    <thead>
+                        <th>Tanggal</th>
+                        <th>Nama Mahasiswa</th>
+                        <th>Kode Mata Kuliah</th>
+                        <th>Mata Kuliah</th>
+                        <th>Ruang</th>
+                        <th>Jam Mulai</th>
+                        <th>Jam Absensi</th>
+                        <th>Status</th>
+                        <?php if ($role == "admin" || $role == "lecturer"): ?>
+                            <th>Aksi</th>
+                        <?php endif; ?>
+                    </thead>
                     <tbody>
-                        <tr>
-                            <td>2024-02-02</td>
-                            <td>Kelvin</td>
-                            <td>SYS1</td>
-                            <td>Struktur Data</td>
-                            <td>Kusno Prasetya</td>
-                            <td>B342</td>
-                            <td>08.15</td>
-                            <td>-</td>
-                            <td><span class="badge rounded-pill badge-danger status">Tidak Hadir</span></td>
-                            <td><a class="btn btn-success btn-sm" href="updateAttendance.php" style="width: 90px">Edit</a></td> 
-                        </tr>
+                        <?php foreach ($data['attendances'] as $attendances): ?>
+                            <tr>
+                                <td>
+                                    <?= ($attendances["Date"] == null) ? "-" : date("Y-m-d", strtotime($attendances["Date"])) ?>
+                                </td>
+                                <td>
+                                    <?= $attendances['Name'] ?>
+                                </td>
+                                <td>
+                                    <?= $attendances['Code'] ?>
+                                </td>
+                                <td>
+                                    <?= $attendances['ClassName'] ?>
+                                </td>
+                                <td>
+                                    <?= $attendances['Room'] ?>
+                                </td>
+                                <td>
+                                    <?= $attendances['DateTime'] ?>
+                                </td>
+                                <td>
+                                    <?= ($attendances['TimeIn'] == null) ? "-" : $attendances['TimeIn'] ?>
+                                </td>
+                                <td>
+                                    <?php if ($attendances["TimeIn"] !== null): ?>
+                                        <span class="badge badge-primary">Hadir</span>
+                                    <?php else: ?>
+                                        <span class="badge badge-danger">Tidak Hadir</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td style="display: flex; gap: 5px;">
+                                    <?php if ($role == "admin" || $role == "lecturer"): ?>
+                                        <form action="updateCourse.php" method="post" style="display: inline-block;">
+                                            <button type="submit" name="edit" value="<?= $course["CourseId"]; ?>"
+                                                class="btn btn-info btn-sm" style="width: 90px">Edit</button>
+                                        </form>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
@@ -150,7 +179,6 @@ require_once("updateAttendanceFunction.php");
                 { data: 'kode_mk' },
                 { data: 'mata_kuliah' },
                 { data: 'tahun_angkatan' },
-                { data: 'nama_dosen' },
                 { data: 'ruang' },
                 { data: 'jam_mulai' },
                 { data: 'jam_selesai' },

@@ -56,7 +56,7 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                
+                <div class="container-fluid">
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Ruang Kuliah</h1>
@@ -125,7 +125,8 @@
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                    &nbsp;                
+                    &nbsp;   
+                </div>                
                 <!-- /.container-fluid -->
 
             </div>

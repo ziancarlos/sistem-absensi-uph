@@ -35,12 +35,6 @@ require_once("dataCourseFunction.php");
                             <div class="card-body">
                                 <form>
                                     <div class="form-group row">
-                                        <label for="inputSemester" class=" col-xl-4 col-form-label">Semester</label>
-                                        <div class="col-xl-8">
-                                            <input type="text" class="form-control" id="inputSemester">
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
                                         <label for="inputAngkatan" class="col-xl-4 col-form-label">Tahun
                                             Angkatan</label>
                                         <div class="col-xl-8">
