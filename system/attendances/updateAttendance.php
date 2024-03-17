@@ -37,13 +37,7 @@ require_once("updateAttendanceFunction.php");
                                         <div class="form-group row">
                                             <label for="inputNamaMhs" class="col-sm-3 col-form-label">Nama Mahasiswa</label>
                                             <div class="col-sm-9">
-                                                <input type="date" class="form-control" id="inputNamaMhs">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="inputNamaMK" class="col-sm-3 col-form-label">Nama Mata Kuliah</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputNamaMK">
+                                                <input type="text" class="form-control" id="inputNamaMhs">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -53,27 +47,9 @@ require_once("updateAttendanceFunction.php");
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputNamaDosen" class="col-sm-3 col-form-label">Nama Dosen</label>
+                                            <label for="inputNamaMK" class="col-sm-3 col-form-label">Nama Mata Kuliah</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputNamaDosen">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="inputRuang" class="col-sm-3 col-form-label">Ruang</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputRuang">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="inputJamMulai" class="col-sm-3 col-form-label">Jam Mulai</label>
-                                            <div class="col-sm-9">
-                                                <input type="time" class="form-control" id="inputJamMulai">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="inputJamSelesai" class="col-sm-3 col-form-label">Jam Selesai</label>
-                                            <div class="col-sm-9">
-                                                <input type="time" class="form-control" id="inputJamSelesai">
+                                                <input type="text" class="form-control" id="inputNamaMK">
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -85,7 +61,7 @@ require_once("updateAttendanceFunction.php");
                                             </select>
                                             </div>
                                         </div>
-                                        <input type="button" onclick="location.href='dosen_edit_absensi.html'" value="Simpan" class="btn btn-primary tambah_btn" />
+                                        <button name="update" type="submit" value="" class="btn btn-primary tambah_btn">Simpan</button>                                    
                                     </form>
                                 </div>
                             </div>
