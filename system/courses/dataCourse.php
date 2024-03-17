@@ -38,7 +38,7 @@ require_once("dataCourseFunction.php");
                                         <label for="inputAngkatan" class="col-xl-4 col-form-label">Tahun
                                             Angkatan</label>
                                         <div class="col-xl-8">
-                                            <input type="text" class="form-control" id="inputAngkatan">
+                                            <input type="number" class="form-control" id="inputAngkatan">
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-success tambah_btn">Cari</button>
@@ -108,7 +108,7 @@ require_once("dataCourseFunction.php");
 
                                     </td>
                                     <td style="display: flex; gap: 5px;">
-                                        <a class="btn btn-success btn-sm" href="dosen_list_MK_detail.html"
+                                        <a class="btn btn-success btn-sm" href="dataCourseDetail.php"
                                             style="width: 90px">Detail</a>
 
                                         <?php if ($role == "admin"): ?>
@@ -130,7 +130,7 @@ require_once("dataCourseFunction.php");
                                                 </form>
                                             <?php endif; ?>
 
-                                            <a class="btn btn-warning btn-sm" href="dosen_list_MK_enroll.html"
+                                            <a class="btn btn-warning btn-sm" href="enrollCourse.php"
                                                 style="width: 90px">Enroll</a>
                                         <?php endif; ?>
                                     </td>

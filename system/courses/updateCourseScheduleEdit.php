@@ -1,5 +1,5 @@
 <?php
-require_once("courseScheduleFunction.php");
+require_once("updateCourseScheduleEditFunction.php");
 ?>
 
 <?php require_once("../components/header.php"); ?>
@@ -28,24 +28,38 @@ require_once("courseScheduleFunction.php");
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                <!-- Page Heading -->
-                <h1 class="h3 mb-4 text-gray-800">Jadwal Mata Kuliah</h1>
-                <table id="example" class="display cell-border " style="width:100%">
-                <thead>
-                    <th>Kode Mata Kuliah</th>
-                    <th>Mata Kuliah</th>
-                    <th>Aksi</th>
-                </thead>
-                    <tbody>
-                        <tr>
-                            <td>SYS1</td>
-                            <td>Struktur Data</td>
-                            <td><a class="btn btn-success btn-sm" href="updateCourseSchedule.php" style="width: 90px">Edit</a></td> 
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.container-fluid -->
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-gray-800">Edit Jadwal Mata Kuliah</h1>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form method="post">
+                                        <div class="form-group row">
+                                            <label for="inputKodeMK" class="col-sm-3 col-form-label">Kode Mata Kuliah</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="inputKodeMK" name="kode"
+                                                    value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputTglKuliah" class="col-sm-3 col-form-label">Tanggal Kuliah</label>
+                                            <div class="col-sm-9">
+                                                <input type="date" class="form-control" id="inputTglKuliah" name="tanggal_kuliah"
+                                                    value="">
+                                            </div>
+                                        </div>
+                                        <button name="update" type="submit"
+                                            value=""
+                                            class="btn btn-primary tambah_btn">Simpan</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
@@ -91,21 +105,7 @@ require_once("courseScheduleFunction.php");
         </div>
     </div>
 
-
-
-    <!-- Custom scripts for all pages-->
     <?php require_once("../components/js.php"); ?>
-
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script>
-    new DataTable('#example', {
-        columns: [
-                { data: 'kode_mk' },
-                { data: 'mata_kuliah' },
-                { data: 'aksi' }
-            ]
-    });
-    </script>
 
 
 
