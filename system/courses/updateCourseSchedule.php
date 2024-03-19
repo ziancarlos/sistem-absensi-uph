@@ -72,9 +72,9 @@ require_once ("updateCourseScheduleFunction.php");
                                                         <?= $schedule["DateTime"] ?>
                                                     </td>
                                                     <td style="display: flex; gap: 5px">
-                                                        <a class="btn btn-success btn-sm"
-                                                            href="updateCourseScheduleEdit.php"
+                                                        <a class="btn btn-success btn-sm" href="updateCourseScheduleEdit.php?ScheduleId=<?= $schedule['ScheduleId'] ?>"
                                                             style="width: 90px; color: white;">Edit</a>
+
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
