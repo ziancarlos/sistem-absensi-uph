@@ -58,34 +58,35 @@ require_once ("enrollCourseStudentFunction.php");
                     <table id="example" class="display cell-border" style="width: 100%">
                         <thead>
                             <tr>
-                                <th>Kode Mata Kuliah</th>
+                                <th>NIM</th>
                                 <th>Nama Mahasiswa</th>
+                                <th>Tahun Angkatan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>SYS1</td>
-                                <td>Struktur Data</td>
+                                <td>01081210007</td>
                                 <td>Nathania Michaela Lisandi</td>
+                                <td>2021</td>
                                 <td style="display: flex; gap: 5px">
                                     <a class="btn btn-warning btn-sm" href="enrollFunctionActivate.php"
                                         style="width: 90px; color: white;">Enroll</a>
                                 </td>
                             </tr>
                             <tr>
-                                <td>SYS1</td>
-                                <td>Struktur Data</td>
+                                <td>01081210012</td>
                                 <td>Kelvin</td>
+                                <td>2021</td>
                                 <td style="display: flex; gap: 5px">
                                     <a class="btn btn-warning btn-sm" href="enrollFunctionActivate.php"
                                         style="width: 90px; color: white;">Enroll</a>
                                 </td>
                             </tr>
                             <tr>
-                                <td>SYS1</td>
-                                <td>Struktur Data</td>
+                                <td>01081210013</td>
                                 <td>Zian Carlos Wong</td>
+                                <td>2021</td>
                                 <td style="display: flex; gap: 5px">
                                     <a class="btn btn-danger btn-sm" href="enrollFunctionDeactivate.php"
                                         style="width: 90px; color: white;">Nonaktif</a>
