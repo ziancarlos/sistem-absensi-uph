@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("../../helper/dbHelper.php");
-require_once("../../helper/authHelper.php");
+require_once ("../../helper/dbHelper.php");
+require_once ("../../helper/authHelper.php");
 $permittedRole = ["admin"];
 $pageName = "Sistem Absensi UPH - Detail Mata Kuliah Dosen";
 $data = [];
@@ -51,7 +51,7 @@ function dataLecturerDetailModel($lecturerId)
 
         $sql = "SELECT 
         users.Name AS LecturerName, 
-        courses.CourseId,
+        courses.CourseId,   
         courses.StartDate, 
         courses.EndDate, 
         courses.Code AS CourseCode, 
