@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset ($_GET["CourseId"])) {
     updateCourseScheduleView();
 } else {
     $_SESSION["error"] = "Tidak menemukan permintaan yang valid!";
-    header("location: dataCourse.php");
+    header("location: updateCourseSchedule.php");
     exit;
 }
 
@@ -25,7 +25,7 @@ function updateCourseScheduleView()
     // Check if CourseId is provided in the URL
     if (!isset ($_GET["CourseId"])) {
         $_SESSION["error"] = "CourseId tidak ditemukan.";
-        header("location: dataCourse.php");
+        header("location: updateCourseSchedule.php");
         exit;
     }
 
@@ -46,7 +46,7 @@ function updateCourseScheduleView()
         // If the course does not exist, redirect with an error message
         if (!$course) {
             $_SESSION["error"] = "Mata kuliah dengan CourseId $courseId tidak ditemukan.";
-            header("location: dataCourse.php");
+            header("location: updateCourseSchedule.php");
             exit;
         }
 
@@ -69,7 +69,7 @@ function updateCourseScheduleView()
     } catch (PDOException $e) {
         // Handle query execution errors
         $_SESSION["error"] = "Pencarian jadwal gagal: " . $e->getMessage();
-        header("location: dataCourse.php");
+        header("location: updateCourseSchedule.php");
         exit;
     }
 }
