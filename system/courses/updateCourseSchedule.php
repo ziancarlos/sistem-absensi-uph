@@ -81,7 +81,6 @@ require_once ("updateCourseScheduleFunction.php");
                                         </tbody>
                                     </table>
                                     <br>
-                                    <button type="submit" class="btn btn-primary tambah_btn">Simpan</button>
                                 </form>
                             </div>
                         </div>
