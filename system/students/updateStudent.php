@@ -1,6 +1,4 @@
-<?php
-require_once("updateStudentFunction.php");
-?>
+<?php require_once("updateStudentFunction.php"); ?>
 
 <?php require_once("../components/header.php"); ?>
 
@@ -31,29 +29,29 @@ require_once("updateStudentFunction.php");
                                         <div class="form-group row">
                                             <label for="inputNIM" class="col-sm-2 col-form-label">NIM</label>
                                             <div class="col-sm-10">
-                                                <input type="number" class="form-control" id="inputNIM" name="nim"
-                                                    value="<?php echo $data['student']['StudentId']; ?>">
+                                                <input type="text" class="form-control" id="inputNIM" name="nim" 
+                                                value="<?php echo isset($data['student']['StudentId']) ? $data['student']['StudentId'] : ''; ?>" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-2 col-form-label">Nama</label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" id="inputName" name="name"
-                                                    value="<?php echo $data['student']['Name']; ?>">
+                                                    value="<?php echo isset($data['student']['Name']) ? $data['student']['Name'] : ''; ?>">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-10">
                                                 <input type="email" class="form-control" id="inputEmail" name="email"
-                                                    value="<?php echo $data['student']['Email']; ?>">
+                                                    value="<?php echo isset($data['student']['Email']) ? $data['student']['Email'] : ''; ?>">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputYear" class="col-sm-2 col-form-label">Tahun Angkatan</label>
                                             <div class="col-sm-10">
                                                 <input type="number" class="form-control" id="inputYear" name="yearIn"
-                                                    value="<?php echo $data['student']['YearIn']; ?>">
+                                                    value="<?php echo isset($data['student']['YearIn']) ? $data['student']['YearIn'] : ''; ?>">
                                             </div>
                                         </div>
 
@@ -67,7 +65,7 @@ require_once("updateStudentFunction.php");
 
                                         <!-- Hidden input for StudentId -->
                                         <input type="hidden" name="studentId"
-                                            value="<?php echo $data['student']['StudentId']; ?>">
+                                            value="<?php echo isset($data['student']['StudentId']) ? $data['student']['StudentId'] : ''; ?>">
                                         <button name="ubah" type="submit"
                                             class="btn btn-primary tambah_btn">Simpan</button>
                                     </form>

@@ -29,41 +29,6 @@ require_once("enrollCourseFunction.php");
                 <div class="container-fluid">
                 <!-- Page Heading -->
                 <h1 class="h3 mb-4 text-gray-800">Enroll Mata Kuliah</h1>
-                <div class="col-xl-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <form>
-                                <div class="form-group row">
-                                    <label for="inputKodeMK" class="col-xl-4 col-form-label">Kode Mata Kuliah</label>
-                                    <div class="col-xl-8">
-                                        <input type="text" class="form-control" id="inputKodeMK"/>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputTglMulaiKuliah" class="col-xl-4 col-form-label">Tanggal Mulai</label>
-                                    <div class="col-xl-8">
-                                        <input type="date" class="form-control" id="inputTglMulaiKuliah"/>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputTglselesaiKuliah" class="col-xl-4 col-form-label">Tanggal Selesai</label>
-                                    <div class="col-xl-8">
-                                        <input type="date" class="form-control" id="inputTglSelesaiKuliah"/>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputJamMulaiKuliah" class="col-xl-4 col-form-label">Jam Mulai</label>
-                                    <div class="col-xl-8">
-                                        <input type="datetime-local" class="form-control" id="inputJamMulaiKuliah"/>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary tambah_btn">Tambah</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                &nbsp;
 
                 <!-- Tabel Mata Kuliah -->
                 <table id="example" class="display cell-border" style="width: 100%">
