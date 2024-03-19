@@ -34,9 +34,9 @@ require_once("updateCourseScheduleFunction.php");
                         <div class="card-body">
                             <form>
                                 <div class="form-group row">
-                                    <label for="inputTglKuliah" class="col-xl-4 col-form-label">Tanggal Kuliah</label>
+                                    <label for="inputTglKuliah" class="col-xl-4 col-form-label">Waktu Kuliah</label>
                                     <div class="col-xl-8">
-                                        <input type="date" class="form-control" id="inputTglKuliah"/>
+                                        <input type="datetime-local" class="form-control" id="inputTglKuliah"/>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary tambah_btn">Tambah</button>
@@ -57,7 +57,7 @@ require_once("updateCourseScheduleFunction.php");
                                         <tr>
                                             <th>Kode Mata Kuliah</th>
                                             <th>Mata Kuliah</th>
-                                            <th>Tanggal Kuliah</th>
+                                            <th>Waktu Kuliah</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -65,7 +65,7 @@ require_once("updateCourseScheduleFunction.php");
                                         <tr>
                                             <td>SYS1</td>
                                             <td>Struktur Data</td>
-                                            <td>2024-02-02</td>
+                                            <td>2024-02-02 10:30:00</td>
                                             <td style="display: flex; gap: 5px">
                                                 <a class="btn btn-success btn-sm" href="updateCourseScheduleEdit.php" style="width: 90px; color: white;">Edit</a>
                                             </td>
@@ -73,7 +73,7 @@ require_once("updateCourseScheduleFunction.php");
                                         <tr>
                                             <td>SYS1</td>
                                             <td>Struktur Data</td>
-                                            <td>2024-02-02</td>
+                                            <td>2024-02-02 10:30:00</td>
                                             <td style="display: flex; gap: 5px">
                                                 <a class="btn btn-success btn-sm" href="updateCourseScheduleEdit.php" style="width: 90px; color: white;">Edit</a>
                                             </td>
@@ -81,7 +81,7 @@ require_once("updateCourseScheduleFunction.php");
                                         <tr>
                                             <td>SYS1</td>
                                             <td>Struktur Data</td>
-                                            <td>2024-02-02</td>
+                                            <td>2024-02-02 10:30:00</td>
                                             <td style="display: flex; gap: 5px">
                                                 <a class="btn btn-success btn-sm" href="updateCourseScheduleEdit.php" style="width: 90px; color: white;">Edit</a>
                                             </td>
@@ -152,7 +152,7 @@ require_once("updateCourseScheduleFunction.php");
             }, {
                 data: 'mata_kuliah'
             }, {
-                data: 'tanggal_kuliah'
+                data: 'waktu_kuliah'
             },
             {
                 data: 'aksi'

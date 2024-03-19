@@ -36,6 +36,7 @@ require_once("dataStudentFunction.php");
                                 <th>Id</th>
                                 <th>NIM</th>
                                 <th>Nama Mahasiswa</th>
+                                <th>Email</th>
                                 <th>Tahun Angkatan</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
@@ -53,7 +54,9 @@ require_once("dataStudentFunction.php");
                                     <td>
                                         <?= $student["Name"] ?>
                                     </td>
-
+                                    <td>
+                                        <?= $student["Email"] ?>
+                                    </td>
                                     <td>
                                         <?= $student["YearIn"] ?>
                                     </td>
@@ -160,6 +163,9 @@ require_once("dataStudentFunction.php");
             },
             {
                 data: 'nim'
+            },
+            {
+                data: 'email'
             },
             {
                 data: 'angakatan'

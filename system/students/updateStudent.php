@@ -29,6 +29,13 @@ require_once("updateStudentFunction.php");
                                 <div class="card-body">
                                     <form method="post">
                                         <div class="form-group row">
+                                            <label for="inputNIM" class="col-sm-2 col-form-label">NIM</label>
+                                            <div class="col-sm-10">
+                                                <input type="number" class="form-control" id="inputNIM" name="nim"
+                                                    value="<?php echo $data['student']['StudentId']; ?>">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
                                             <label for="inputName" class="col-sm-2 col-form-label">Nama</label>
                                             <div class="col-sm-10">
                                                 <input type="text" class="form-control" id="inputName" name="name"
@@ -43,7 +50,7 @@ require_once("updateStudentFunction.php");
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputYear" class="col-sm-2 col-form-label">Tahun Masuk</label>
+                                            <label for="inputYear" class="col-sm-2 col-form-label">Tahun Angkatan</label>
                                             <div class="col-sm-10">
                                                 <input type="number" class="form-control" id="inputYear" name="yearIn"
                                                     value="<?php echo $data['student']['YearIn']; ?>">

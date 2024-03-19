@@ -41,7 +41,7 @@ function dataStudentModel()
     try {
         $connection = getConnection();
 
-        $sql = "SELECT users.UserId, users.Name, Students.StudentId, YEAR(Students.YearIn) AS YearIn, users.Status FROM Users INNER JOIN Students ON Users.StudentId = Students.StudentId ORDER BY Users.UserId DESC;";
+        $sql = "SELECT users.UserId, users.Name, users.Email, Students.StudentId, YEAR(Students.YearIn) AS YearIn, users.Status FROM Users INNER JOIN Students ON Users.StudentId = Students.StudentId ORDER BY Users.UserId DESC;";
 
         $statement = $connection->prepare($sql);
         $statement->execute();

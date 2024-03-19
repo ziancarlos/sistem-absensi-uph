@@ -57,15 +57,6 @@ require_once("enrollCourseFunction.php");
                                         <input type="datetime-local" class="form-control" id="inputJamMulaiKuliah"/>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    <label for="inputDosen" class="col-xl-4 col-form-label">Nama Dosen</label>
-                                    <div class="col-xl-8">
-                                        <select class="form-control" id="inputKodeGedung">
-                                            <option value="id_dosen">Arnold Aribowo</option>
-                                            <option value="id_dosen">Kusno Prasetya</option>
-                                        </select>
-                                    </div>
-                                </div>
                                 <button type="submit" class="btn btn-primary tambah_btn">Tambah</button>
                             </form>
                         </div>
@@ -80,7 +71,6 @@ require_once("enrollCourseFunction.php");
                         <tr>
                             <th>Kode Mata Kuliah</th>
                             <th>Mata Kuliah</th>
-                            <th>Nama Dosen</th>
                             <th>Tanggal Mulai</th>
                             <th>Tanggal Selesai</th>
                             <th>Jumlah Mahasiswa Terdaftar</th>
@@ -91,7 +81,6 @@ require_once("enrollCourseFunction.php");
                         <tr>
                             <td>SYS1</td>
                             <td>Struktur Data</td>
-                            <td>Arnold Aribowo</td>
                             <td>2024-02-02</td>
                             <td>2024-04-30</td>
                             <td>23</td>
@@ -102,7 +91,6 @@ require_once("enrollCourseFunction.php");
                         <tr>
                             <td>SYS1</td>
                             <td>Struktur Data</td>
-                            <td>Kusno Prasetya</td>
                             <td>2024-02-02</td>
                             <td>2024-04-30</td>
                             <td>23</td>
@@ -113,7 +101,6 @@ require_once("enrollCourseFunction.php");
                         <tr>
                             <td>SYS2</td>
                             <td>Sistem Basis Data</td>
-                            <td>Arnold Aribowo</td>
                             <td>2024-02-02</td>
                             <td>2024-04-30</td>
                             <td>22</td>
@@ -124,7 +111,6 @@ require_once("enrollCourseFunction.php");
                         <tr>
                             <td>SYS3</td>
                             <td>Teknologi Web</td>
-                            <td>Hery</td>
                             <td>2024-02-02</td>
                             <td>2024-04-30</td>
                             <td>9</td>
@@ -192,8 +178,6 @@ require_once("enrollCourseFunction.php");
                 data: 'kode_MK'
             }, {
                 data: 'mata_kuliah'
-            }, {
-                data: 'nama_dosen'
             }, {
                 data: 'tanggal_mulai'
             }, {
