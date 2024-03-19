@@ -132,7 +132,7 @@ require_once ("dataCourseFunction.php");
                                             <?php endif; ?>
 
                                             <a class="btn btn-warning btn-sm"
-                                                href="enrollCourse.php?CourseId=<?= $course["CourseId"]; ?>"
+                                                href="enrollCourseStudent.php?CourseId=<?= $course["CourseId"]; ?>"
                                                 style=" width: 90px">Enroll</a>
                                         <?php endif; ?>
                                     </td>
