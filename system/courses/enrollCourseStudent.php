@@ -1,8 +1,8 @@
 <?php
-require_once("enrollCourseStudentFunction.php");
+require_once ("enrollCourseStudentFunction.php");
 ?>
 
-<?php require_once("../components/header.php"); ?>
+<?php require_once ("../components/header.php"); ?>
 
 
 <body id="page-top">
@@ -11,7 +11,7 @@ require_once("enrollCourseStudentFunction.php");
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php require_once("../components/sidebar.php"); ?>
+        <?php require_once ("../components/sidebar.php"); ?>
 
         <!-- End of Sidebar -->
 
@@ -22,75 +22,78 @@ require_once("enrollCourseStudentFunction.php");
             <div id="content">
 
                 <!-- Topbar -->
-                <?php require_once("../components/topbar.php"); ?>
+                <?php require_once ("../components/topbar.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                <!-- Page Heading -->
-                <h1 class="h3 mb-4 text-gray-800">Enroll Mata Kuliah - "Kode MK"</h1>
-                <div class="col-xl-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <form>
-                                <div class="form-group row">
-                                    <label for="inputTahunAkt" class="col-xl-4 col-form-label">Tahun Angkatan</label>
-                                    <div class="col-xl-8">
-                                        <input type="number" class="form-control" id="inputTahunAkt"/>
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-gray-800">Enroll Mata Kuliah - "Kode MK"</h1>
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <form>
+                                    <div class="form-group row">
+                                        <label for="inputTahunAkt" class="col-xl-4 col-form-label">Tahun
+                                            Angkatan</label>
+                                        <div class="col-xl-8">
+                                            <input type="number" class="form-control" id="inputTahunAkt" />
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputNamaMhs" class="col-xl-4 col-form-label">Nama Mahasiswa</label>
-                                    <div class="col-xl-8">
-                                        <input type="text" class="form-control" id="inputNamaMhs"/>
+                                    <div class="form-group row">
+                                        <label for="inputNamaMhs" class="col-xl-4 col-form-label">Nama Mahasiswa</label>
+                                        <div class="col-xl-8">
+                                            <input type="text" class="form-control" id="inputNamaMhs" />
+                                        </div>
                                     </div>
-                                </div>
-                                <button type="submit" class="btn btn-success tambah_btn">Cari</button>
-                            </form>
+                                    <button type="submit" class="btn btn-success tambah_btn">Cari</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                &nbsp;
+                    &nbsp;
 
-                <!-- Tabel Mata Kuliah -->
-                <table id="example" class="display cell-border" style="width: 100%">
-                    <thead>
-                        <tr>
-                            <th>Kode Mata Kuliah</th>
-                            <th>Mata Kuliah</th>
-                            <th>Nama Mahasiswa</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>SYS1</td>
-                            <td>Struktur Data</td>
-                            <td>Nathania Michaela Lisandi</td>
-                            <td style="display: flex; gap: 5px">
-                                <a class="btn btn-warning btn-sm" href="enrollFunctionActivate.php" style="width: 90px; color: white;">Enroll</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>SYS1</td>
-                            <td>Struktur Data</td>
-                            <td>Kelvin</td>
-                            <td style="display: flex; gap: 5px">
-                                <a class="btn btn-warning btn-sm" href="enrollFunctionActivate.php" style="width: 90px; color: white;">Enroll</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>SYS1</td>
-                            <td>Struktur Data</td>
-                            <td>Zian Carlos Wong</td>
-                            <td style="display: flex; gap: 5px">
-                                <a class="btn btn-danger btn-sm" href="enrollFunctionDeactivate.php" style="width: 90px; color: white;">Nonaktif</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <br>
+                    <!-- Tabel Mata Kuliah -->
+                    <table id="example" class="display cell-border" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>Kode Mata Kuliah</th>
+                                <th>Nama Mahasiswa</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>SYS1</td>
+                                <td>Struktur Data</td>
+                                <td>Nathania Michaela Lisandi</td>
+                                <td style="display: flex; gap: 5px">
+                                    <a class="btn btn-warning btn-sm" href="enrollFunctionActivate.php"
+                                        style="width: 90px; color: white;">Enroll</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>SYS1</td>
+                                <td>Struktur Data</td>
+                                <td>Kelvin</td>
+                                <td style="display: flex; gap: 5px">
+                                    <a class="btn btn-warning btn-sm" href="enrollFunctionActivate.php"
+                                        style="width: 90px; color: white;">Enroll</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>SYS1</td>
+                                <td>Struktur Data</td>
+                                <td>Zian Carlos Wong</td>
+                                <td style="display: flex; gap: 5px">
+                                    <a class="btn btn-danger btn-sm" href="enrollFunctionDeactivate.php"
+                                        style="width: 90px; color: white;">Nonaktif</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -139,7 +142,7 @@ require_once("enrollCourseStudentFunction.php");
         </div>
     </div>
 
-    <?php require_once("../components/js.php"); ?>
+    <?php require_once ("../components/js.php"); ?>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
     <script>
@@ -150,7 +153,7 @@ require_once("enrollCourseStudentFunction.php");
                 data: 'mata_kuliah'
             }, {
                 data: 'nama_mhs'
-            }, 
+            },
             {
                 data: 'aksi'
             }
