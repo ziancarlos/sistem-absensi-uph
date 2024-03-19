@@ -1,8 +1,8 @@
 <?php
-require_once("dataCourseFunction.php");
+require_once ("dataCourseFunction.php");
 ?>
 
-<?php require_once("../components/header.php"); ?>
+<?php require_once ("../components/header.php"); ?>
 
 
 <body id="page-top">
@@ -11,7 +11,7 @@ require_once("dataCourseFunction.php");
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php require_once("../components/sidebar.php"); ?>
+        <?php require_once ("../components/sidebar.php"); ?>
 
         <!-- End of Sidebar -->
 
@@ -22,7 +22,7 @@ require_once("dataCourseFunction.php");
             <div id="content">
 
                 <!-- Topbar -->
-                <?php require_once("../components/topbar.php"); ?>
+                <?php require_once ("../components/topbar.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -108,7 +108,8 @@ require_once("dataCourseFunction.php");
 
                                     </td>
                                     <td style="display: flex; gap: 5px;">
-                                        <a class="btn btn-success btn-sm" href="dataCourseDetail.php"
+                                        <a class="btn btn-success btn-sm"
+                                            href="dataCourseDetail.php?CourseId=<?= $course["CourseId"]; ?>"
                                             style="width: 90px">Detail</a>
 
                                         <?php if ($role == "admin"): ?>
@@ -130,8 +131,9 @@ require_once("dataCourseFunction.php");
                                                 </form>
                                             <?php endif; ?>
 
-                                            <a class="btn btn-warning btn-sm" href="enrollCourse.php"
-                                                style="width: 90px">Enroll</a>
+                                            <a class="btn btn-warning btn-sm"
+                                                href="enrollCourse.php?CourseId=<?= $course["CourseId"]; ?>"
+                                                style=" width: 90px">Enroll</a>
                                         <?php endif; ?>
                                     </td>
                                 </tr>
@@ -185,7 +187,7 @@ require_once("dataCourseFunction.php");
         </div>
     </div>
 
-    <?php require_once("../components/js.php"); ?>
+    <?php require_once ("../components/js.php"); ?>
 
 
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>

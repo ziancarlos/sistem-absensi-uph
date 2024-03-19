@@ -1,8 +1,8 @@
 <?php
-require_once("dataCourseDetailFunction.php");
+require_once ("dataCourseDetailFunction.php");
 ?>
 
-<?php require_once("../components/header.php"); ?>
+<?php require_once ("../components/header.php"); ?>
 
 
 <body id="page-top">
@@ -11,7 +11,7 @@ require_once("dataCourseDetailFunction.php");
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php require_once("../components/sidebar.php"); ?>
+        <?php require_once ("../components/sidebar.php"); ?>
 
         <!-- End of Sidebar -->
 
@@ -22,7 +22,7 @@ require_once("dataCourseDetailFunction.php");
             <div id="content">
 
                 <!-- Topbar -->
-                <?php require_once("../components/topbar.php"); ?>
+                <?php require_once ("../components/topbar.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -33,72 +33,72 @@ require_once("dataCourseDetailFunction.php");
                     <table id="example1" class="display cell-border" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Kode Mata Kuliah</th>
+                                <th>Id Dosens</th>
                                 <th>Nama Dosen</th>
-                                <th>Jam Mulai</th>
+                                <th>Email Dosen</th>
                             </tr>
                         </thead>
                         <tbody>
+
+                            <?php foreach ($data["lecturers"] as $lecturer): ?>
                             <tr>
-                                <td>SYS1</td>
-                                <td>Arnold Aribowo</td>
-                                <td>08.15</td>
+                                <td>
+                                    <?= $lecturer["UserId"] ?>
+                                </td>
+                                <td>
+                                    <?= $lecturer["Name"] ?>
+                                </td>
+                                <td>
+                                    <?= $lecturer["Email"] ?>
+                                </td>
+
                             </tr>
-                            <tr>
-                                <td>SYS1</td>
-                                <td>Kusno Prasetya</td>
-                                <td>08.15</td>
-                            </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                     <br><br>
                     <table id="example" class="display cell-border" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Kode Mata Kuliah</th>
                                 <th>Nama Mahasiswa</th>
                                 <th>NIM</th>
                                 <th>Tahun Angkatan</th>
+                                <?php if ($role != "student"): ?>
                                 <th>Aksi</th>
+                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach ($data["students"] as $student): ?>
                             <tr>
-                                <td>SYS1</td>
-                                <td>Kelvin</td>
-                                <td>01081210011</td>
-                                <td>2021</td>
-                                <td style="display: flex; gap: 5px;">                                
-                                    <a class="btn btn-danger btn-sm" href="enrollCourseDeactivate.php" style="width: 90px">Non Aktif</a>
+                                <td>
+                                    <?= $student["Name"] ?>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>SYS1</td>
-                                <td>Nathania Michaela</td>
-                                <td>01081210007</td>
-                                <td>2021</td>
+                                <td>
+                                    <?= $student["StudentId"] ?>
+                                </td>
+                                <td>
+                                    <?= $student["YearIn"] ?>
+                                </td>
+                                <?php if ($role != "student"): ?>
                                 <td style="display: flex; gap: 5px;">
-                                    <a class="btn btn-danger btn-sm" href="enrollCourseDeactivate" style="width: 90px">Non Aktif</a>
+                                    <?php if ($student["EnrollmentStatus"] == 1): ?>
+                                    <form action="../students/deactivateEnrollmentFunction.php" method="post"
+                                        style="display: inline-block;">
+                                        <button type="submit" name="deactivate" value="<?= $student["EnrollmentId"]; ?>"
+                                            class="btn btn-danger btn-sm" style="width: 90px">Non Aktif</button>
+                                    </form>
+                                    <?php else: ?>
+                                    <form action="../students/activateEnrollmentFunction.php" method="post"
+                                        style="display: inline-block;">
+                                        <button type="submit" name="activate" value="<?= $student["EnrollmentId"]; ?>"
+                                            class="btn btn-success btn-sm" style="width: 90px">Aktifkan</button>
+                                    </form>
+                                    <?php endif; ?>
                                 </td>
+                                <?php endif; ?>
                             </tr>
-                            <tr>
-                                <td>SYS1</td>
-                                <td>Yoana Sonia</td>
-                                <td>01081210001</td>
-                                <td>2021</td>
-                                <td style="display: flex; gap: 5px;">
-                                    <a class="btn btn-danger btn-sm" href="enrollCourseDeactivate" style="width: 90px">Non Aktif</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>SYS1</td>
-                                <td>Zian Carlos</td>
-                                <td>01081210013</td>
-                                <td>2021</td>
-                                <td style="display: flex; gap: 5px;">
-                                    <a class="btn btn-danger btn-sm" href="" style="width: 90px">Non Aktif</a>
-                                </td>
-                            </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -147,29 +147,42 @@ require_once("dataCourseDetailFunction.php");
         </div>
     </div>
 
-    <?php require_once("../components/js.php"); ?>
+    <?php require_once ("../components/js.php"); ?>
 
 
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script>
-        new DataTable('#example', {
-            columns: [
-                { data: 'kode_MK' },
-                { data: 'nama_mahasiswa' },
-                { data: 'nim' },
-                { data: 'angakatan' },
-                { data: 'aksi' }
+    new DataTable('#example', {
+            columns: [{
+                    data: 'nama_mahasiswa'
+                },
+                {
+                    data: 'nim'
+                },
+                {
+                    data: 'angakatan'
+                }
+                <?php if ($role != "student"): ?>,
+
+                {
+                    data: 'aksi'
+                }
+                <?php endif; ?>
             ]
         },
         new DataTable('#example1', {
-            columns: [
-                { data: 'kode_MK' },
-                { data: 'nama_dosen' },
-                { data: 'jam_mulai' },
+            columns: [{
+                    data: 'kode_MK'
+                },
+                {
+                    data: 'nama_dosen'
+                },
+                {
+                    data: 'jam_mulai'
+                },
             ]
-        }
-        )
-        );
+        })
+    );
     </script>
 
 </body>

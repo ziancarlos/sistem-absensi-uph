@@ -61,29 +61,34 @@ if (isset($_GET['ClassroomId'])) {
                                 <div class="card-body">
                                     <form method="post" action="editClassroomFunction.php">
                                         <div class="form-group row">
-                                            <label for="inputBuildingId" class="col-sm-2 col-form-label">Kode Gedung</label>
+                                            <label for="inputBuildingId" class="col-sm-2 col-form-label">Kode
+                                                Gedung</label>
                                             <div class="col-sm-10">
                                                 <!-- Tampilkan kode gedung yang sesuai dengan data ruang kelas -->
-                                                <input type="text" class="form-control" id="inputBuildingId" name="buildingId" value="<?php echo $buildingId; ?> " readonly>
+                                                <input type="text" class="form-control" id="inputBuildingId"
+                                                    name="buildingId" value="<?php echo $buildingId; ?> " readonly>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputRoom" class="col-sm-2 col-form-label">Nomor Ruang</label>
                                             <div class="col-sm-10">
                                                 <!-- Tampilkan nomor ruang yang sesuai dengan data ruang kelas -->
-                                                <input type="text" class="form-control" id="inputRoom" name="roomNumber" value="<?php echo $roomNumber; ?>" readonly>
+                                                <input type="text" class="form-control" id="inputRoom" name="roomNumber"
+                                                    value="<?php echo $roomNumber; ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputCapacity" class="col-sm-2 col-form-label">Kapasitas</label>
                                             <div class="col-sm-10">
                                                 <!-- Tampilkan kapasitas yang sesuai dengan data ruang kelas -->
-                                                <input type="text" class="form-control" id="inputCapacity" name="capacity" value="<?php echo $capacity; ?>">
+                                                <input type="text" class="form-control" id="inputCapacity"
+                                                    name="capacity" value="<?php echo $capacity; ?>">
                                             </div>
                                         </div>
                                         <!-- Hidden input for ClassroomId -->
                                         <input type="hidden" name="ClassroomId" value="<?php echo $classroomId; ?>">
-                                        <button name="ubah" type="submit" class="btn btn-primary tambah_btn">Simpan</button>
+                                        <button name="ubah" type="submit"
+                                            class="btn btn-primary tambah_btn">Simpan</button>
                                     </form>
                                 </div>
                             </div>
