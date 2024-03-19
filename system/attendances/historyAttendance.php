@@ -1,9 +1,8 @@
 <?php
-require_once("historyAttendanceFunction.php");
+    require_once("historyAttendanceFunction.php");
 ?>
 
 <?php require_once("../components/header.php"); ?>
-
 
 <body id="page-top">
 
@@ -12,7 +11,6 @@ require_once("historyAttendanceFunction.php");
 
         <!-- Sidebar -->
         <?php require_once("../components/sidebar.php"); ?>
-
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -28,99 +26,83 @@ require_once("historyAttendanceFunction.php");
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                <!-- Page Heading -->
-                <h1 class="h3 mb-4 text-gray-800">Histori Absensi</h1>
-                <div class="col-xl-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <form>
-                                <div class="form-group row">
-                                    <label for="inputAngkatan" class="col-xl-4 col-form-label">Tahun Angkatan</label>
-                                    <div class="col-xl-8">
-                                        <input type="text" class="form-control" id="inputAngkatan">
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-gray-800">Histori Absensi</h1>
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <form>
+                                    <div class="form-group row">
+                                        <label for="inputAngkatan" class="col-xl-4 col-form-label">Tahun Angkatan</label>
+                                        <div class="col-xl-8">
+                                            <input type="text" class="form-control" id="inputAngkatan">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputKodeMK" class="col-xl-4 col-form-label">Kode Mata Kuliah</label>
-                                    <div class="col-xl-8">
-                                        <input type="text" class="form-control" id="inputKodeMK">
+                                    <div class="form-group row">
+                                        <label for="inputKodeMK" class="col-xl-4 col-form-label">Kode Mata Kuliah</label>
+                                        <div class="col-xl-8">
+                                            <input type="text" class="form-control" id="inputKodeMK">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label for="inputTanggal" class="col-xl-4 col-form-label">Tanggal</label>
-                                    <div class="col-xl-8">
-                                        <input type="date" class="form-control" id="inputTanggal">
+                                    <div class="form-group row">
+                                        <label for="inputTanggal" class="col-xl-4 col-form-label">Tanggal</label>
+                                        <div class="col-xl-8">
+                                            <input type="date" class="form-control" id="inputTanggal">
+                                        </div>
                                     </div>
-                                </div>
-                                <button type="submit" class="btn btn-success tambah_btn">Cari</button>
-                            </form>
+                                    <button type="submit" class="btn btn-success tambah_btn">Cari</button>
+                                </form>
+                            </div>
+                            &nbsp;
                         </div>
-                        &nbsp;                            
                     </div>
-                    
-                </div>
 
-                &nbsp;
-                <!-- Tabel Histori Absensi -->
-                <table id="example" class="display cell-border " style="width:100%">
-                    <thead>
-                        <th>Tanggal</th>
-                        <th>Nama Mahasiswa</th>
-                        <th>Kode Mata Kuliah</th>
-                        <th>Mata Kuliah</th>
-                        <th>Ruang</th>
-                        <th>Jam Mulai</th>
-                        <th>Jam Absensi</th>
-                        <th>Status</th>
-                        <?php if ($role == "admin" || $role == "lecturer"): ?>
-                            <th>Aksi</th>
-                        <?php endif; ?>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($data['attendances'] as $attendances): ?>
-                            <tr>
-                                <td>
-                                    <?= ($attendances["Date"] == null) ? "-" : date("Y-m-d", strtotime($attendances["Date"])) ?>
-                                </td>
-                                <td>
-                                    <?= $attendances['Name'] ?>
-                                </td>
-                                <td>
-                                    <?= $attendances['Code'] ?>
-                                </td>
-                                <td>
-                                    <?= $attendances['ClassName'] ?>
-                                </td>
-                                <td>
-                                    <?= $attendances['Room'] ?>
-                                </td>
-                                <td>
-                                    <?= $attendances['DateTime'] ?>
-                                </td>
-                                <td>
-                                    <?= ($attendances['TimeIn'] == null) ? "-" : $attendances['TimeIn'] ?>
-                                </td>
-                                <td>
-                                    <?php if ($attendances["TimeIn"] !== null): ?>
-                                        <span class="badge badge-primary">Hadir</span>
-                                    <?php else: ?>
-                                        <span class="badge badge-danger">Tidak Hadir</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td style="display: flex; gap: 5px;">
-                                    <?php if ($role == "admin" || $role == "lecturer"): ?>
-                                        <form action="updateAttendance.php" method="post" style="display: inline-block;">
-                                            <button type="submit" name="edit" value="<?= $course["CourseId"]; ?>"
-                                                class="btn btn-info btn-sm" style="width: 90px">Edit</button>
-                                        </form>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.container-fluid -->
+                    &nbsp;
+                    <!-- Tabel Histori Absensi -->
+                    <table id="example" class="display cell-border " style="width:100%">
+                        <thead>
+                            <th>Id</th>
+                            <th>Tanggal</th>
+                            <th>Nama Mahasiswa</th>
+                            <th>Kode Mata Kuliah</th>
+                            <th>Mata Kuliah</th>
+                            <th>Ruang</th>
+                            <th>Jam Mulai</th>
+                            <th>Jam Absensi</th>
+                            <th>Status</th>
+                            <?php if ($role == "admin" || $role == "lecturer"): ?>
+                                <th>Aksi</th>
+                            <?php endif; ?>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($data['attendances'] as $attendances): ?>
+                                <tr>
+                                    <td><?= $attendances['StudentId'] ?></td>
+                                    <td><?= ($attendances["Date"] == null) ? "-" : date("Y-m-d", strtotime($attendances["Date"])) ?></td>
+                                    <td><?= $attendances['Name'] ?></td>
+                                    <td><?= $attendances['Code'] ?></td>
+                                    <td><?= $attendances['ClassName'] ?></td>
+                                    <td><?= $attendances['Room'] ?></td>
+                                    <td><?= $attendances['DateTime'] ?></td>
+                                    <td><?= ($attendances['TimeIn'] == null) ? "-" : $attendances['TimeIn'] ?></td>
+                                    <td>
+                                        <?php if ($attendances["TimeIn"] !== null): ?>
+                                            <span class="badge badge-primary">Hadir</span>
+                                        <?php else: ?>
+                                            <span class="badge badge-danger">Tidak Hadir</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td style="display: flex; gap: 5px;">
+                                        <?php if ($role == "admin" || $role == "lecturer"): ?>
+                                            <button type="button" class="btn btn-info btn-sm" style="width: 90px" onclick="editAttendance(<?= $attendances["StudentId"]; ?>, '<?= $attendances["Date"]; ?>', '<?= $attendances["Code"]; ?>')">Edit</button>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
@@ -128,7 +110,7 @@ require_once("historyAttendanceFunction.php");
             <!-- Footer -->
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
+                <div class="copyright text-center my-auto">
                         <span>Copyright &copy; Your Website 2020</span>
                     </div>
                 </div>
@@ -166,31 +148,42 @@ require_once("historyAttendanceFunction.php");
         </div>
     </div>
 
-
-
     <!-- Custom scripts for all pages-->
     <?php require_once("../components/js.php"); ?>
 
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script>
-    new DataTable('#example', {
-        columns: [
-                { data: 'tanggal' },
-                { data: 'kode_mk' },
-                { data: 'mata_kuliah' },
-                { data: 'tahun_angkatan' },
-                { data: 'ruang' },
-                { data: 'jam_mulai' },
-                { data: 'jam_selesai' },
-                { data: 'status' },
-                { data: 'aksi' }
-            ]
-    });
+        $(document).ready(function() {
+            $('#example').DataTable({
+                columns: [
+                    { data: 'id' },
+                    { data: 'tanggal' },
+                    { data: 'kode_mk' },
+                    { data: 'mata_kuliah' },
+                    { data: 'tahun_angkatan' },
+                    { data: 'ruang' },
+                    { data: 'jam_mulai' },
+                    { data: 'jam_selesai' },
+                    { data: 'status' },
+                    { data: 'aksi' }
+                ],
+                columnDefs: [
+                    {
+                        targets: [0], // Indeks kolom yang ingin disembunyikan
+                        visible: false
+                    }
+                ]
+            });
+        });
+
+        // Fungsi untuk menangani klik tombol "Edit" di tabel
+        function editAttendance(studentId, tanggal, kodeMataKuliah) {
+            // Kirim ID mahasiswa, tanggal, dan kode mata kuliah ke updateAttendance.php
+            window.location.href = "updateAttendance.php?StudentId=" + studentId + "&tanggal=" + tanggal + "&kodeMataKuliah=" + kodeMataKuliah;
+        }
+
     </script>
 
-
-
-
 </body>
-
 </html>
+
