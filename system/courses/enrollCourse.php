@@ -27,12 +27,9 @@ require_once ("enrollCourseFunction.php");
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-<<<<<<< HEAD
-                <!-- Page Heading -->
-                <h1 class="h3 mb-4 text-gray-800">Enroll Mata Kuliah</h1>
-=======
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Enroll Mata Kuliah</h1>
+
                     <div class="col-xl-6">
                         <div class="card">
                             <div class="card-body">
@@ -73,7 +70,7 @@ require_once ("enrollCourseFunction.php");
                     </div>
 
                     &nbsp;
->>>>>>> fc8125d341b48e40e497c676627b8bfa05ff6dc5
+
 
                     <!-- Tabel Mata Kuliah -->
                     <table id="example" class="display cell-border" style="width: 100%">
@@ -156,8 +153,8 @@ require_once ("enrollCourseFunction.php");
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
     <script>
-    new DataTable('#example', {
-        columns: [{
+        new DataTable('#example', {
+            columns: [{
                 data: 'kode_MK'
             }, {
                 data: 'kode_MK'
@@ -173,8 +170,8 @@ require_once ("enrollCourseFunction.php");
             {
                 data: 'aksi'
             }
-        ]
-    });
+            ]
+        });
     </script>
 
 </body>
