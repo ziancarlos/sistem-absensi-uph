@@ -1,9 +1,30 @@
 <?php
 require_once("updateCourseScheduleEditFunction.php");
+
+// Memeriksa apakah ScheduleId disertakan dalam URL
+if(isset($_GET['ScheduleId'])) {
+    $scheduleId = $_GET['ScheduleId'];
+
+    // Memanggil fungsi untuk mendapatkan detail jadwal mata kuliah berdasarkan ScheduleId
+    $scheduleData = getCourseScheduleById($scheduleId);
+
+    // Memeriksa apakah data jadwal ditemukan
+    if(!$scheduleData) {
+        echo "Data jadwal tidak ditemukan.";
+        exit;
+    }
+
+    // Assign data jadwal ke variabel
+    $kodeMataKuliah = $scheduleData['Code'];
+    $tanggalKuliah = $scheduleData['DateTime'];
+} else {
+    // Menangani kasus di mana parameter ScheduleId tidak ditemukan dalam URL
+    echo "Parameter ScheduleId tidak ditemukan dalam URL.";
+    exit;
+}
 ?>
 
 <?php require_once("../components/header.php"); ?>
-
 
 <body id="page-top">
 
@@ -34,24 +55,20 @@ require_once("updateCourseScheduleEditFunction.php");
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form method="post">
+                                <form method="post">
                                         <div class="form-group row">
                                             <label for="inputKodeMK" class="col-sm-3 col-form-label">Kode Mata Kuliah</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputKodeMK" name="kode"
-                                                    value="">
+                                                <input type="text" class="form-control" id="inputKodeMK" name="kode" value="<?php echo $kodeMataKuliah; ?>">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputTglKuliah" class="col-sm-3 col-form-label">Tanggal Kuliah</label>
                                             <div class="col-sm-9">
-                                                <input type="date" class="form-control" id="inputTglKuliah" name="tanggal_kuliah"
-                                                    value="">
+                                                <input type="datetime-local" class="form-control" id="inputTglKuliah" name="tanggal_kuliah" value="<?php echo $tanggalKuliah; ?>">
                                             </div>
                                         </div>
-                                        <button name="update" type="submit"
-                                            value=""
-                                            class="btn btn-primary tambah_btn">Simpan</button>
+                                        <button name="update" type="submit" class="btn btn-primary tambah_btn">Simpan</button>
                                     </form>
                                 </div>
                             </div>
@@ -106,9 +123,6 @@ require_once("updateCourseScheduleEditFunction.php");
     </div>
 
     <?php require_once("../components/js.php"); ?>
-
-
-
 
 </body>
 
