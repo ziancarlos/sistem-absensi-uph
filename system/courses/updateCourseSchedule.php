@@ -1,8 +1,8 @@
 <?php
-require_once("updateCourseScheduleFunction.php");
+require_once ("updateCourseScheduleFunction.php");
 ?>
 
-<?php require_once("../components/header.php"); ?>
+<?php require_once ("../components/header.php"); ?>
 
 
 <body id="page-top">
@@ -11,7 +11,7 @@ require_once("updateCourseScheduleFunction.php");
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php require_once("../components/sidebar.php"); ?>
+        <?php require_once ("../components/sidebar.php"); ?>
 
         <!-- End of Sidebar -->
 
@@ -22,78 +22,69 @@ require_once("updateCourseScheduleFunction.php");
             <div id="content">
 
                 <!-- Topbar -->
-                <?php require_once("../components/topbar.php"); ?>
+                <?php require_once ("../components/topbar.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                <!-- Page Heading -->
-                <h1 class="h3 mb-4 text-gray-800">Jadwal Mata Kuliah</h1>
-                <div class="col-xl-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <form>
-                                <div class="form-group row">
-                                    <label for="inputTglKuliah" class="col-xl-4 col-form-label">Waktu Kuliah</label>
-                                    <div class="col-xl-8">
-                                        <input type="datetime-local" class="form-control" id="inputTglKuliah"/>
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-4 text-gray-800">Jadwal Mata Kuliah</h1>
+                    <div class="col-xl-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <form method="post" action="addCourseScheduleFunction.php">
+                                    <div class="form-group row">
+                                        <label for="inputTglKuliah" class="col-xl-4 col-form-label">Waktu Kuliah</label>
+                                        <div class="col-xl-8">
+                                            <input type="datetime-local" class="form-control" id="inputTglKuliah"
+                                                name="schedule" />
+                                        </div>
                                     </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary tambah_btn">Tambah</button>
-                            </form>
+                                    <button type="submit" name="tambah" value="<?= $_GET["CourseId"] ?>"
+                                        class="btn btn-primary tambah_btn">Tambah</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                &nbsp;
+                    &nbsp;
 
-                <div class="col-xl-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <form>
-                                <!-- Tabel Mata Kuliah -->
-                                <table id="example" class="display cell-border" style="width: 100%">
-                                    <thead>
-                                        <tr>
-                                            <th>Kode Mata Kuliah</th>
-                                            <th>Mata Kuliah</th>
-                                            <th>Waktu Kuliah</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>SYS1</td>
-                                            <td>Struktur Data</td>
-                                            <td>2024-02-02 10:30:00</td>
-                                            <td style="display: flex; gap: 5px">
-                                                <a class="btn btn-success btn-sm" href="updateCourseScheduleEdit.php" style="width: 90px; color: white;">Edit</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>SYS1</td>
-                                            <td>Struktur Data</td>
-                                            <td>2024-02-02 10:30:00</td>
-                                            <td style="display: flex; gap: 5px">
-                                                <a class="btn btn-success btn-sm" href="updateCourseScheduleEdit.php" style="width: 90px; color: white;">Edit</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>SYS1</td>
-                                            <td>Struktur Data</td>
-                                            <td>2024-02-02 10:30:00</td>
-                                            <td style="display: flex; gap: 5px">
-                                                <a class="btn btn-success btn-sm" href="updateCourseScheduleEdit.php" style="width: 90px; color: white;">Edit</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <br>
-                                <button type="submit" class="btn btn-primary tambah_btn">Simpan</button>
-                            </form>
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <form>
+                                    <!-- Tabel Mata Kuliah -->
+                                    <table id="example" class="display cell-border" style="width: 100%">
+                                        <thead>
+                                            <tr>
+                                                <th>ID Jadwal</th>
+                                                <th>Waktu Kuliah</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($data["schedules"] as $schedule): ?>
+                                                <tr>
+                                                    <td>
+                                                        <?= $schedule["ScheduleId"] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $schedule["DateTime"] ?>
+                                                    </td>
+                                                    <td style="display: flex; gap: 5px">
+                                                        <a class="btn btn-success btn-sm"
+                                                            href="updateCourseScheduleEdit.php"
+                                                            style="width: 90px; color: white;">Edit</a>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                    <br>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -142,7 +133,7 @@ require_once("updateCourseScheduleFunction.php");
         </div>
     </div>
 
-    <?php require_once("../components/js.php"); ?>
+    <?php require_once ("../components/js.php"); ?>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
     <script>
@@ -153,11 +144,7 @@ require_once("updateCourseScheduleFunction.php");
                 data: 'mata_kuliah'
             }, {
                 data: 'waktu_kuliah'
-            },
-            {
-                data: 'aksi'
-            },
-            ]
+            }]
         });
     </script>
 
