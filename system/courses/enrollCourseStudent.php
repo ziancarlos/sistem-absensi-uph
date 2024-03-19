@@ -65,33 +65,39 @@ require_once ("enrollCourseStudentFunction.php");
                             </tr>
                         </thead>
                         <tbody>
+                            <?php foreach ($data["students"] as $student): ?>
                             <tr>
-                                <td>01081210007</td>
-                                <td>Nathania Michaela Lisandi</td>
-                                <td>2021</td>
+                                <td>
+                                    <?= $student["StudentId"] ?>
+                                </td>
+                                <td>
+                                    <?= $student["Name"] ?>
+                                </td>
+                                <td>
+                                    <?= $student["YearIn"] ?>
+                                </td>
+
+                                <?php if ($student["EnrollmentStatus"] == 1): ?>
+
+                                <td style="display: flex; gap: 5px">
+                                    <form action="activateCourseFunction.php" method="post"
+                                        style="display: inline-block;">
+                                        <button type="submit" name="activate" value="<?= $course["CourseId"]; ?>"
+                                            class="btn btn-success btn-sm" style="width: 90px">Aktif</button>
+                                    </form>
+                                    <a class="btn btn-danger btn-sm" href="unenrollFunctionActivate.php"
+                                        style="width: 90px; color: white;">Unenroll</a>
+                                </td>
+                                <?php else: ?>
+
                                 <td style="display: flex; gap: 5px">
                                     <a class="btn btn-warning btn-sm" href="enrollFunctionActivate.php"
                                         style="width: 90px; color: white;">Enroll</a>
                                 </td>
+                                <?php endif; ?>
+
                             </tr>
-                            <tr>
-                                <td>01081210012</td>
-                                <td>Kelvin</td>
-                                <td>2021</td>
-                                <td style="display: flex; gap: 5px">
-                                    <a class="btn btn-warning btn-sm" href="enrollFunctionActivate.php"
-                                        style="width: 90px; color: white;">Enroll</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>01081210013</td>
-                                <td>Zian Carlos Wong</td>
-                                <td>2021</td>
-                                <td style="display: flex; gap: 5px">
-                                    <a class="btn btn-danger btn-sm" href="enrollFunctionDeactivate.php"
-                                        style="width: 90px; color: white;">Nonaktif</a>
-                                </td>
-                            </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                     <br>
@@ -147,8 +153,8 @@ require_once ("enrollCourseStudentFunction.php");
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
     <script>
-        new DataTable('#example', {
-            columns: [{
+    new DataTable('#example', {
+        columns: [{
                 data: 'kode_MK'
             }, {
                 data: 'mata_kuliah'
@@ -158,8 +164,8 @@ require_once ("enrollCourseStudentFunction.php");
             {
                 data: 'aksi'
             }
-            ]
-        });
+        ]
+    });
     </script>
 
 </body>
