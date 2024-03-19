@@ -71,7 +71,7 @@ function addCourseScheduleController()
 
         // Redirect with success message
         $_SESSION["success"] = "Jadwal berhasil ditambahkan.";
-        header("location: dataCourse.php");
+        header("location: updateCourseSchedule.php?CourseId={$courseId}");
         exit;
     } catch (PDOException $e) {
         // Handle query execution errors
