@@ -32,21 +32,21 @@ require_once ("enrollCourseStudentFunction.php");
                     <div class="col-xl-6">
                         <div class="card">
                             <div class="card-body">
-                                <form action="enrollCourseStudent.php" method="get">
-                                    <input type="hidden" name="CourseId" value="<?= $_GET['CourseId']; ?>">
+                                <form>
                                     <div class="form-group row">
-                                        <label for="inputTahunAkt" class="col-xl-4 col-form-label">Tahun Angkatan</label>
+                                        <label for="inputTahunAkt" class="col-xl-4 col-form-label">Tahun
+                                            Angkatan</label>
                                         <div class="col-xl-8">
-                                            <input type="number" class="form-control" id="inputTahunAkt" name="tahunAngkatan" />
+                                            <input type="number" class="form-control" id="inputTahunAkt" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="inputNamaMhs" class="col-xl-4 col-form-label">Nama Mahasiswa</label>
                                         <div class="col-xl-8">
-                                            <input type="text" class="form-control" id="inputNamaMhs" name="namaMahasiswa" />
+                                            <input type="text" class="form-control" id="inputNamaMhs" />
                                         </div>
                                     </div>
-                                    <button type="submit" class="btn btn-success tambah_btn" id="btnCari">Cari</button>
+                                    <button type="submit" class="btn btn-success tambah_btn">Cari</button>
                                 </form>
                             </div>
                         </div>
@@ -80,18 +80,16 @@ require_once ("enrollCourseStudentFunction.php");
                                 <?php if ($student["EnrollmentStatus"] == 1): ?>
 
                                 <td style="display: flex; gap: 5px">
-                                    <form action="activateCourseFunction.php" method="post"
-                                        style="display: inline-block;">
-                                        <button type="submit" name="activate" value="<?= $course["CourseId"]; ?>"
-                                            class="btn btn-success btn-sm" style="width: 90px">Aktif</button>
-                                    </form>
-                                    <a class="btn btn-danger btn-sm" href="unenrollFunctionActivate.php"
+
+                                    <a class="btn btn-danger btn-sm"
+                                        href="unenrollFunction.php?enrollmentId=<?= $student["EnrollmentId"] ?>"
                                         style="width: 90px; color: white;">Unenroll</a>
                                 </td>
                                 <?php else: ?>
 
                                 <td style="display: flex; gap: 5px">
-                                    <a class="btn btn-warning btn-sm" href="enrollFunctionActivate.php"
+                                    <a class="btn btn-warning btn-sm"
+                                        href="enrollFunction.php?StudentId=<?= $student["StudentId"] ?>&CourseId=<?= $_GET["CourseId"] ?>"
                                         style="width: 90px; color: white;">Enroll</a>
                                 </td>
                                 <?php endif; ?>

@@ -11,8 +11,8 @@ if (!authorization($permittedRole, $_SESSION["UserId"])) {
 
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET["CourseId"])) {
-    if (isset($_GET['tahunAngkatan']) || isset($_GET['namaMahasiswa'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset ($_GET["CourseId"])) {
+    if (isset ($_GET['tahunAngkatan']) || isset ($_GET['namaMahasiswa'])) {
         searchStudents();
     } else {
         enrollCourseStudentView();
@@ -58,7 +58,7 @@ function enrollCourseStudentView()
         }
 
         // Prepare SQL query to retrieve students and their enrollment status for the course
-        $sql = "SELECT u.Name, u.StudentId, s.YearIn, 
+        $sql = "SELECT u.Name, u.StudentId, s.YearIn, e.EnrollmentId, 
         CASE WHEN e.StudentId IS NOT NULL THEN 1 ELSE 0 END AS EnrollmentStatus
         FROM users u
         LEFT JOIN students s ON u.StudentId = s.StudentId
@@ -105,11 +105,11 @@ function searchStudents()
                 LEFT JOIN enrollments e ON u.StudentId = e.StudentId AND e.CourseId = :courseId
                 WHERE u.role = 0";
 
-        if (!empty($tahunAngkatan)) {
+        if (!empty ($tahunAngkatan)) {
             $sql .= " AND s.YearIn = :tahunAngkatan";
         }
 
-        if (!empty($namaMahasiswa)) {
+        if (!empty ($namaMahasiswa)) {
             $sql .= " AND u.Name LIKE :namaMahasiswa";
         }
 
@@ -117,11 +117,11 @@ function searchStudents()
         $stmt = $connection->prepare($sql);
         $stmt->bindParam(':courseId', $courseId);
 
-        if (!empty($tahunAngkatan)) {
+        if (!empty ($tahunAngkatan)) {
             $stmt->bindParam(':tahunAngkatan', $tahunAngkatan);
         }
 
-        if (!empty($namaMahasiswa)) {
+        if (!empty ($namaMahasiswa)) {
             $namaMahasiswa = "%$namaMahasiswa%"; // Add wildcard for partial match
             $stmt->bindParam(':namaMahasiswa', $namaMahasiswa);
         }
