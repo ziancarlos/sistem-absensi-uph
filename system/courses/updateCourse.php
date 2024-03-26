@@ -73,6 +73,19 @@ require_once("updateCourseFunction.php");
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="form-group row">
+                                            <label for="inputLecturers" class="col-sm-3 col-form-label">Dosen</label>
+                                            <div class="col-sm-9">
+                                                <?php foreach ($data["lecturers"] as $lecturer): ?>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" name="lecturers[]" value="<?= $lecturer['LecturerId'] ?>" <?php if (in_array($lecturer['LecturerId'], $data['selectedLecturers'])) echo 'checked'; ?>>
+                                                        <div class="col-sm-9">
+                                                            <label class="form-check-label-control"><?= $lecturer['Name'] ?></label>
+                                                        </div>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                            </div>
+                                        </div>
 
                                         <button name="update" type="submit"
                                             value="<?= $data["courseDetail"]["CourseId"] ?>"
