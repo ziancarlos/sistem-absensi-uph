@@ -130,10 +130,12 @@ require_once ("dataCourseFunction.php");
                                                         class="btn btn-success btn-sm" style="width: 90px">Aktif</button>
                                                 </form>
                                             <?php endif; ?>
+                                            <?php if ($course["SchedulingStatus"] == 0): ?>
 
-                                            <a class="btn btn-warning btn-sm"
-                                                href="enrollCourseStudent.php?CourseId=<?= $course["CourseId"]; ?>"
-                                                style=" width: 90px">Enroll</a>
+                                                <a class="btn btn-warning btn-sm"
+                                                    href="enrollCourseStudent.php?CourseId=<?= $course["CourseId"]; ?>"
+                                                    style=" width: 90px">Enroll</a>
+                                            <?php endif; ?>
                                         <?php endif; ?>
                                     </td>
                                 </tr>

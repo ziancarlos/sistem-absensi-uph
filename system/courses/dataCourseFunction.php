@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("../../helper/dbHelper.php");
-require_once("../../helper/authHelper.php");
+require_once ("../../helper/dbHelper.php");
+require_once ("../../helper/authHelper.php");
 $permittedRole = ["lecturer", "admin", "student"];
 $pageName = "Sistem Absensi UPH - Data Mahasiswa";
 $data = [];
@@ -23,13 +23,25 @@ function dataCourseView()
     if ($userRole === "admin") {
         // If user is an admin, retrieve all courses
         try {
-            $stmt = $connection->prepare("
-                SELECT courses.CourseId, courses.Name, courses.Code, courses.StartDate, 
-                       courses.EndDate, CONCAT(buildings.Letter, classrooms.Code) AS Room, 
-                       courses.Status AS CoursesStatus
-                FROM courses
-                INNER JOIN classrooms ON courses.ClassroomId = classrooms.ClassroomId
-                INNER JOIN buildings ON classrooms.BuildingId = buildings.BuildingId
+            $stmt = $connection->prepare("SELECT DISTINCT
+            courses.CourseId, 
+            courses.Name, 
+            courses.Code, 
+            courses.StartDate, 
+            courses.EndDate, 
+            CONCAT(buildings.Letter, classrooms.Code) AS Room, 
+            courses.Status AS CoursesStatus,
+            CASE WHEN schedules.CourseId IS NOT NULL THEN 1 ELSE 0 END AS SchedulingStatus
+        FROM 
+            courses
+        INNER JOIN 
+            classrooms ON courses.ClassroomId = classrooms.ClassroomId
+        INNER JOIN 
+            buildings ON classrooms.BuildingId = buildings.BuildingId
+        LEFT JOIN 
+            schedules ON courses.CourseId = schedules.CourseId
+        
+        
             ");
             $stmt->execute();
             $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);

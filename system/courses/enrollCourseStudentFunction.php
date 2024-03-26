@@ -57,6 +57,23 @@ function enrollCourseStudentView()
             exit;
         }
 
+        // Check if there are schedules for the given courseId
+        $sql_check_schedule = "SELECT * FROM schedules WHERE CourseId = :courseId";
+        $stmt_check_schedule = $connection->prepare($sql_check_schedule);
+        $stmt_check_schedule->bindParam(':courseId', $courseId);
+        $stmt_check_schedule->execute();
+
+        // Fetch the result
+        $schedule = $stmt_check_schedule->fetch(PDO::FETCH_ASSOC);
+
+        // Check if schedule exists
+        if ($schedule) {
+            // Redirect and send Indonesian error message
+            $_SESSION["error"] = "Anda tidak dapat mengedit pendaftaran jika jadwal telah dibuat.";
+            header("location: dataCourse.php");
+            exit;
+        }
+
         // Prepare SQL query to retrieve students and their enrollment status for the course
         $sql = "SELECT u.Name, u.StudentId, s.YearIn, e.EnrollmentId, 
         CASE WHEN e.StudentId IS NOT NULL THEN 1 ELSE 0 END AS EnrollmentStatus
@@ -64,8 +81,6 @@ function enrollCourseStudentView()
         LEFT JOIN students s ON u.StudentId = s.StudentId
         LEFT JOIN enrollments e ON u.StudentId = e.StudentId AND e.CourseId = :courseId
         WHERE u.role = 0";
-
-
 
         // Prepare and execute the query
         $stmt = $connection->prepare($sql);
