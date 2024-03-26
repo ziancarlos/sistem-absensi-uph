@@ -82,9 +82,6 @@ function updateAttendanceController()
     }
 }
 
-
-
-
 function getAttendanceByStudentIdAndDateAndCourseCode($studentId, $date, $courseCode)
 {
     try {
@@ -94,7 +91,7 @@ function getAttendanceByStudentIdAndDateAndCourseCode($studentId, $date, $course
         // Query untuk mengambil data absensi berdasarkan StudentId, Date, dan CourseCode
         $stmt = $connection->prepare("
             SELECT 
-            DATE(attendances.FingerprintTimeIn) AS Date, 
+            DATE_FORMAT(schedules.DateTime, '%Y-%m-%d') AS Date, 
             users.Name, 
             courses.Code, 
             courses.Name AS ClassName, 
@@ -108,7 +105,7 @@ function getAttendanceByStudentIdAndDateAndCourseCode($studentId, $date, $course
             INNER JOIN 
                 students ON attendances.StudentId = students.StudentId 
             INNER JOIN 
-                users ON students.StudentId = users.UserId 
+                users ON students.StudentId = users.StudentId 
             INNER JOIN 
                 schedules ON attendances.ScheduleId = schedules.ScheduleId 
             INNER JOIN 
@@ -116,10 +113,10 @@ function getAttendanceByStudentIdAndDateAndCourseCode($studentId, $date, $course
             INNER JOIN 
                 classrooms ON courses.ClassroomId = classrooms.ClassroomId 
             INNER JOIN 
-                buildings ON classrooms.BuildingId = buildings.BuildingId;
+                buildings ON classrooms.BuildingId = buildings.BuildingId
             WHERE 
                 attendances.StudentId = :studentId 
-                AND DATE(attendances.FingerprintTimeIn) = :date 
+                AND DATE_FORMAT(schedules.DateTime, '%Y-%m-%d') = :date 
                 AND courses.Code = :courseCode
         ");
         $stmt->bindParam(':studentId', $studentId);
