@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once ("../../helper/dbHelper.php");
-require_once ("../../helper/authHelper.php");
+require_once("../../helper/dbHelper.php");
+require_once("../../helper/authHelper.php");
 $permittedRole = ["lecturer", "admin"];
 $pageName = "Sistem Absensi UPH - Edit Mahasiswa";
 $data = [];
@@ -9,12 +9,11 @@ if (!authorization($permittedRole, $_SESSION["UserId"])) {
     header('location: ../auth/logout.php');
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_POST["edit"])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["edit"])) {
     updateCourseView();
-
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_POST["update"])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["update"])) {
     updateCourseController();
 }
 
@@ -26,9 +25,10 @@ function updateCourseController()
     $courseName = htmlspecialchars($_POST["name"]);
     $courseCode = htmlspecialchars($_POST["kode"]);
     $classroomId = htmlspecialchars($_POST["ruang"]);
+    $selectedLecturers = isset($_POST["lecturers"]) ? $_POST["lecturers"] : [];
 
     // Validate input
-    if (empty ($courseName) || empty ($courseCode) || empty ($classroomId)) {
+    if (empty($courseName) || empty($courseCode) || empty($classroomId)) {
         $_SESSION["error"] = "Error: Semua kolom harus diisi";
         header('location: dataCourse.php');
         exit;
@@ -59,40 +59,51 @@ function updateCourseController()
 
     try {
         $connection = getConnection();
-        // Check for changes in course data
-        $stmt_check = $connection->prepare("
-            SELECT Name, Code, ClassroomId
-            FROM courses
-            WHERE CourseId = :courseId;
-        ");
-        $stmt_check->bindParam(':courseId', $courseId);
-        $stmt_check->execute();
-        $currentData = $stmt_check->fetch(PDO::FETCH_ASSOC);
-
-        if ($currentData['Name'] === $courseName && $currentData['Code'] === $courseCode && $currentData['ClassroomId'] == $classroomId) {
-            $_SESSION["error"] = "Error: Tidak ada perubahan dalam data Mata Kuliah";
-            header('location: dataCourse.php');
-            exit;
-        }
-
-
+        
+        // Begin a transaction
+        $connection->beginTransaction();
+    
         // Update course information
-        $stmt_update = $connection->prepare("
+        $stmt_update_course = $connection->prepare("
             UPDATE courses
             SET Name = :name, Code = :code, ClassroomId = :classroomId
             WHERE CourseId = :courseId;
         ");
-        $stmt_update->bindParam(':name', $courseName);
-        $stmt_update->bindParam(':code', $courseCode);
-        $stmt_update->bindParam(':classroomId', $classroomId);
-        $stmt_update->bindParam(':courseId', $courseId);
-        $stmt_update->execute();
-
+        $stmt_update_course->bindParam(':name', $courseName);
+        $stmt_update_course->bindParam(':code', $courseCode);
+        $stmt_update_course->bindParam(':classroomId', $classroomId);
+        $stmt_update_course->bindParam(':courseId', $courseId);
+        $stmt_update_course->execute();
+    
+        // Remove existing lecturer-course relationships
+        $stmt_delete_relationships = $connection->prepare("
+            DELETE FROM lecturerhascourses
+            WHERE CourseId = :courseId;
+        ");
+        $stmt_delete_relationships->bindParam(':courseId', $courseId);
+        $stmt_delete_relationships->execute();
+    
+        // Insert new lecturer-course relationships
+        foreach ($selectedLecturers as $lecturerId) {
+            $stmt_insert_relationship = $connection->prepare("
+                INSERT INTO lecturerhascourses (LecturerId, CourseId)
+                VALUES (:lecturerId, :courseId);
+            ");
+            $stmt_insert_relationship->bindParam(':lecturerId', $lecturerId);
+            $stmt_insert_relationship->bindParam(':courseId', $courseId);
+            $stmt_insert_relationship->execute();
+        }
+    
+        // Commit the transaction
+        $connection->commit();
+    
         // Redirect to the course list page after successful update
         $_SESSION["success"] = "Sukses mengubah mata kuliah.";
         header('location: dataCourse.php');
         exit;
     } catch (Exception $e) {
+        // Rollback the transaction in case of error
+        $connection->rollBack();
         $_SESSION["error"] = "Terjadi kesalahan saat memperbarui data Mata Kuliah.";
         header('location: dataCourse.php'); // Redirect back to the edit page with an error message
     } finally {
@@ -137,7 +148,30 @@ function updateCourseView()
         // Memasukkan informasi ruang kelas ke dalam array data
         $data['classrooms'] = $classrooms;
 
+        // Mengambil semua dosen
+        $stmt_lecturers = $connection->prepare("
+            SELECT users.UserId as LecturerId, users.Name
+            FROM users
+            WHERE users.Role = '1';
+        ");
+        $stmt_lecturers->execute();
+        $lecturers = $stmt_lecturers->fetchAll(PDO::FETCH_ASSOC);
 
+        // Memasukkan informasi dosen ke dalam array data
+        $data['lecturers'] = $lecturers;
+
+        // Mendapatkan dosen yang terpilih untuk mata kuliah ini
+        $stmt_selected_lecturers = $connection->prepare("
+            SELECT LecturerId
+            FROM lecturerhascourses
+            WHERE CourseId = :courseId;
+        ");
+        $stmt_selected_lecturers->bindParam(':courseId', $courseId);
+        $stmt_selected_lecturers->execute();
+        $selectedLecturers = $stmt_selected_lecturers->fetchAll(PDO::FETCH_COLUMN);
+
+        // Memasukkan dosen terpilih ke dalam array data
+        $data['selectedLecturers'] = $selectedLecturers;
     } catch (Exception $e) {
         $_SESSION["error"] = "Terjadi kesalahan saat memproses permintaan.";
         return;
@@ -147,6 +181,4 @@ function updateCourseView()
             $connection = null;
         }
     }
-
-
 }
