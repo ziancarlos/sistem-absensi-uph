@@ -86,7 +86,7 @@
                                     <td><?= $attendances['DateTime'] ?></td>
                                     <td><?= ($attendances['TimeIn'] == null) ? "-" : $attendances['TimeIn'] ?></td>
                                     <td>
-                                        <?php if ($attendances["TimeIn"] !== null): ?>
+                                        <?php if ($attendances["Status"] == "1"): ?>
                                             <span class="badge badge-primary">Hadir</span>
                                         <?php else: ?>
                                             <span class="badge badge-danger">Tidak Hadir</span>
