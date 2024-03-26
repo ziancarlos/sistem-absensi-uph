@@ -27,7 +27,8 @@ function dataAttendanceView()
             CONCAT(buildings.Letter, classrooms.Code) AS Room, 
             DATE_FORMAT(schedules.DateTime, '%H:%i:%s') AS DateTime, 
             DATE_FORMAT(attendances.FingerprintTimeIn, '%H:%i:%s') AS TimeIn,
-            attendances.StudentId 
+            attendances.StudentId,
+            attendances.Status 
         FROM 
             attendances 
         INNER JOIN 
