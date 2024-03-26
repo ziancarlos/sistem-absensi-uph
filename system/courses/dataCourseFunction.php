@@ -23,15 +23,15 @@ function dataCourseView()
     if ($userRole === "admin") {
         // If user is an admin, retrieve all courses
         try {
-            $stmt = $connection->prepare("SELECT DISTINCT
+            $stmt = $connection->prepare("SELECT 
             courses.CourseId, 
             courses.Name, 
             courses.Code, 
-            courses.StartDate, 
-            courses.EndDate, 
             CONCAT(buildings.Letter, classrooms.Code) AS Room, 
             courses.Status AS CoursesStatus,
-            CASE WHEN schedules.CourseId IS NOT NULL THEN 1 ELSE 0 END AS SchedulingStatus
+            CASE WHEN schedules.CourseId IS NOT NULL THEN 1 ELSE 0 END AS SchedulingStatus,
+            MIN(schedules.DateTime) AS EarliestSchedule,
+            MAX(schedules.DateTime) AS LatestSchedule
         FROM 
             courses
         INNER JOIN 
@@ -40,7 +40,12 @@ function dataCourseView()
             buildings ON classrooms.BuildingId = buildings.BuildingId
         LEFT JOIN 
             schedules ON courses.CourseId = schedules.CourseId
-        
+        GROUP BY
+            courses.CourseId, 
+            courses.Name, 
+            courses.Code, 
+            CONCAT(buildings.Letter, classrooms.Code),
+            courses.Status;
         
             ");
             $stmt->execute();
@@ -56,15 +61,33 @@ function dataCourseView()
     } elseif ($userRole === "lecturer") {
         // If user is a lecturer, retrieve courses taught by the lecturer
         try {
-            $stmt = $connection->prepare("
-                SELECT courses.CourseId, courses.Name, courses.Code, courses.StartDate, 
-                       courses.EndDate, CONCAT(buildings.Letter, classrooms.Code) AS Room, 
-                       courses.Status AS CoursesStatus
-                FROM courses
-                INNER JOIN classrooms ON courses.ClassroomId = classrooms.ClassroomId
-                INNER JOIN buildings ON classrooms.BuildingId = buildings.BuildingId
-                INNER JOIN lecturerhascourses ON courses.CourseId = lecturerhascourses.CourseId
-                WHERE lecturerhascourses.LecturerId = ?
+            $stmt = $connection->prepare("SELECT 
+            courses.CourseId, 
+            courses.Name, 
+            courses.Code, 
+            CONCAT(buildings.Letter, classrooms.Code) AS Room, 
+            courses.Status AS CoursesStatus,
+            MIN(schedules.DateTime) AS EarliestSchedule,
+            MAX(schedules.DateTime) AS LatestSchedule
+        FROM 
+            courses
+        INNER JOIN 
+            classrooms ON courses.ClassroomId = classrooms.ClassroomId
+        INNER JOIN 
+            buildings ON classrooms.BuildingId = buildings.BuildingId
+        INNER JOIN 
+            lecturerhascourses ON courses.CourseId = lecturerhascourses.CourseId
+        LEFT JOIN 
+            schedules ON courses.CourseId = schedules.CourseId
+        WHERE 
+            lecturerhascourses.LecturerId = ?
+        GROUP BY 
+            courses.CourseId, 
+            courses.Name, 
+            courses.Code, 
+            CONCAT(buildings.Letter, classrooms.Code),
+            courses.Status;
+        
             ");
             $stmt->execute([$userId]);
             $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -80,15 +103,35 @@ function dataCourseView()
         // If user is a student, retrieve courses enrolled by the student
         try {
             $stmt = $connection->prepare("
-                SELECT courses.CourseId, courses.Name, courses.Code, courses.StartDate, 
-                       courses.EndDate, CONCAT(buildings.Letter, classrooms.Code) AS Room, 
-                       enrollments.Status AS EnrollmentStatus
-                FROM courses
-                INNER JOIN classrooms ON courses.ClassroomId = classrooms.ClassroomId
-                INNER JOIN buildings ON classrooms.BuildingId = buildings.BuildingId
-                INNER JOIN enrollments ON courses.CourseId = enrollments.CourseId
-                INNER JOIN users ON enrollments.StudentId = users.StudentId
-                WHERE users.UserId = ?
+            SELECT 
+            courses.CourseId, 
+            courses.Name, 
+            courses.Code, 
+            CONCAT(buildings.Letter, classrooms.Code) AS Room, 
+            enrollments.Status AS EnrollmentStatus,
+            MIN(schedules.DateTime) AS EarliestSchedule,
+            MAX(schedules.DateTime) AS LatestSchedule
+        FROM 
+            courses
+        INNER JOIN 
+            classrooms ON courses.ClassroomId = classrooms.ClassroomId
+        INNER JOIN 
+            buildings ON classrooms.BuildingId = buildings.BuildingId
+        INNER JOIN 
+            enrollments ON courses.CourseId = enrollments.CourseId
+        INNER JOIN 
+            users ON enrollments.StudentId = users.StudentId
+        LEFT JOIN 
+            schedules ON courses.CourseId = schedules.CourseId
+        WHERE 
+            users.UserId = ?
+        GROUP BY 
+            courses.CourseId, 
+            courses.Name, 
+            courses.Code, 
+            CONCAT(buildings.Letter, classrooms.Code),
+            enrollments.Status;
+        
             ");
             $stmt->execute([$userId]);
             $courses = $stmt->fetchAll(PDO::FETCH_ASSOC);

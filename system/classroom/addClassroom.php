@@ -1,38 +1,32 @@
 <?php
-    require_once("addClassroomFunction.php");
-    // Memanggil fungsi getBuildings() untuk mendapatkan data bangunan
-    $buildings = getBuildings();
+require_once ("addClassroomFunction.php");
+// Memanggil fungsi getBuildings() untuk mendapatkan data bangunan
+$buildings = getBuildings();
 
-    // Periksa apakah data bangunan berhasil diambil
-    if (!$buildings) {
-        // Tangani kesalahan jika gagal mengambil data bangunan
-        // Misalnya, tampilkan pesan kesalahan atau arahkan pengguna ke halaman lain
-        echo "Error fetching buildings data. Please try again later.";
+
+?>
+
+<?php
+if (isset ($_POST['add'])) {
+    // Memastikan data yang diterima sesuai
+    if (isset ($_POST['kodeGedung'], $_POST['nomorRuang'], $_POST['kapasitas'])) {
+        $buildingId = $_POST['kodeGedung'];
+        $roomNumber = $_POST['nomorRuang'];
+        $capacity = $_POST['kapasitas'];
+
+        // Memanggil fungsi untuk menambahkan ruang kuliah ke database
+        addClassroom($buildingId, $roomNumber, $capacity);
+    } else {
+        // Menangani kesalahan jika data tidak lengkap
+        $_SESSION["error"] = "Semua field harus diisi";
+        header("location: addClassroom.php");
         exit;
     }
+}
+
 ?>
 
-<?php 
-    if (isset($_POST['add'])) {
-        // Memastikan data yang diterima sesuai
-        if (isset($_POST['kodeGedung'], $_POST['nomorRuang'], $_POST['kapasitas'])) {
-            $buildingId = $_POST['kodeGedung'];
-            $roomNumber = $_POST['nomorRuang'];
-            $capacity = $_POST['kapasitas'];
-    
-            // Memanggil fungsi untuk menambahkan ruang kuliah ke database
-            addClassroom($buildingId, $roomNumber, $capacity);
-        } else {
-            // Menangani kesalahan jika data tidak lengkap
-            $_SESSION["error"] = "Semua field harus diisi";
-            header("location: addClassroom.php");
-            exit;
-        }
-    }
-    
-?>
-
-<?php require_once("../components/header.php"); ?>
+<?php require_once ("../components/header.php"); ?>
 
 
 <body id="page-top">
@@ -41,7 +35,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php require_once("../components/sidebar.php"); ?>
+        <?php require_once ("../components/sidebar.php"); ?>
 
         <!-- End of Sidebar -->
 
@@ -52,7 +46,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                <?php require_once("../components/topbar.php"); ?>
+                <?php require_once ("../components/topbar.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -64,10 +58,11 @@
                         <div class="row">
                             <div class="col-xl-6">
                                 <div class="card">
-                                    <div class="card-body">                                    
+                                    <div class="card-body">
                                         <form method="post">
                                             <div class="form-group row">
-                                                <label for="inputKodeGedung" class="col-sm-3 col-form-label">Kode Gedung</label>
+                                                <label for="inputKodeGedung" class="col-sm-3 col-form-label">Kode
+                                                    Gedung</label>
                                                 <div class="col-sm-9">
                                                     <select class="custom-select" name="kodeGedung">
                                                         <option selected>Pilih Kode</option>
@@ -80,21 +75,26 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="inputKodeRuangKuliah" class="col-sm-3 col-form-label">Nomor Ruang</label>
+                                                <label for="inputKodeRuangKuliah" class="col-sm-3 col-form-label">Nomor
+                                                    Ruang</label>
                                                 <div class="col-sm-9">
-                                                    <input type="number" class="form-control" id="inputKodeRuangKuliah" name="nomorRuang">
+                                                    <input type="number" class="form-control" id="inputKodeRuangKuliah"
+                                                        name="nomorRuang">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="inputKapasitas" class="col-sm-3 col-form-label">Kapasitas</label>
+                                                <label for="inputKapasitas"
+                                                    class="col-sm-3 col-form-label">Kapasitas</label>
                                                 <div class="col-sm-9">
-                                                    <input type="number" class="form-control" id="inputKapasitas" name="kapasitas">
+                                                    <input type="number" class="form-control" id="inputKapasitas"
+                                                        name="kapasitas">
                                                 </div>
                                             </div>
-                                            <button name="add" type="submit" class="btn btn-primary tambah_btn">Simpan</button>
+                                            <button name="add" type="submit"
+                                                class="btn btn-primary tambah_btn">Simpan</button>
                                         </form>
                                     </div>
-                                    &nbsp;                            
+                                    &nbsp;
                                 </div>
                             </div>
                         </div>
@@ -113,20 +113,27 @@
                         <tbody>
                             <?php foreach ($data as $class): ?>
                                 <tr>
-                                    <td><?= $class["ClassroomId"] ?></td>
-                                    <td><?= $class["Room"] ?></td>
-                                    <td><?= $class["Capacity"] ?></td>
+                                    <td>
+                                        <?= $class["ClassroomId"] ?>
+                                    </td>
+                                    <td>
+                                        <?= $class["Room"] ?>
+                                    </td>
+                                    <td>
+                                        <?= $class["Capacity"] ?>
+                                    </td>
                                     <td>
                                         <!-- Tambahkan tombol "Edit" dengan mengirimkan ID ruang kuliah ke fungsi JavaScript -->
-                                        <button class="btn btn-success btn-sm" style="width: 90px" onclick="editClassroom(<?= $class["ClassroomId"]; ?>)">Edit</button>
+                                        <button class="btn btn-success btn-sm" style="width: 90px"
+                                            onclick="editClassroom(<?= $class["ClassroomId"]; ?>)">Edit</button>
                                     </td>
 
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                    &nbsp;   
-                </div>                
+                    &nbsp;
+                </div>
                 <!-- /.container-fluid -->
 
             </div>
@@ -173,13 +180,13 @@
         </div>
     </div>
 
-    <?php require_once("../components/js.php"); ?>
+    <?php require_once ("../components/js.php"); ?>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script>
         new DataTable('#example', {
             columns: [{
                 data: 'id'
-            },{
+            }, {
                 data: 'ruang'
             }, {
                 data: 'kapasitas'
