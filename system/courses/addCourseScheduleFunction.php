@@ -27,6 +27,14 @@ function addCourseScheduleController()
     $courseId = htmlspecialchars($_POST["tambah"]);
     $schedule = htmlspecialchars($_POST["schedule"]);
 
+    // Validate if the schedule is greater than today's date
+    $today = date('Y-m-d');
+    if ($schedule <= $today) {
+        $_SESSION["error"] = "Jadwal harus diatur di masa depan.";
+        header("location: dataCourse.php");
+        exit;
+    }
+
     // Calculate the end time by adding 1 hour and 30 minutes to the schedule time
     $endTime = date('Y-m-d H:i:s', strtotime($schedule . ' + 90 minutes'));
 
@@ -57,23 +65,47 @@ function addCourseScheduleController()
             exit;
         }
 
+        // Start a transaction
+        $connection->beginTransaction();
+
         // SQL query to insert new course schedule
         $sql_insert_schedule = "INSERT INTO schedules (CourseId, DateTime) VALUES (:courseId, :schedule)";
 
-        // Prepare and execute the query
+        // Prepare and execute the query to insert schedule
         $stmt_insert_schedule = $connection->prepare($sql_insert_schedule);
         $stmt_insert_schedule->bindParam(':courseId', $courseId);
         $stmt_insert_schedule->bindParam(':schedule', $scheduleFormatted);
         $stmt_insert_schedule->execute();
 
+        // Get the inserted schedule ID
+        $scheduleId = $connection->lastInsertId();
+
+        // SQL query to insert students into the attendances table
+        $sql_insert_attendance = "INSERT INTO attendances (StudentId, ScheduleId) 
+                                SELECT e.StudentId, :scheduleId 
+                                FROM enrollments e 
+                                WHERE e.CourseId = :courseId";
+
+        // Prepare and execute the query to insert attendances
+        $stmt_insert_attendance = $connection->prepare($sql_insert_attendance);
+        $stmt_insert_attendance->bindParam(':scheduleId', $scheduleId);
+        $stmt_insert_attendance->bindParam(':courseId', $courseId);
+        $stmt_insert_attendance->execute();
+
+        // Commit the transaction
+        $connection->commit();
+
         // Close the connection
         $connection = null;
 
         // Redirect with success message
-        $_SESSION["success"] = "Jadwal berhasil ditambahkan.";
+        $_SESSION["success"] = "Jadwal berhasil ditambahkan dan kehadiran mahasiswa telah direkam.";
         header("location: updateCourseSchedule.php?CourseId={$courseId}");
         exit;
     } catch (PDOException $e) {
+        // Rollback the transaction on error
+        $connection->rollback();
+
         // Handle query execution errors
         $_SESSION["error"] = "Gagal menambahkan jadwal: " . $e->getMessage();
         header("location: dataCourse.php");

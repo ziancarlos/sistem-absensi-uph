@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("../../helper/dbHelper.php");
-require_once("../../helper/authHelper.php");
+require_once ("../../helper/dbHelper.php");
+require_once ("../../helper/authHelper.php");
 
 $permittedRole = ["lecturer", "admin"];
 $pageName = "Sistem Absensi UPH - Edit Jadwal Mata Kuliah";
@@ -42,7 +42,7 @@ function getCourseScheduleById($scheduleId)
 }
 
 // Memproses pembaruan jadwal mata kuliah jika tombol "update" diklik
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["update"]) && isset($_GET['ScheduleId'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_POST["update"]) && isset ($_GET['ScheduleId'])) {
     updateCourseScheduleController();
 }
 
@@ -50,9 +50,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["update"]) && isset($_
 function updateCourseScheduleController()
 {
     // Memeriksa apakah semua data yang diperlukan tersedia
-    if (isset($_POST["tanggal_kuliah"]) && isset($_GET['ScheduleId'])) {
+    if (isset ($_POST["tanggal_kuliah"]) && isset ($_GET['ScheduleId'])) {
         $scheduleId = $_GET['ScheduleId']; // Ambil ScheduleId dari URL
         $tanggalKuliah = $_POST["tanggal_kuliah"];
+
+        $today = date('Y-m-d');
+        if ($tanggalKuliah <= $today) {
+            $_SESSION["error"] = "Jadwal harus diatur di masa depan.";
+            header("location: dataCourse.php");
+            exit;
+        }
 
         try {
             // Koneksi ke database
@@ -74,7 +81,7 @@ function updateCourseScheduleController()
             // Redirect ke halaman updateCourseSchedule.php dengan menyertakan CourseId
             header("location: updateCourseSchedule.php?CourseId=$courseId");
             exit;
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             // Tangani kesalahan jika terjadi
             $_SESSION["error"] = "Error: " . $e->getMessage();
             header("location: updateCourseScheduleEdit.php?ScheduleId=" . $scheduleId);
@@ -83,9 +90,7 @@ function updateCourseScheduleController()
     } else {
         // Jika data yang diperlukan tidak tersedia, tampilkan pesan error
         $_SESSION["error"] = "Semua data diperlukan untuk melakukan pembaruan jadwal mata kuliah!";
-        header("location: updateCourseScheduleEdit.php?ScheduleId=" . $scheduleId);
+        header("location: dataCourse.php");
         exit;
     }
 }
-
-?>
