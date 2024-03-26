@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 13, 2024 at 04:06 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: localhost
+-- Generation Time: Mar 26, 2024 at 03:46 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,7 +32,8 @@ CREATE TABLE `attendances` (
   `ScheduleId` int(11) NOT NULL,
   `FaceTimeIn` datetime DEFAULT NULL,
   `FingerprintTimeIn` datetime DEFAULT NULL,
-  `CardTimeIn` datetime DEFAULT NULL
+  `CardTimeIn` datetime DEFAULT NULL,
+  `Status` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -46,23 +47,6 @@ CREATE TABLE `buildings` (
   `Letter` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `buildings`
---
-
-INSERT INTO `buildings` (`BuildingId`, `Letter`) VALUES
-(1, 'A'),
-(2, 'B'),
-(3, 'C'),
-(4, 'D'),
-(5, 'E'),
-(6, 'F'),
-(7, 'G'),
-(8, 'H'),
-(9, 'I'),
-(10, 'J'),
-(11, 'K');
-
 -- --------------------------------------------------------
 
 --
@@ -75,14 +59,6 @@ CREATE TABLE `classrooms` (
   `Code` int(5) NOT NULL,
   `BuildingId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `classrooms`
---
-
-INSERT INTO `classrooms` (`ClassroomId`, `Capacity`, `Code`, `BuildingId`) VALUES
-(1, 10, 402, 2),
-(2, 12, 301, 2);
 
 -- --------------------------------------------------------
 
@@ -247,13 +223,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `buildings`
 --
 ALTER TABLE `buildings`
-  MODIFY `BuildingId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `BuildingId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `classrooms`
 --
 ALTER TABLE `classrooms`
-  MODIFY `ClassroomId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ClassroomId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `courses`

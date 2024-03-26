@@ -30,27 +30,6 @@ require_once ("dataCourseFunction.php");
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">List Mata Kuliah</h1>
-                    <div class="col-xl-6">
-                        <div class="card">
-                            <div class="card-body">
-                                <form>
-                                    <div class="form-group row">
-                                        <label for="inputAngkatan" class="col-xl-4 col-form-label">Tahun
-                                            Angkatan</label>
-                                        <div class="col-xl-8">
-                                            <input type="number" class="form-control" id="inputAngkatan">
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-success tambah_btn">Cari</button>
-                                </form>
-                            </div>
-                            &nbsp;
-                        </div>
-
-                    </div>
-
-                    &nbsp;
-
                     <!-- Tabel Mata Kuliah -->
                     <table id="example" class="display cell-border " style="width:100%">
                         <thead>

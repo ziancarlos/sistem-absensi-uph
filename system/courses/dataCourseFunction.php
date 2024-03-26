@@ -3,7 +3,7 @@ session_start();
 require_once ("../../helper/dbHelper.php");
 require_once ("../../helper/authHelper.php");
 $permittedRole = ["lecturer", "admin", "student"];
-$pageName = "Sistem Absensi UPH - Data Mahasiswa";
+$pageName = "Sistem Absensi UPH - Data Mata Kuliah";
 $data = [];
 if (!authorization($permittedRole, $_SESSION["UserId"])) {
     header('location: ../auth/logout.php');
