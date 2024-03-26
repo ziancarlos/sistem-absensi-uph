@@ -9,6 +9,8 @@ if (!authorization($permittedRole, $_SESSION["UserId"])) {
     header('location: ../auth/logout.php');
 }
 
+dataCourseView();
+
 function dataCourseView()
 {
     global $data;
