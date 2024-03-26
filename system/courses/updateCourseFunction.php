@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("../../helper/dbHelper.php");
-require_once("../../helper/authHelper.php");
+require_once ("../../helper/dbHelper.php");
+require_once ("../../helper/authHelper.php");
 $permittedRole = ["lecturer", "admin"];
 $pageName = "Sistem Absensi UPH - Edit Mahasiswa";
 $data = [];
@@ -9,11 +9,12 @@ if (!authorization($permittedRole, $_SESSION["UserId"])) {
     header('location: ../auth/logout.php');
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["edit"])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_POST["edit"])) {
     updateCourseView();
+
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["update"])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_POST["update"])) {
     updateCourseController();
 }
 
@@ -27,7 +28,7 @@ function updateCourseController()
     $classroomId = htmlspecialchars($_POST["ruang"]);
 
     // Validate input
-    if (empty($courseName) || empty($courseCode) || empty($classroomId)) {
+    if (empty ($courseName) || empty ($courseCode) || empty ($classroomId)) {
         $_SESSION["error"] = "Error: Semua kolom harus diisi";
         header('location: dataCourse.php');
         exit;
@@ -135,6 +136,8 @@ function updateCourseView()
 
         // Memasukkan informasi ruang kelas ke dalam array data
         $data['classrooms'] = $classrooms;
+
+
     } catch (Exception $e) {
         $_SESSION["error"] = "Terjadi kesalahan saat memproses permintaan.";
         return;
@@ -144,4 +147,6 @@ function updateCourseView()
             $connection = null;
         }
     }
+
+
 }

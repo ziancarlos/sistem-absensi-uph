@@ -28,7 +28,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- If there is error session -->
-<?php if (isset($_SESSION['error'])): ?>
+<?php if (isset ($_SESSION['error'])): ?>
     <script>
         Swal.fire({
             title: "Error!",
@@ -41,7 +41,7 @@
 <?php endif; ?>
 
 <!-- If there is succes session -->
-<?php if (isset($_SESSION['success'])): ?>
+<?php if (isset ($_SESSION['success'])): ?>
     <script>
         Swal.fire({
             title: "success!",
@@ -51,4 +51,16 @@
         })
     </script>
     <?php unset($_SESSION['success']) ?>
+<?php endif; ?>
+
+<?php if (isset ($_SESSION['info'])): ?>
+    <script>
+        Swal.fire({
+            title: "info!",
+            text: "<?= $_SESSION['info'] ?>",
+            icon: "info",
+            confirmButtonText: "Ok!"
+        })
+    </script>
+    <?php unset($_SESSION['info']) ?>
 <?php endif; ?>
