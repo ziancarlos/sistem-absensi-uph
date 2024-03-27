@@ -25,13 +25,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET["inputKodeMK"]) && isset
 /**
  * Fungsi untuk melakukan filter data absensi berdasarkan form pencarian
  */
-function filterAttendanceData($kodeMK, $tanggal)
+function filterAttendanceData($kodeMK = null, $tanggal = null)
 {
     global $data;
     $connection = getConnection();
 
     try {
-        $stmt = $connection->prepare("
+        $sql = "
         SELECT 
             DATE_FORMAT(DATE(schedules.DateTime), '%Y-%m-%d') AS Date,            
             users.Name, 
@@ -56,12 +56,26 @@ function filterAttendanceData($kodeMK, $tanggal)
             classrooms ON courses.ClassroomId = classrooms.ClassroomId 
         LEFT JOIN 
             buildings ON classrooms.BuildingId = buildings.BuildingId
-        WHERE 
-            courses.Code = :kodeMK 
-            AND DATE_FORMAT(DATE(schedules.DateTime), '%Y-%m-%d') = :tanggal
-        ");
-        $stmt->bindParam(':kodeMK', $kodeMK);
-        $stmt->bindParam(':tanggal', $tanggal);
+        WHERE 1 ";
+
+        if (!empty($kodeMK)) {
+            $sql .= " AND courses.Code = :kodeMK ";
+        }
+
+        if (!empty($tanggal)) {
+            $sql .= " AND DATE_FORMAT(DATE(schedules.DateTime), '%Y-%m-%d') = :tanggal ";
+        }
+
+        $stmt = $connection->prepare($sql);
+
+        if (!empty($kodeMK)) {
+            $stmt->bindParam(':kodeMK', $kodeMK);
+        }
+
+        if (!empty($tanggal)) {
+            $stmt->bindParam(':tanggal', $tanggal);
+        }
+
         $stmt->execute();
         $attendances = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
