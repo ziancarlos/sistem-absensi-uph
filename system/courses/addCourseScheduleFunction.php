@@ -35,9 +35,6 @@ function addCourseScheduleController()
         exit;
     }
 
-    // Calculate the end time by adding 1 hour and 30 minutes to the schedule time
-    $endTime = date('Y-m-d H:i:s', strtotime($schedule . ' + 90 minutes'));
-
     // Convert schedule to a consistent format (Y-m-d H:i:s)
     $scheduleFormatted = date('Y-m-d H:i:s', strtotime($schedule));
 
@@ -45,14 +42,13 @@ function addCourseScheduleController()
     $connection = getConnection();
 
     try {
-        // Check if the same schedule exists within the specified time frame
-        $sql_check_schedule = "SELECT COUNT(*) as count FROM schedules WHERE CourseId = :courseId AND DateTime BETWEEN :schedule AND :endTime";
+        // Check if the same schedule exists for the courseId
+        $sql_check_schedule = "SELECT COUNT(*) as count FROM schedules WHERE CourseId = :courseId AND DATE(DateTime) = DATE(:schedule)";
 
         // Prepare and execute the query to count existing schedules
         $stmt_check_schedule = $connection->prepare($sql_check_schedule);
         $stmt_check_schedule->bindParam(':courseId', $courseId);
         $stmt_check_schedule->bindParam(':schedule', $scheduleFormatted);
-        $stmt_check_schedule->bindParam(':endTime', $endTime);
         $stmt_check_schedule->execute();
 
         // Fetch the count of existing schedules
@@ -60,8 +56,8 @@ function addCourseScheduleController()
 
         // If there are existing schedules, do not insert
         if ($scheduleCount > 0) {
-            $_SESSION["error"] = "Jadwal yang sama + 90 menit sudah ada dalam database.";
-            header("location: dataCourse.php");
+            $_SESSION["error"] = "Jadwal yang sama sudah ada dalam database.";
+            header("location: updateCourseSchedule.php?CourseId= $courseId");
             exit;
         }
 
@@ -108,7 +104,9 @@ function addCourseScheduleController()
 
         // Handle query execution errors
         $_SESSION["error"] = "Gagal menambahkan jadwal: " . $e->getMessage();
-        header("location: dataCourse.php");
+        header("location: updateCourseSchedule.php");
         exit;
     }
 }
+
+?>

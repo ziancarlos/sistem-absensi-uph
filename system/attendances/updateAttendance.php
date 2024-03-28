@@ -1,6 +1,12 @@
 <?php
 require_once("updateAttendanceFunction.php");
 
+// Periksa apakah data dari form telah dikirim melalui metode POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["updateAttendance"])) {
+    // Memanggil fungsi untuk memproses pembaruan kehadiran
+    updateAttendanceController();
+}
+
 // Periksa apakah parameter StudentId, tanggal, dan kode mata kuliah disertakan dalam URL
 if(isset($_GET['StudentId']) && isset($_GET['tanggal']) && isset($_GET['kodeMataKuliah'])) {
     $studentId = $_GET['StudentId'];
@@ -17,21 +23,18 @@ if(isset($_GET['StudentId']) && isset($_GET['tanggal']) && isset($_GET['kodeMata
         exit;
     }
 
-    // Mengatur nilai status berdasarkan nilai TimeIn
-    $status = ($attendanceData["TimeIn"] !== null) ? 1 : 0;
-
     // Isi nilai awal pada input formulir dengan data absensi yang diperoleh
     $date = $attendanceData['Date'];
     $studentName = $attendanceData['Name'];
     $courseCode = $attendanceData['Code'];
     $courseName = $attendanceData['ClassName'];
+    $status = $attendanceData['Status'];
 } else {
     // Tangani kasus di mana parameter tidak lengkap dalam URL
     echo "Parameter tidak lengkap dalam URL.";
     exit;
 }
 ?>
-
 
 <?php require_once("../components/header.php"); ?>
 
@@ -58,7 +61,7 @@ if(isset($_GET['StudentId']) && isset($_GET['tanggal']) && isset($_GET['kodeMata
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <form method="post" action="updateAttendanceFunction.php">
+                                    <form method="post" action="updateAttendance.php">
                                         <div class="form-group row">
                                             <label for="inputTgl" class="col-sm-3 col-form-label">Tanggal</label>
                                             <div class="col-sm-9">
@@ -90,11 +93,10 @@ if(isset($_GET['StudentId']) && isset($_GET['tanggal']) && isset($_GET['kodeMata
                                                     <option value="1" <?php echo ($status == 1) ? 'selected' : ''; ?>>Hadir</option>
                                                     <option value="0" <?php echo ($status == 0) ? 'selected' : ''; ?>>Tidak Hadir</option>
                                                 </select>
-
                                             </div>
                                         </div>
-                                        <!-- Hidden input for AttendanceId -->
-                                        <input type="hidden" name="attendanceId" value="<?php echo $studentId; ?>">
+                                        <!-- Hidden input for StudentId -->
+                                        <input type="hidden" name="studentId" value="<?php echo $studentId; ?>">
                                         <button name="updateAttendance" type="submit" class="btn btn-primary tambah_btn">Simpan</button>
                                     </form>
                                 </div>
