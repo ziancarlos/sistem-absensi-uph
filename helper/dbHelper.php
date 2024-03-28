@@ -11,7 +11,8 @@ function getConnection()
     $password = "";
     $db = "sistem_absensi";
 
+ 
+
 
     return new PDO("mysql:host=$servername;dbname=$db", $username, $password);
 }
-?>
