@@ -31,7 +31,7 @@ function addCourseScheduleController()
     $today = date('Y-m-d');
     if ($schedule <= $today) {
         $_SESSION["error"] = "Jadwal harus diatur di masa depan.";
-        header("location: updateCourseSchedule.php?CourseId={$courseId}");
+        header("location: courseSchedule.php");
         exit;
     }
 
