@@ -19,7 +19,7 @@ function addCourseScheduleController()
     // Check if CourseId and schedule are provided
     if (!isset ($_POST["tambah"]) || !isset ($_POST["schedule"])) {
         $_SESSION["error"] = "Parameter tidak lengkap.";
-        header("location: dataCourse.php");
+        header("location: courseSchedule.php");
         exit;
     }
 
@@ -31,7 +31,7 @@ function addCourseScheduleController()
     $today = date('Y-m-d');
     if ($schedule <= $today) {
         $_SESSION["error"] = "Jadwal harus diatur di masa depan.";
-        header("location: dataCourse.php");
+        header("location: updateCourseSchedule.php?CourseId={$courseId}");
         exit;
     }
 
@@ -57,7 +57,7 @@ function addCourseScheduleController()
         // If there are existing schedules, do not insert
         if ($scheduleCount > 0) {
             $_SESSION["error"] = "Jadwal yang sama sudah ada dalam database.";
-            header("location: updateCourseSchedule.php?CourseId= $courseId");
+            header("location: courseSchedule.php");
             exit;
         }
 
@@ -104,9 +104,10 @@ function addCourseScheduleController()
 
         // Handle query execution errors
         $_SESSION["error"] = "Gagal menambahkan jadwal: " . $e->getMessage();
-        header("location: updateCourseSchedule.php");
+        header("location: updateCourseSchedule.php?CourseId={$courseId}");
         exit;
     }
 }
+
 
 ?>
