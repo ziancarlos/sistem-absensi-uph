@@ -34,13 +34,13 @@ function registerCard($studentId, $cardId)
         // Check if cardId is already registered
         if (isCardExist($cardId)) {
             // CardId is already registered, return error message
-            return "cardId sudah terdeteksi di database";
+            return "cardId has been detected in the database";
         }
 
         // Check if studentId exists and has 11 digits
         if (!isStudentExist($studentId) || strlen($studentId) !== 11) {
             // Either studentId is not found or it doesn't have 11 digits
-            return "studentId tidak ditemukan di database";
+            return "studentId not found di database";
         }
 
         // SQL query to update the Card for the specified StudentId
