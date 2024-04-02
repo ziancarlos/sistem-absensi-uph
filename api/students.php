@@ -24,53 +24,54 @@ if (isset ($_GET['getStudentByCardId'])) {
 
 // START : yoana yang tambahin
 
-// Check if there is a POST request for registering card or mark attendance
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (isset($_POST['registerCard'])) {
-        // Get the StudentId and Card from the POST parameters
-        $studentId = $_POST['studentId'];
-        $cardId = $_POST['cardId'];
-
-        // Call the function to register the card
-        $success = registerCard($studentId, $cardId);
-
-        // Check if card registration was successful
-        if ($success) {
-            // Print success message
-            echo json_encode(array("success" => "Card registered successfully"));
-        } else {
-            // Print error message
-            echo json_encode(array("error" => "Failed to register card"));
-        }
-    } elseif (isset($_POST['studentCardAttendance'])) {
-        // Get the card ID from the POST parameters
-        $cardId = $_POST['cardId'];
-
-        // Call the function to mark student attendance
-        $attendanceSuccess = studentCardAttendance($cardId);
-
-        // Check if attendance update was successful
-        if ($attendanceSuccess) {
-            // Print success message
-            echo json_encode(array("success" => "Attendance marked successfully"));
-        } else {
-            // Print error message
-            echo json_encode(array("error" => "Failed to mark attendance"));
-        }
-    } else {
-        // Invalid request
-        echo json_encode(array("error" => "Invalid request"));
-    }
-}
-
-// Define the function to check if card is already registered to another student
-function isCardRegistered($cardId)
+// Define the function to register a card based on StudentId
+function registerCard($studentId, $cardId)
 {
     // Database connection settings
     $connection = getConnection();
 
     try {
-        // SQL query to check if the card is already registered
+        // Check if cardId is already registered
+        if (isCardExist($cardId)) {
+            // CardId is already registered, return error message
+            return "cardId sudah terdeteksi di database";
+        }
+
+        // Check if studentId exists and has 11 digits
+        if (!isStudentExist($studentId) || strlen($studentId) !== 11) {
+            // Either studentId is not found or it doesn't have 11 digits
+            return "studentId tidak ditemukan di database";
+        }
+
+        // SQL query to update the Card for the specified StudentId
+        $sqlUpdateCard = "UPDATE students SET Card = :cardId WHERE StudentId = :studentId";
+
+        // Prepare and execute the query
+        $stmtUpdateCard = $connection->prepare($sqlUpdateCard);
+        $stmtUpdateCard->bindParam(':cardId', $cardId);
+        $stmtUpdateCard->bindParam(':studentId', $studentId);
+        $success = $stmtUpdateCard->execute();
+
+        // Close the connection
+        $connection = null;
+
+        // Return true if card registration was successful, "updated" if card was updated
+        return $success ? "updated" : false;
+    } catch (PDOException $e) {
+        // Handle query execution errors
+        echo "Error: " . $e->getMessage();
+        return false;
+    }
+}
+
+// Function to check if cardId exists in the database
+function isCardExist($cardId)
+{
+    // Database connection settings
+    $connection = getConnection();
+
+    try {
+        // SQL query to check if the cardId exists
         $sql = "SELECT COUNT(*) FROM students WHERE Card = :cardId";
 
         // Prepare and execute the query
@@ -84,41 +85,64 @@ function isCardRegistered($cardId)
         // Close the connection
         $connection = null;
 
-        // Return true if card is registered to another student, false otherwise
+        // Return true if cardId exists, false otherwise
         return ($count > 0);
     } catch (PDOException $e) {
         // Handle query execution errors
         echo "Error: " . $e->getMessage();
-        return true; // Assume card is registered to avoid any risk
+        return true; // Assume cardId exists to avoid any risk
     }
 }
 
-
-// Define the function to register a card based on StudentId
-function registerCard($studentId, $cardId)
+// Function to check if studentId exists in the database
+function isStudentExist($studentId)
 {
     // Database connection settings
     $connection = getConnection();
 
     try {
-        // SQL query to update the Card for the specified StudentId
-        $sql = "UPDATE students SET Card = :cardId WHERE StudentId = :studentId";
+        // SQL query to check if the studentId exists
+        $sql = "SELECT COUNT(*) FROM students WHERE StudentId = :studentId";
 
         // Prepare and execute the query
         $stmt = $connection->prepare($sql);
-        $stmt->bindParam(':cardId', $cardId);
         $stmt->bindParam(':studentId', $studentId);
-        $success = $stmt->execute();
+        $stmt->execute();
+
+        // Fetch the count of rows
+        $count = $stmt->fetchColumn();
 
         // Close the connection
         $connection = null;
 
-        // Return true if card registration was successful, false otherwise
-        return $success;
+        // Return true if studentId exists, false otherwise
+        return ($count > 0);
     } catch (PDOException $e) {
         // Handle query execution errors
         echo "Error: " . $e->getMessage();
         return false;
+    }
+}
+
+// Usage example:
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registerCard'])) {
+    // Get the StudentId and Card from the POST parameters
+    $studentId = $_POST['studentId'];
+    $cardId = $_POST['cardId'];
+
+    // Call the function to register the card
+    $result = registerCard($studentId, $cardId);
+
+    // Prepare and send response to Python based on the result
+    if ($result === true) {
+        // Card registration success
+        echo json_encode(array("success" => "Card registered successfully"));
+    } elseif ($result === "updated") {
+        // Card update success
+        echo json_encode(array("success" => "Card updated successfully"));
+    } else {
+        // Card registration failure, send error message to Python
+        echo json_encode(array("error" => $result));
     }
 }
 
