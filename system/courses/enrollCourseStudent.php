@@ -35,15 +35,18 @@ require_once ("enrollCourseStudentFunction.php");
                                 <form action="enrollCourseStudent.php" method="get">
                                     <input type="hidden" name="CourseId" value="<?= $_GET['CourseId']; ?>">
                                     <div class="form-group row">
-                                        <label for="inputTahunAkt" class="col-xl-4 col-form-label">Tahun Angkatan</label>
+                                        <label for="inputTahunAkt" class="col-xl-4 col-form-label">Tahun
+                                            Angkatan</label>
                                         <div class="col-xl-8">
-                                            <input type="number" class="form-control" id="inputTahunAkt" name="tahunAngkatan" />
+                                            <input type="number" class="form-control" id="inputTahunAkt"
+                                                name="tahunAngkatan" />
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="inputNamaMhs" class="col-xl-4 col-form-label">Nama Mahasiswa</label>
                                         <div class="col-xl-8">
-                                            <input type="text" class="form-control" id="inputNamaMhs" name="namaMahasiswa" />
+                                            <input type="text" class="form-control" id="inputNamaMhs"
+                                                name="namaMahasiswa" />
                                         </div>
                                     </div>
                                     <button type="submit" class="btn btn-success tambah_btn" id="btnCari">Cari</button>

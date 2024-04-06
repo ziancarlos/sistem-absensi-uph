@@ -42,7 +42,7 @@ function getCourseScheduleById($scheduleId)
 }
 
 // Memproses pembaruan jadwal mata kuliah jika tombol "update" diklik
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_POST["update"]) && isset ($_GET['ScheduleId'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["update"]) && isset($_GET['ScheduleId'])) {
     updateCourseScheduleController();
 }
 
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset ($_POST["update"]) && isset (
 function updateCourseScheduleController()
 {
     // Memeriksa apakah semua data yang diperlukan tersedia
-    if (isset ($_POST["tanggal_kuliah"]) && isset ($_GET['ScheduleId'])) {
+    if (isset($_POST["tanggal_kuliah"]) && isset($_GET['ScheduleId'])) {
         $scheduleId = $_GET['ScheduleId']; // Ambil ScheduleId dari URL
         $tanggalKuliah = $_POST["tanggal_kuliah"];
 

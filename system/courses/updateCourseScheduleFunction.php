@@ -10,9 +10,8 @@ if (!authorization($permittedRole, $_SESSION["UserId"])) {
 }
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset ($_GET["CourseId"])) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET["CourseId"])) {
     updateCourseScheduleView();
-    $_SESSION["info"] = "Harap mendaftarkan mahasiswa sebelum menjadwalkan mata kuliah. Setelah penjadwalan, pendaftaran mahasiswa tidak dapat dilakukan lagi.";
 } else {
     $_SESSION["error"] = "Tidak menemukan permintaan yang valid!";
     header("location: updateCourseSchedule.php");
@@ -24,7 +23,7 @@ function updateCourseScheduleView()
     global $data;
 
     // Check if CourseId is provided in the URL
-    if (!isset ($_GET["CourseId"])) {
+    if (!isset($_GET["CourseId"])) {
         $_SESSION["error"] = "CourseId tidak ditemukan.";
         header("location: updateCourseSchedule.php");
         exit;

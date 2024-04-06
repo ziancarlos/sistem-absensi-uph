@@ -30,8 +30,8 @@ function dataCourseView()
             CONCAT(buildings.Letter, classrooms.Code) AS Room, 
             courses.Status AS CoursesStatus,
             CASE WHEN schedules.CourseId IS NOT NULL THEN 1 ELSE 0 END AS SchedulingStatus,
-            MIN(schedules.DateTime) AS EarliestSchedule,
-            MAX(schedules.DateTime) AS LatestSchedule
+            MIN(schedules.Date) AS EarliestSchedule,
+            MAX(schedules.Date) AS LatestSchedule
         FROM 
             courses
         INNER JOIN 
@@ -67,8 +67,8 @@ function dataCourseView()
             courses.Code, 
             CONCAT(buildings.Letter, classrooms.Code) AS Room, 
             courses.Status AS CoursesStatus,
-            MIN(schedules.DateTime) AS EarliestSchedule,
-            MAX(schedules.DateTime) AS LatestSchedule
+            MIN(schedules.Date) AS EarliestSchedule,
+            MAX(schedules.Date) AS LatestSchedule
         FROM 
             courses
         INNER JOIN 
@@ -109,8 +109,8 @@ function dataCourseView()
             courses.Code, 
             CONCAT(buildings.Letter, classrooms.Code) AS Room, 
             enrollments.Status AS EnrollmentStatus,
-            MIN(schedules.DateTime) AS EarliestSchedule,
-            MAX(schedules.DateTime) AS LatestSchedule
+            MIN(schedules.Date) AS EarliestSchedule,
+            MAX(schedules.Date) AS LatestSchedule
         FROM 
             courses
         INNER JOIN 

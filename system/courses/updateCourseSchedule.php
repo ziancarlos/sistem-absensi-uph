@@ -30,14 +30,29 @@ require_once ("updateCourseScheduleFunction.php");
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Jadwal Mata Kuliah</h1>
                     <div class="col-xl-6">
-                        <div class="card">
+                        <div clag ss="card">
                             <div class="card-body">
                                 <form method="post" action="addCourseScheduleFunction.php">
                                     <div class="form-group row">
-                                        <label for="inputTglKuliah" class="col-xl-4 col-form-label">Waktu Kuliah</label>
+                                        <label for="inputTglKuliah" class="col-xl-4 col-form-label">Hari Kuliah</label>
                                         <div class="col-xl-8">
-                                            <input type="datetime-local" class="form-control" id="inputTglKuliah"
-                                                name="schedule" />
+                                            <input type="date" class="form-control" id="inputTglKuliah" name="date" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputTglKuliah" class="col-xl-4 col-form-label">Jam Mulai
+                                        </label>
+                                        <div class="col-xl-8">
+                                            <input type="time" class="form-control" id="inputTglKuliah"
+                                                name="timeStart" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputTglKuliah" class="col-xl-4 col-form-label">Jam Selesai
+                                        </label>
+                                        <div class="col-xl-8">
+                                            <input type="time" class="form-control" id="inputTglKuliah"
+                                                name="timeEnd" />
                                         </div>
                                     </div>
                                     <button type="submit" name="tambah" value="<?= $_GET["CourseId"] ?>"
@@ -58,7 +73,9 @@ require_once ("updateCourseScheduleFunction.php");
                                         <thead>
                                             <tr>
                                                 <th>ID Jadwal</th>
-                                                <th>Waktu Kuliah</th>
+                                                <th>Tanggal Kuliah</th>
+                                                <th>Jam Mulai</th>
+                                                <th>Jam Selesai</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -69,12 +86,19 @@ require_once ("updateCourseScheduleFunction.php");
                                                         <?= $schedule["ScheduleId"] ?>
                                                     </td>
                                                     <td>
-                                                        <?= $schedule["DateTime"] ?>
+                                                        <?= $schedule["Date"] ?>
                                                     </td>
-                                                    <td style="display: flex; gap: 5px">
-                                                        <a class="btn btn-success btn-sm" href="updateCourseScheduleEdit.php?ScheduleId=<?= $schedule['ScheduleId'] ?>"
-                                                            style="width: 90px; color: white;">Edit</a>
+                                                    <td>
+                                                        <?= $schedule["StartTime"] ?>
+                                                    </td>
+                                                    <td>
+                                                        <?= $schedule["EndTime"] ?>
+                                                    </td>
 
+                                                    <td style="display: flex; gap: 5px">
+                                                        <a class="btn btn-success btn-sm"
+                                                            href="updateCourseScheduleEdit.php"
+                                                            style="width: 90px; color: white;">Edit</a>
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
@@ -142,6 +166,10 @@ require_once ("updateCourseScheduleFunction.php");
                 data: 'kode_MK'
             }, {
                 data: 'mata_kuliah'
+            }, {
+                data: 'mata_kuliah1'
+            }, {
+                data: 'mata_kuliah2'
             }, {
                 data: 'waktu_kuliah'
             }]

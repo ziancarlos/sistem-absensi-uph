@@ -73,7 +73,7 @@ function enrollCourseStudentView()
         }
 
         // Prepare SQL query to retrieve students and their enrollment status for the course
-        $sql = "SELECT u.Name, u.StudentId, s.YearIn, 
+        $sql = "SELECT u.Name, u.StudentId, s.YearIn, e.EnrollmentId, 
         CASE WHEN e.StudentId IS NOT NULL THEN 1 ELSE 0 END AS EnrollmentStatus
         FROM users u
         LEFT JOIN students s ON u.StudentId = s.StudentId
