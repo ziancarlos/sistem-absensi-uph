@@ -1,8 +1,8 @@
 <?php
 
 session_start();
-require_once("../../helper/dbHelper.php");
-require_once("../../helper/authHelper.php");
+require_once ("../../helper/dbHelper.php");
+require_once ("../../helper/authHelper.php");
 
 $permittedRole = ["lecturer", "admin"];
 
@@ -44,11 +44,11 @@ function deactivateStudentController()
             throw new Exception("ID Enrollment tidak valid!");
         }
 
-        header("Location: dataStudent.php");
+        header("Location: " . $_SERVER['HTTP_REFERER']);
         exit;
     } catch (Exception $e) {
         $_SESSION["error"] = "Error: " . $e->getMessage();
-        header("Location: dataStudent.php");
+        header("Location: " . $_SERVER['HTTP_REFERER']);
         exit;
     }
 }
