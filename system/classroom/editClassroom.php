@@ -1,6 +1,6 @@
 <?php
-session_start();
-require_once("editClassroomFunction.php");
+
+require_once ("editClassroomFunction.php");
 
 // Penanganan pesan error
 if (isset($_SESSION['error'])) {
@@ -34,13 +34,13 @@ if (isset($_GET['ClassroomId'])) {
 }
 ?>
 
-<?php require_once("../components/header.php"); ?>
+<?php require_once ("../components/header.php"); ?>
 
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
-        <?php require_once("../components/sidebar.php"); ?>
+        <?php require_once ("../components/sidebar.php"); ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -48,7 +48,7 @@ if (isset($_GET['ClassroomId'])) {
             <!-- Main Content -->
             <div id="content">
                 <!-- Topbar -->
-                <?php require_once("../components/topbar.php"); ?>
+                <?php require_once ("../components/topbar.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -104,7 +104,7 @@ if (isset($_GET['ClassroomId'])) {
     <!-- End of Page Wrapper -->
 
     <!-- Custom scripts for all pages-->
-    <?php require_once("../components/js.php"); ?>
+    <?php require_once ("../components/js.php"); ?>
 </body>
 
 </html>

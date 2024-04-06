@@ -11,6 +11,10 @@ if (!authorization($permittedRole, $_SESSION["UserId"])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["tambah"])) {
     addCourseScheduleController();
+} else {
+    $_SESSION["error"] = "Tidak menemukan permintaan yang valid!";
+    header("location: dataCourse.php");
+    exit;
 }
 
 
@@ -49,14 +53,16 @@ function addCourseScheduleController()
 
     // Prepare SQL statement to check for overlapping schedules
     $query = "SELECT * FROM schedules 
-              WHERE CourseId = :courseId 
+                INNER JOIN courses ON courses.CourseId = schedules.CourseId
+                INNER JOIN classrooms ON classrooms.ClassroomId = courses.ClassroomId
+                WHERE classrooms.ClassroomId = :classroomId
               AND Date = :date 
               AND ((StartTime < :endTime AND EndTime > :startTime) 
               OR (StartTime >= :startTime AND StartTime < :endTime) 
               OR (EndTime > :startTime AND EndTime <= :endTime))";
 
     $stmt = $conn->prepare($query);
-    $stmt->bindParam(':courseId', $courseId);
+    $stmt->bindParam(':classroomId', $classroomId);
     $stmt->bindParam(':date', $date);
     $stmt->bindParam(':startTime', $timeStart);
     $stmt->bindParam(':endTime', $timeEnd);
@@ -72,14 +78,14 @@ function addCourseScheduleController()
     // Validate date format
     if (!strtotime($date)) {
         $_SESSION["error"] = "Format tanggal tidak valid."; // Set error message in session
-       header("location: updateCourseSchedule.php?CourseId=" . $courseId);
+        header("location: updateCourseSchedule.php?CourseId=" . $courseId);
         exit; // Terminate the script
     }
 
     // Validate time format
     if (!strtotime($timeStart) || !strtotime($timeEnd)) {
         $_SESSION["error"] = "Format waktu tidak valid."; // Set error message in session
-       header("location: updateCourseSchedule.php?CourseId=" . $courseId);
+        header("location: updateCourseSchedule.php?CourseId=" . $courseId);
         exit; // Terminate the script
     }
 
@@ -90,8 +96,10 @@ function addCourseScheduleController()
         exit; // Terminate the script
     }
 
+
+
     // Validate if timeStart is before timeEnd
-    if (strtotime($timeStart) >= strtotime($timeEnd)) {
+    if (strtotime($timeStart) > strtotime($timeEnd)) {
         $_SESSION["error"] = "Waktu mulai harus sebelum waktu selesai."; // Set error message in session
         header("location: updateCourseSchedule.php?CourseId=" . $courseId); // Redirect to the courseSchedule.php page
         exit; // Terminate the script

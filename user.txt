@@ -1,0 +1,50 @@
+- Admin
+Email = admin@gmail.com
+Password = 123
+- Dosen
+Nama = Kusno Prasetya
+Email = kusnoprasetya@gmail.com
+Password = 12345678
+
+Nama = Calandra Alecia
+Email = calandraalecia@gmail.com	
+Password = 12345678
+
+Nama = 	Arnold Ariwibowo	
+Email = arnold.ariwibowo@gmail.com	
+Password = 12345678
+
+Nama = Aditya		
+Email = aditya@gmail.com
+Password = 12345678
+
+- Mahasiswa
+Nama = ZIAN CARLOS WONG
+NIM = 01081210013
+Email = 01081210013
+Password = 12345678
+
+Nama = YOANA SONIA WIJAYA
+NIM = 01081210001
+Email = 01081210001@student.uph.edu
+Password = 12345678
+
+Nama = IMMANUEL CHRISTIAN HIRANI
+NIM = 01081210011
+Email = 01081210011@student.uph.edu
+Password = 12345678
+
+Nama = RAFAELL VICTOR CHRISTIAN
+NIM = 01081210003
+Email = 01081210003@student.uph.edu
+Password = 12345678
+
+Nama = NATHANIA MICHAELA LISANDI
+NIM = 01081210007
+Email = 01081210007@student.uph.edu
+Password = 12345678
+
+Nama = KELVIN KELVIN
+NIM = 01081210012
+Email = 01081210012@student.uph.edu
+Password = 12345678

@@ -82,37 +82,63 @@ function updateCourseScheduleEditController()
         // Validate date format
         if (!strtotime($date)) {
             $_SESSION["error"] = "Format tanggal tidak valid."; // Set error message in session
-            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]["CourseId"]); // Redirect back to the schedule edit view with an error message
+            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]); // Redirect back to the schedule edit view with an error message
             exit; // Terminate the script
         }
 
         // Validate time format
         if (!strtotime($timeStart) || !strtotime($timeEnd)) {
             $_SESSION["error"] = "Format waktu tidak valid."; // Set error message in session
-            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]["CourseId"]); // Redirect back to the schedule edit view with an error message
+            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]); // Redirect back to the schedule edit view with an error message
             exit; // Terminate the script
         }
 
         // Validate if date is greater than or equal to today
         if (strtotime($date) < strtotime(date("Y-m-d"))) {
             $_SESSION["error"] = "Tanggal harus sama atau setelah hari ini."; // Set error message in session
-            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]["CourseId"]); // Redirect back to the schedule edit view with an error message
+            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]); // Redirect back to the schedule edit view with an error message
             exit; // Terminate the script
         }
 
         // Validate if timeStart is before timeEnd
         if (strtotime($timeStart) >= strtotime($timeEnd)) {
             $_SESSION["error"] = "Waktu mulai harus sebelum waktu selesai."; // Set error message in session
-            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]["CourseId"]); // Redirect back to the schedule edit view with an error message
+            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]); // Redirect back to the schedule edit view with an error message
             exit; // Terminate the script
         }
 
         // Connect to the database
         $conn = getConnection(); // Assuming you have a function to establish a PDO connection
 
+        $query = "SELECT ClassroomId FROM courses INNER JOIN schedules ON schedules.CourseId = courses.CourseId WHERE schedules.ScheduleId = :scheduleId";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':scheduleId', $scheduleId);
+        $stmt->execute();
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$result) {
+            $_SESSION["error"] = "CourseId tidak valid."; // Set error message in session
+            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]); // Redirect to the courseSchedule.php page
+            exit; // Terminate the script
+        }
+
+        $classroomId = $result['ClassroomId'];
+
         // Prepare SQL statement to check for overlapping schedules, excluding the current schedule being edited
-        $overlapQuery = "SELECT * FROM schedules WHERE ScheduleId != :scheduleId AND Date = :date AND ((StartTime < :endTime AND EndTime > :startTime) OR (StartTime >= :startTime AND StartTime < :endTime) OR (EndTime > :startTime AND EndTime <= :endTime))";
+        $overlapQuery = "SELECT * FROM schedules 
+        INNER JOIN courses ON courses.CourseId = schedules.CourseId
+        INNER JOIN classrooms ON classrooms.ClassroomId = courses.ClassroomId
+        WHERE classrooms.ClassroomId = :classroomId
+        AND
+        ScheduleId != :scheduleId
+      AND Date = :date 
+      AND ((StartTime < :endTime AND EndTime > :startTime) 
+      OR (StartTime >= :startTime AND StartTime < :endTime) 
+      OR (EndTime > :startTime AND EndTime <= :endTime))";
+
+
         $overlapStmt = $conn->prepare($overlapQuery);
+        $overlapStmt->bindParam(':classroomId', $classroomId);
         $overlapStmt->bindParam(':scheduleId', $scheduleId);
         $overlapStmt->bindParam(':date', $date);
         $overlapStmt->bindParam(':startTime', $timeStart);
@@ -138,12 +164,12 @@ function updateCourseScheduleEditController()
 
         // Redirect to a success page or back to the schedule edit view with a success message
         $_SESSION["success"] = "Jadwal berhasil diperbarui.";
-        header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]["CourseId"]); // Redirect to the schedule edit view
+        header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]); // Redirect to the schedule edit view
         exit; // Terminate the script
 
     } catch (Exception $e) {
         $_SESSION["error"] = "Error: " . $e->getMessage(); // Set error message in session
-        header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]["CourseId"]); // Redirect back to the schedule edit view with an error message
+        header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]); // Redirect back to the schedule edit view with an error message
         exit; // Terminate the script
     }
 }

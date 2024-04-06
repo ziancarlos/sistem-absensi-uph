@@ -11,10 +11,6 @@ if (!authorization($permittedRole, $_SESSION["UserId"])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["add"])) {
     addCourseController();
-} else {
-    $_SESSION["error"] = "Tidak menemukan permintaan yang valid!";
-    header("location: dataCourse.php");
-    exit;
 }
 
 addCourseView();

@@ -5,13 +5,13 @@ require_once ("../helper/dbHelper.php");
 date_default_timezone_set('Asia/Jakarta');
 
 // Check if there is a GET request named 'getStudentByCardId'
-if (isset ($_GET['getStudentByCardId'])) {
+if (isset($_GET['getStudentByCardId'])) {
     // Get the card ID from the GET parameters
     $cardId = $_GET['getStudentByCardId'];
 
     // Call the function to get the student by card ID
     $userJson = getStudentByCardId($cardId);
-    
+
     // Check if user data is found
     if ($userJson) {
         // Print the JSON data
@@ -19,6 +19,25 @@ if (isset ($_GET['getStudentByCardId'])) {
     } else {
         // Print JSON with an error message
         echo json_encode(array("error" => "User not found"));
+    }
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registerCard'])) {
+    // Get the StudentId and Card from the POST parameters
+    $studentId = $_POST['studentId'];
+    $cardId = $_POST['cardId'];
+
+    // Call the function to register the card
+    $result = registerCard($studentId, $cardId);
+
+    // Prepare and send response to Python based on the result
+    if ($result === true) {
+        // Card registration success
+        echo json_encode(array("success" => "Card registered successfully"));
+    } elseif ($result === "updated") {
+        // Card update success
+        echo json_encode(array("success" => "Card updated successfully"));
+    } else {
+        // Card registration failure, send error message to Python
+        echo json_encode(array("error" => $result));
     }
 }
 
@@ -38,9 +57,14 @@ function registerCard($studentId, $cardId)
         }
 
         // Check if studentId exists and has 11 digits
-        if (!isStudentExist($studentId) || strlen($studentId) !== 11) {
+        if (!isStudentExist($studentId)) {
             // Either studentId is not found or it doesn't have 11 digits
-            return "studentId not found di database";
+            return "studentId not found in database";
+        }
+
+        if (!preg_match("/^\d{11,}$/", $studentId)) {
+            $_SESSION["error"] = "NIM harus terdiri dari 11 karakter atau lebih dan hanya boleh berisi angka!";
+            return;
         }
 
         // SQL query to update the Card for the specified StudentId
@@ -125,26 +149,7 @@ function isStudentExist($studentId)
 }
 
 // Usage example:
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['registerCard'])) {
-    // Get the StudentId and Card from the POST parameters
-    $studentId = $_POST['studentId'];
-    $cardId = $_POST['cardId'];
 
-    // Call the function to register the card
-    $result = registerCard($studentId, $cardId);
-
-    // Prepare and send response to Python based on the result
-    if ($result === true) {
-        // Card registration success
-        echo json_encode(array("success" => "Card registered successfully"));
-    } elseif ($result === "updated") {
-        // Card update success
-        echo json_encode(array("success" => "Card updated successfully"));
-    } else {
-        // Card registration failure, send error message to Python
-        echo json_encode(array("error" => $result));
-    }
-}
 
 // Define the function for student attendance
 function studentCardAttendance($cardId)
@@ -199,7 +204,7 @@ function studentCardAttendance($cardId)
 
         // Close the connection
         $connection = null;
-        
+
     } catch (PDOException $e) {
         // Handle query execution errors
         return "Error: " . $e->getMessage();
@@ -239,4 +244,3 @@ function getStudentByCardId($cardId)
         return null;
     }
 }
-?>

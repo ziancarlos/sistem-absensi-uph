@@ -27,6 +27,11 @@ require_once ("updateCourseScheduleFunction.php");
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+
+                    <div class="alert alert-danger" role="alert">
+                        Daftarkan mahasiswa terlebih dahulu. Setelah mata kuliah terjadwalkan, pendaftaran mahasiswa
+                        tidak dapat dilakukan!
+                    </div>
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Jadwal Mata Kuliah</h1>
                     <div class="col-xl-6">
@@ -81,26 +86,26 @@ require_once ("updateCourseScheduleFunction.php");
                                         </thead>
                                         <tbody>
                                             <?php foreach ($data["schedules"] as $schedule): ?>
-                                                <tr>
-                                                    <td>
-                                                        <?= $schedule["ScheduleId"] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?= $schedule["Date"] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?= $schedule["StartTime"] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?= $schedule["EndTime"] ?>
-                                                    </td>
+                                            <tr>
+                                                <td>
+                                                    <?= $schedule["ScheduleId"] ?>
+                                                </td>
+                                                <td>
+                                                    <?= $schedule["Date"] ?>
+                                                </td>
+                                                <td>
+                                                    <?= $schedule["StartTime"] ?>
+                                                </td>
+                                                <td>
+                                                    <?= $schedule["EndTime"] ?>
+                                                </td>
 
-                                                    <td style="display: flex; gap: 5px">
-                                                        <a class="btn btn-success btn-sm"
-                                                            href="updateCourseScheduleEdit.php?ScheduleId=<?= $schedule["ScheduleId"] ?>"
-                                                            style="width: 90px; color: white;">Edit</a>
-                                                    </td>
-                                                </tr>
+                                                <td style="display: flex; gap: 5px">
+                                                    <a class="btn btn-success btn-sm"
+                                                        href="updateCourseScheduleEdit.php?ScheduleId=<?= $schedule["ScheduleId"] ?>"
+                                                        style="width: 90px; color: white;">Edit</a>
+                                                </td>
+                                            </tr>
                                             <?php endforeach; ?>
                                         </tbody>
                                     </table>
@@ -161,19 +166,19 @@ require_once ("updateCourseScheduleFunction.php");
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
     <script>
-        new DataTable('#example', {
-            columns: [{
-                data: 'kode_MK'
-            }, {
-                data: 'mata_kuliah'
-            }, {
-                data: 'mata_kuliah1'
-            }, {
-                data: 'mata_kuliah2'
-            }, {
-                data: 'waktu_kuliah'
-            }]
-        });
+    new DataTable('#example', {
+        columns: [{
+            data: 'kode_MK'
+        }, {
+            data: 'mata_kuliah'
+        }, {
+            data: 'mata_kuliah1'
+        }, {
+            data: 'mata_kuliah2'
+        }, {
+            data: 'waktu_kuliah'
+        }]
+    });
     </script>
 
 </body>
