@@ -1,30 +1,10 @@
 <?php
-require_once("updateCourseScheduleEditFunction.php");
+require_once ("updateCourseScheduleEditFunction.php");
 
-// Memeriksa apakah ScheduleId disertakan dalam URL
-if(isset($_GET['ScheduleId'])) {
-    $scheduleId = $_GET['ScheduleId'];
 
-    // Memanggil fungsi untuk mendapatkan detail jadwal mata kuliah berdasarkan ScheduleId
-    $scheduleData = getCourseScheduleById($scheduleId);
-
-    // Memeriksa apakah data jadwal ditemukan
-    if(!$scheduleData) {
-        echo "Data jadwal tidak ditemukan.";
-        exit;
-    }
-
-    // Assign data jadwal ke variabel
-    $kodeMataKuliah = $scheduleData['Code'];
-    $tanggalKuliah = $scheduleData['DateTime'];
-} else {
-    // Menangani kasus di mana parameter ScheduleId tidak ditemukan dalam URL
-    echo "Parameter ScheduleId tidak ditemukan dalam URL.";
-    exit;
-}
 ?>
 
-<?php require_once("../components/header.php"); ?>
+<?php require_once ("../components/header.php"); ?>
 
 <body id="page-top">
 
@@ -32,7 +12,7 @@ if(isset($_GET['ScheduleId'])) {
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php require_once("../components/sidebar.php"); ?>
+        <?php require_once ("../components/sidebar.php"); ?>
 
         <!-- End of Sidebar -->
 
@@ -43,39 +23,55 @@ if(isset($_GET['ScheduleId'])) {
             <div id="content">
 
                 <!-- Topbar -->
-                <?php require_once("../components/topbar.php"); ?>
+                <?php require_once ("../components/topbar.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
                     <!-- Page Heading -->
                     <h1 class="h3 mb-4 text-gray-800">Edit Jadwal Mata Kuliah</h1>
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="card">
                                 <div class="card-body">
-                                <form method="post">
+                                    <form method="post" action="updateCourseScheduleEditFunction.php">
                                         <div class="form-group row">
-                                            <label for="inputKodeMK" class="col-sm-3 col-form-label">Kode Mata Kuliah</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputKodeMK" name="kode" value="<?php echo $kodeMataKuliah; ?>">
+                                            <label for="inputTglKuliah" class="col-xl-4 col-form-label">Hari
+                                                Kuliah</label>
+                                            <div class="col-xl-8">
+                                                <input type="date" class="form-control" id="inputTglKuliah" name="date"
+                                                    value="<?= isset($data['Date']) ? $data['Date'] : '' ?>" />
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputTglKuliah" class="col-sm-3 col-form-label">Tanggal Kuliah</label>
-                                            <div class="col-sm-9">
-                                                <input type="datetime-local" class="form-control" id="inputTglKuliah" name="tanggal_kuliah" value="<?php echo $tanggalKuliah; ?>">
+                                            <label for="inputTglKuliah" class="col-xl-4 col-form-label">Jam Mulai
+                                            </label>
+                                            <div class="col-xl-8">
+                                                <input type="time" class="form-control" id="inputTglKuliah"
+                                                    name="timeStart"
+                                                    value="<?= isset($data['StartTime']) ? $data['StartTime'] : '' ?>" />
                                             </div>
                                         </div>
-                                        <button name="update" type="submit" class="btn btn-primary tambah_btn">Simpan</button>
+                                        <div class="form-group row">
+                                            <label for="inputTglKuliah" class="col-xl-4 col-form-label">Jam Selesai
+                                            </label>
+                                            <div class="col-xl-8">
+                                                <input type="time" class="form-control" id="inputTglKuliah"
+                                                    name="timeEnd"
+                                                    value="<?= isset($data['EndTime']) ? $data['EndTime'] : '' ?>" />
+                                            </div>
+                                        </div>
+
+                                        <input type="hidden" value="<?= $data['CourseId'] ?>" name="CourseId">
+                                        <button type="submit" name="update" value="<?= $_GET["ScheduleId"] ?>"
+                                            class="btn btn-primary tambah_btn">Update</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
+
                 <!-- /.container-fluid -->
 
             </div>
@@ -122,7 +118,7 @@ if(isset($_GET['ScheduleId'])) {
         </div>
     </div>
 
-    <?php require_once("../components/js.php"); ?>
+    <?php require_once ("../components/js.php"); ?>
 
 </body>
 

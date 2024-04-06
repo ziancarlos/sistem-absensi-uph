@@ -97,7 +97,7 @@ require_once ("updateCourseScheduleFunction.php");
 
                                                     <td style="display: flex; gap: 5px">
                                                         <a class="btn btn-success btn-sm"
-                                                            href="updateCourseScheduleEdit.php"
+                                                            href="updateCourseScheduleEdit.php?ScheduleId=<?= $schedule["ScheduleId"] ?>"
                                                             style="width: 90px; color: white;">Edit</a>
                                                     </td>
                                                 </tr>

@@ -69,6 +69,20 @@ function addCourseScheduleController()
         exit; // Terminate the script
     }
 
+    // Validate date format
+    if (!strtotime($date)) {
+        $_SESSION["error"] = "Format tanggal tidak valid."; // Set error message in session
+       header("location: updateCourseSchedule.php?CourseId=" . $courseId);
+        exit; // Terminate the script
+    }
+
+    // Validate time format
+    if (!strtotime($timeStart) || !strtotime($timeEnd)) {
+        $_SESSION["error"] = "Format waktu tidak valid."; // Set error message in session
+       header("location: updateCourseSchedule.php?CourseId=" . $courseId);
+        exit; // Terminate the script
+    }
+
     // Validate if date is greater than or equal to today
     if (strtotime($date) < strtotime(date("Y-m-d"))) {
         $_SESSION["error"] = "Tanggal harus sama atau setelah hari ini."; // Set error message in session
@@ -83,15 +97,32 @@ function addCourseScheduleController()
         exit; // Terminate the script
     }
 
+
     // Insert the schedule into the schedules table
     $insertQuery = "INSERT INTO schedules (CourseId, Date, StartTime, EndTime) 
-                    VALUES (:courseId, :date, :timeStart, :timeEnd)";
+VALUES (:courseId, :date, :timeStart, :timeEnd)";
     $insertStmt = $conn->prepare($insertQuery);
     $insertStmt->bindParam(':courseId', $courseId);
     $insertStmt->bindParam(':date', $date);
     $insertStmt->bindParam(':timeStart', $timeStart);
     $insertStmt->bindParam(':timeEnd', $timeEnd);
     $insertStmt->execute();
+
+    // Retrieve the last inserted ScheduleId
+    $scheduleId = $conn->lastInsertId();
+
+    // Insert attendances for enrolled students
+    $sqlInsertAttendance = "INSERT INTO attendances (StudentId, ScheduleId) 
+        SELECT e.StudentId, :scheduleId 
+        FROM enrollments e 
+        WHERE e.CourseId = :courseId";
+
+    // Prepare and execute the query to insert attendances
+    $stmtInsertAttendance = $conn->prepare($sqlInsertAttendance);
+    $stmtInsertAttendance->bindParam(':scheduleId', $scheduleId);
+    $stmtInsertAttendance->bindParam(':courseId', $courseId);
+    $stmtInsertAttendance->execute();
+
 
     // Redirect to the success page or wherever necessary
     header("location: updateCourseSchedule.php?CourseId=" . $_POST["tambah"]); // Redirect to the courseSchedule.php page

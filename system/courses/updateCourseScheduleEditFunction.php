@@ -11,86 +11,135 @@ if (!authorization($permittedRole, $_SESSION["UserId"])) {
     header('location: ../auth/login.php');
 }
 
-function getCourseScheduleById($scheduleId)
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET["ScheduleId"])) {
+    updateCourseScheduleEditView();
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["update"])) {
+
+    updateCourseScheduleEditController();
+}
+
+function updateCourseScheduleEditView()
 {
+
+    global $data;
+
     try {
-        // Establish database connection
-        $connection = getConnection();
+        // Get the ScheduleId from the query string
+        $scheduleId = htmlspecialchars($_GET["ScheduleId"]);
 
-        // Prepare SQL statement
-        $stmt = $connection->prepare("SELECT courses.Code, schedules.DateTime FROM schedules INNER JOIN courses WHERE courses.CourseId = schedules.CourseId AND ScheduleId = :scheduleId");
+        // Connect to the database
+        $conn = getConnection(); // Assuming you have a function to establish a PDO connection
 
-        // Bind parameters
+        // Prepare and execute SQL query to retrieve all columns from schedules table for the given ScheduleId
+        $stmt = $conn->prepare("SELECT * FROM schedules WHERE ScheduleId = :scheduleId");
         $stmt->bindParam(':scheduleId', $scheduleId);
-
-        // Execute the query
         $stmt->execute();
 
-        // Fetch the result as an associative array
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        // Fetch the schedule data
+        $scheduleData = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Close the connection
-        $connection = null;
+        if (!$scheduleData) {
+            $_SESSION["error"] = "Schedule not found."; // Set error message in session
+            header("location: dataCourse.php"); // Redirect to an error page
+            exit; // Terminate the script
+        }
 
-        // Return the result
-        return $result;
-    } catch (PDOException $e) {
-        // If an error occurs, you can handle it here
-        echo "Error: " . $e->getMessage();
-        return null;
+        $data = $scheduleData;
+
+    } catch (Exception $e) {
+        $_SESSION["error"] = "Error: " . $e->getMessage(); // Set error message in session
+        header("location: dataCourse.php"); // Redirect to an error page
+        exit; // Terminate the script
     }
 }
 
-// Memproses pembaruan jadwal mata kuliah jika tombol "update" diklik
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["update"]) && isset($_GET['ScheduleId'])) {
-    updateCourseScheduleController();
-}
-
-// Memperbarui jadwal mata kuliah dan mengambil CourseId dari jadwal yang diperbarui
-function updateCourseScheduleController()
+function updateCourseScheduleEditController()
 {
-    // Memeriksa apakah semua data yang diperlukan tersedia
-    if (isset($_POST["tanggal_kuliah"]) && isset($_GET['ScheduleId'])) {
-        $scheduleId = $_GET['ScheduleId']; // Ambil ScheduleId dari URL
-        $tanggalKuliah = $_POST["tanggal_kuliah"];
 
-        $today = date('Y-m-d');
-        if ($tanggalKuliah <= $today) {
-            $_SESSION["error"] = "Jadwal harus diatur di masa depan.";
-            header("location: dataCourse.php");
-            exit;
+
+    try {
+        // Check if required form fields are provided
+        if (empty($_POST["date"]) || empty($_POST["timeStart"]) || empty($_POST["timeEnd"])) {
+            $_SESSION["error"] = "Mohon lengkapi semua kolom."; // Set error message in session
+            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]); // Redirect back to the schedule edit view with an error message
+            exit; // Terminate the script
         }
 
-        try {
-            // Koneksi ke database
-            $connection = getConnection();
+        // Get the ScheduleId from the form data
+        $scheduleId = htmlspecialchars($_POST["update"]);
 
-            // Query SQL untuk memperbarui jadwal mata kuliah
-            $stmt = $connection->prepare("UPDATE schedules SET DateTime = :tanggalKuliah WHERE ScheduleId = :scheduleId");
-            $stmt->bindParam(':tanggalKuliah', $tanggalKuliah);
-            $stmt->bindParam(':scheduleId', $scheduleId);
-            $stmt->execute();
+        // Get the updated schedule data from the form
+        $date = htmlspecialchars($_POST["date"]);
+        $timeStart = htmlspecialchars($_POST["timeStart"]);
+        $timeEnd = htmlspecialchars($_POST["timeEnd"]);
 
-            // Ambil CourseId dari jadwal yang diperbarui
-            $stmt = $connection->prepare("SELECT CourseId FROM schedules WHERE ScheduleId = :scheduleId");
-            $stmt->bindParam(':scheduleId', $scheduleId);
-            $stmt->execute();
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            $courseId = $result['CourseId'];
-
-            // Redirect ke halaman updateCourseSchedule.php dengan menyertakan CourseId
-            header("location: updateCourseSchedule.php?CourseId=$courseId");
-            exit;
-        } catch (PDOException $e) {
-            // Tangani kesalahan jika terjadi
-            $_SESSION["error"] = "Error: " . $e->getMessage();
-            header("location: updateCourseScheduleEdit.php?ScheduleId=" . $scheduleId);
-            exit;
+        // Validate date format
+        if (!strtotime($date)) {
+            $_SESSION["error"] = "Format tanggal tidak valid."; // Set error message in session
+            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]["CourseId"]); // Redirect back to the schedule edit view with an error message
+            exit; // Terminate the script
         }
-    } else {
-        // Jika data yang diperlukan tidak tersedia, tampilkan pesan error
-        $_SESSION["error"] = "Semua data diperlukan untuk melakukan pembaruan jadwal mata kuliah!";
-        header("location: dataCourse.php");
-        exit;
+
+        // Validate time format
+        if (!strtotime($timeStart) || !strtotime($timeEnd)) {
+            $_SESSION["error"] = "Format waktu tidak valid."; // Set error message in session
+            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]["CourseId"]); // Redirect back to the schedule edit view with an error message
+            exit; // Terminate the script
+        }
+
+        // Validate if date is greater than or equal to today
+        if (strtotime($date) < strtotime(date("Y-m-d"))) {
+            $_SESSION["error"] = "Tanggal harus sama atau setelah hari ini."; // Set error message in session
+            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]["CourseId"]); // Redirect back to the schedule edit view with an error message
+            exit; // Terminate the script
+        }
+
+        // Validate if timeStart is before timeEnd
+        if (strtotime($timeStart) >= strtotime($timeEnd)) {
+            $_SESSION["error"] = "Waktu mulai harus sebelum waktu selesai."; // Set error message in session
+            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]["CourseId"]); // Redirect back to the schedule edit view with an error message
+            exit; // Terminate the script
+        }
+
+        // Connect to the database
+        $conn = getConnection(); // Assuming you have a function to establish a PDO connection
+
+        // Prepare SQL statement to check for overlapping schedules, excluding the current schedule being edited
+        $overlapQuery = "SELECT * FROM schedules WHERE ScheduleId != :scheduleId AND Date = :date AND ((StartTime < :endTime AND EndTime > :startTime) OR (StartTime >= :startTime AND StartTime < :endTime) OR (EndTime > :startTime AND EndTime <= :endTime))";
+        $overlapStmt = $conn->prepare($overlapQuery);
+        $overlapStmt->bindParam(':scheduleId', $scheduleId);
+        $overlapStmt->bindParam(':date', $date);
+        $overlapStmt->bindParam(':startTime', $timeStart);
+        $overlapStmt->bindParam(':endTime', $timeEnd);
+        $overlapStmt->execute();
+
+        $overlapResult = $overlapStmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($overlapResult) {
+            $_SESSION["error"] = "Jadwal tumpang tindih dengan jadwal lain."; // Set error message in session
+            header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]); // Redirect back to the schedule edit view with an error message
+            exit; // Terminate the script
+        }
+
+        // Proceed to update the schedule in the database
+        // Prepare and execute SQL query to update the schedule in the database
+        $updateStmt = $conn->prepare("UPDATE schedules SET Date = :date, StartTime = :timeStart, EndTime = :timeEnd WHERE ScheduleId = :scheduleId");
+        $updateStmt->bindParam(':date', $date);
+        $updateStmt->bindParam(':timeStart', $timeStart);
+        $updateStmt->bindParam(':timeEnd', $timeEnd);
+        $updateStmt->bindParam(':scheduleId', $scheduleId);
+        $updateStmt->execute();
+
+        // Redirect to a success page or back to the schedule edit view with a success message
+        $_SESSION["success"] = "Jadwal berhasil diperbarui.";
+        header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]["CourseId"]); // Redirect to the schedule edit view
+        exit; // Terminate the script
+
+    } catch (Exception $e) {
+        $_SESSION["error"] = "Error: " . $e->getMessage(); // Set error message in session
+        header("location: updateCourseSchedule.php?CourseId=" . $_POST["CourseId"]["CourseId"]); // Redirect back to the schedule edit view with an error message
+        exit; // Terminate the script
     }
 }
