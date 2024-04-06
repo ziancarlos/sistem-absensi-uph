@@ -1,8 +1,18 @@
 <?php
 require_once ("../helper/dbHelper.php");
 
-
-// API handling
+/**
+ * API for retrieving and updating student information based on card ID.
+ *
+ * This API provides endpoints for retrieving student information by card ID and updating student card information.
+ * It handles GET and POST requests, returning JSON responses.
+ * 
+ * Endpoints:
+ *  - GET /students?cardId={cardId} : Retrieves student information by card ID.
+ *  - POST /students/update : Updates student card information.
+ * 
+ * @package StudentCardAPI
+ */
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cardId'])) {
     // Handle GET request to retrieve student by card ID
     $cardId = $_GET['cardId'];
@@ -18,11 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cardId'])) {
 }
 
 /**
- * Update a card for a specific student in the system.
+ * Update student card information.
  * 
  * @param string $studentId The unique identifier of the student.
- * @param string $cardId The unique identifier of the card to be update.
- * @return array An associative array containing the result of the registration attempt.
+ * @param string $cardId The unique identifier of the card to be updated.
+ * @return array An associative array containing the result of the card update attempt.
  */
 function updateCard($studentId, $cardId)
 {
@@ -57,8 +67,8 @@ function updateCard($studentId, $cardId)
         // Close the connection
         $connection = null;
 
-        // Return success message if card registration was successful, otherwise return error message
-        return $success ? array("success" => "Student card updated successfully") : array("error" => "Failed to register card");
+        // Return success message if card update was successful, otherwise return error message
+        return $success ? array("success" => "Student card updated successfully") : array("error" => "Failed to update student card");
     } catch (PDOException $e) {
         // Handle database errors
         return array("error" => "Database error: " . $e->getMessage());
