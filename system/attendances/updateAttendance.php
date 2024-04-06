@@ -1,48 +1,16 @@
 <?php
-require_once("updateAttendanceFunction.php");
+require_once ("updateAttendanceFunction.php");
 
-// Periksa apakah data dari form telah dikirim melalui metode POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["updateAttendance"])) {
-    // Memanggil fungsi untuk memproses pembaruan kehadiran
-    updateAttendanceController();
-}
 
-// Periksa apakah parameter StudentId, tanggal, dan kode mata kuliah disertakan dalam URL
-if(isset($_GET['StudentId']) && isset($_GET['tanggal']) && isset($_GET['kodeMataKuliah'])) {
-    $studentId = $_GET['StudentId'];
-    $tanggal = $_GET['tanggal'];
-    $kodeMataKuliah = $_GET['kodeMataKuliah'];
-
-    // Panggil fungsi untuk mendapatkan data absensi berdasarkan StudentId, tanggal, dan kode mata kuliah
-    $attendanceData = getAttendanceByStudentIdAndDateAndCourseCode($studentId, $tanggal, $kodeMataKuliah);
-
-    // Periksa apakah data absensi ditemukan
-    if(!$attendanceData) {
-        // Tangani kasus di mana data absensi tidak ditemukan
-        echo "Data absensi tidak ditemukan.";
-        exit;
-    }
-
-    // Isi nilai awal pada input formulir dengan data absensi yang diperoleh
-    $date = $attendanceData['Date'];
-    $studentName = $attendanceData['Name'];
-    $courseCode = $attendanceData['Code'];
-    $courseName = $attendanceData['ClassName'];
-    $status = $attendanceData['Status'];
-} else {
-    // Tangani kasus di mana parameter tidak lengkap dalam URL
-    echo "Parameter tidak lengkap dalam URL.";
-    exit;
-}
 ?>
 
-<?php require_once("../components/header.php"); ?>
+<?php require_once ("../components/header.php"); ?>
 
 <body id="page-top">
     <!-- Page Wrapper -->
     <div id="wrapper">
         <!-- Sidebar -->
-        <?php require_once("../components/sidebar.php"); ?>
+        <?php require_once ("../components/sidebar.php"); ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -50,7 +18,7 @@ if(isset($_GET['StudentId']) && isset($_GET['tanggal']) && isset($_GET['kodeMata
             <!-- Main Content -->
             <div id="content">
                 <!-- Topbar -->
-                <?php require_once("../components/topbar.php"); ?>
+                <?php require_once ("../components/topbar.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -63,42 +31,78 @@ if(isset($_GET['StudentId']) && isset($_GET['tanggal']) && isset($_GET['kodeMata
                                 <div class="card-body">
                                     <form method="post" action="updateAttendance.php">
                                         <div class="form-group row">
-                                            <label for="inputTgl" class="col-sm-3 col-form-label">Tanggal</label>
+                                            <label for="inputTgl" class="col-sm-3 col-form-label">Tanggal Kelas</label>
                                             <div class="col-sm-9">
-                                                <input type="date" class="form-control" id="inputTgl" name="date" value="<?php echo $date; ?>" readonly>
+                                                <input type="date" class="form-control" id="inputTgl" name="date"
+                                                    value="<?= $data['Date']; ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputNamaMhs" class="col-sm-3 col-form-label">Nama Mahasiswa</label>
+                                            <label for="inputJamMulai" class="col-sm-3 col-form-label">Jam Mulai
+                                                Kelas</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputNamaMhs" name="studentName" value="<?php echo $studentName; ?>" readonly>
+                                                <input type="time" class="form-control" id="inputJamMulai"
+                                                    name="startTime" value="<?= $data['StartTime']; ?>" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="inputJamSelesai" class="col-sm-3 col-form-label">Jam Selesai
+                                                Kelas</label>
+                                            <div class="col-sm-9">
+                                                <input type="time" class="form-control" id="inputJamSelesai"
+                                                    name="endTime" value="<?= $data['EndTime']; ?>" readonly>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="inputNamaMhs" class="col-sm-3 col-form-label">Nama
+                                                Mahasiswa</label>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control" id="inputNamaMhs"
+                                                    name="studentName" value="<?= $data['UserName']; ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputKodeMK" class="col-sm-3 col-form-label">Kode Mata Kuliah</label>
+                                            <label for="inputKodeMK" class="col-sm-3 col-form-label">Kode Mata
+                                                Kuliah</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputKodeMK" name="courseCode" value="<?php echo $courseCode; ?>" readonly>
+                                                <input type="text" class="form-control" id="inputKodeMK"
+                                                    name="courseCode" value="<?= $data['CourseCode']; ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="inputNamaMK" class="col-sm-3 col-form-label">Nama Mata Kuliah</label>
+                                            <label for="inputNamaMK" class="col-sm-3 col-form-label">Nama Mata
+                                                Kuliah</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control" id="inputNamaMK" name="courseName" value="<?php echo $courseName; ?>" readonly>
+                                                <input type="text" class="form-control" id="inputNamaMK"
+                                                    name="courseName" value="<?= $data['CourseName']; ?>" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputStatus" class="col-sm-3 col-form-label">Status</label>
                                             <div class="col-sm-9">
                                                 <select id="status-mhs" name="status" class="form-control">
-                                                    <option value="1" <?php echo ($status == 1) ? 'selected' : ''; ?>>Hadir</option>
-                                                    <option value="0" <?php echo ($status == 0) ? 'selected' : ''; ?>>Tidak Hadir</option>
+
+                                                    <option value="2" <?= ($data["Status"] == 2) ? 'selected' : ''; ?>>
+                                                        Izin</option>
+                                                    <option value="1" <?= ($data["Status"] == 1) ? 'selected' : ''; ?>>
+                                                        Hadir</option>
+                                                    <option value="0" <?= ($data["Status"] == 0) ? 'selected' : ''; ?>>
+                                                        Tidak Hadir</option>
+
+
                                                 </select>
                                             </div>
                                         </div>
                                         <!-- Hidden input for StudentId -->
-                                        <input type="hidden" name="studentId" value="<?php echo $studentId; ?>">
-                                        <button name="updateAttendance" type="submit" class="btn btn-primary tambah_btn">Simpan</button>
+                                        <input type="hidden" name="studentId" value="<?= $_GET["StudentId"] ?>">
+                                        <!-- Hidden input for ScheduleId -->
+                                        <input type="hidden" name="scheduleId" value="<?= $_GET["ScheduleId"] ?>">
+                                        <button name="updateAttendance" type="submit"
+                                            class="btn btn-primary tambah_btn">Simpan</button>
                                     </form>
+
                                 </div>
                             </div>
                         </div>
@@ -113,7 +117,7 @@ if(isset($_GET['StudentId']) && isset($_GET['tanggal']) && isset($_GET['kodeMata
     <!-- End of Page Wrapper -->
 
     <!-- Custom scripts for all pages-->
-    <?php require_once("../components/js.php"); ?>
+    <?php require_once ("../components/js.php"); ?>
 </body>
 
 </html>

@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("../../helper/dbHelper.php");
-require_once("../../helper/authHelper.php");
+require_once ("../../helper/dbHelper.php");
+require_once ("../../helper/authHelper.php");
 
 $permittedRole = ["admin", "lecturer", "student"];
 $pageName = "Sistem Absensi UPH - Histori Absensi";
@@ -32,30 +32,32 @@ function filterAttendanceData($kodeMK = null, $tanggal = null)
 
     try {
         $sql = "
-        SELECT 
-            DATE_FORMAT(DATE(schedules.DateTime), '%Y-%m-%d') AS Date,            
-            users.Name, 
-            courses.Code, 
-            courses.Name AS ClassName, 
-            CONCAT(buildings.Letter, classrooms.Code) AS Room, 
-            DATE_FORMAT(schedules.DateTime, '%H:%i:%s') AS DateTime, 
-            DATE_FORMAT(attendances.FingerprintTimeIn, '%H:%i:%s') AS TimeIn,
-            attendances.StudentId,
-            attendances.Status 
-        FROM 
-            attendances 
-        LEFT JOIN 
-            students ON attendances.StudentId = students.StudentId 
-        LEFT JOIN 
-            users ON students.StudentId = users.StudentId 
-        LEFT JOIN 
-            schedules ON attendances.ScheduleId = schedules.ScheduleId 
-        LEFT JOIN 
-            courses ON schedules.CourseId = courses.CourseId 
-        LEFT JOIN 
-            classrooms ON courses.ClassroomId = classrooms.ClassroomId 
-        LEFT JOIN 
-            buildings ON classrooms.BuildingId = buildings.BuildingId
+        SELECT   
+        students.StudentId,
+        attendances.ScheduleId,     
+        users.Name, 
+        courses.Code, 
+        courses.Name AS ClassName, 
+        CONCAT(buildings.Letter, classrooms.Code) AS Room, 
+        schedules.Date, schedules.StartTime, schedules.EndTime,
+        DATE_FORMAT(attendances.FingerprintTimeIn, '%H:%i:%s') AS TimeIn,
+        attendances.StudentId,
+        attendances.Status 
+    FROM 
+        attendances 
+    LEFT JOIN 
+        students ON attendances.StudentId = students.StudentId 
+    LEFT JOIN 
+        users ON students.StudentId = users.StudentId 
+    LEFT JOIN 
+        schedules ON attendances.ScheduleId = schedules.ScheduleId 
+    LEFT JOIN 
+        courses ON schedules.CourseId = courses.CourseId 
+    LEFT JOIN 
+        classrooms ON courses.ClassroomId = classrooms.ClassroomId 
+    LEFT JOIN 
+        buildings ON classrooms.BuildingId = buildings.BuildingId
+
         WHERE 1 ";
 
         if (!empty($kodeMK)) {
@@ -63,7 +65,7 @@ function filterAttendanceData($kodeMK = null, $tanggal = null)
         }
 
         if (!empty($tanggal)) {
-            $sql .= " AND DATE_FORMAT(DATE(schedules.DateTime), '%Y-%m-%d') = :tanggal ";
+            $sql .= " AND DATE_FORMAT(DATE(schedules.Date), '%Y-%m-%d') = :tanggal ";
         }
 
         $stmt = $connection->prepare($sql);
@@ -96,13 +98,14 @@ function dataAttendanceView()
 
     try {
         $stmt = $connection->query("
-        SELECT 
-            DATE_FORMAT(DATE(schedules.DateTime), '%Y-%m-%d') AS Date,            
+        SELECT        
+        students.StudentId,
+        attendances.ScheduleId,    
             users.Name, 
             courses.Code, 
             courses.Name AS ClassName, 
             CONCAT(buildings.Letter, classrooms.Code) AS Room, 
-            DATE_FORMAT(schedules.DateTime, '%H:%i:%s') AS DateTime, 
+            schedules.Date, schedules.StartTime, schedules.EndTime,
             DATE_FORMAT(attendances.FingerprintTimeIn, '%H:%i:%s') AS TimeIn,
             attendances.StudentId,
             attendances.Status 
@@ -132,5 +135,3 @@ function dataAttendanceView()
         exit;
     }
 }
-?>
-

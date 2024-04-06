@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("../../helper/dbHelper.php");
-require_once("../../helper/authHelper.php");
+require_once ("../../helper/dbHelper.php");
+require_once ("../../helper/authHelper.php");
 $permittedRole = ["lecturer", "admin"];
 $pageName = "Sistem Absensi UPH - Edit Mahasiswa";
 $data = [];
@@ -11,10 +11,12 @@ if (!authorization($permittedRole, $_SESSION["UserId"])) {
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["edit"])) {
     updateCourseView();
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["update"])) {
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["update"])) {
     updateCourseController();
+} else {
+    $_SESSION["error"] = "Tidak menemukan permintaan yang valid!";
+    header("location: dataCourse.php");
+    exit;
 }
 
 
@@ -59,10 +61,10 @@ function updateCourseController()
 
     try {
         $connection = getConnection();
-        
+
         // Begin a transaction
         $connection->beginTransaction();
-    
+
         // Update course information
         $stmt_update_course = $connection->prepare("
             UPDATE courses
@@ -74,7 +76,7 @@ function updateCourseController()
         $stmt_update_course->bindParam(':classroomId', $classroomId);
         $stmt_update_course->bindParam(':courseId', $courseId);
         $stmt_update_course->execute();
-    
+
         // Remove existing lecturer-course relationships
         $stmt_delete_relationships = $connection->prepare("
             DELETE FROM lecturerhascourses
@@ -82,7 +84,7 @@ function updateCourseController()
         ");
         $stmt_delete_relationships->bindParam(':courseId', $courseId);
         $stmt_delete_relationships->execute();
-    
+
         // Insert new lecturer-course relationships
         foreach ($selectedLecturers as $lecturerId) {
             $stmt_insert_relationship = $connection->prepare("
@@ -93,10 +95,10 @@ function updateCourseController()
             $stmt_insert_relationship->bindParam(':courseId', $courseId);
             $stmt_insert_relationship->execute();
         }
-    
+
         // Commit the transaction
         $connection->commit();
-    
+
         // Redirect to the course list page after successful update
         $_SESSION["success"] = "Sukses mengubah mata kuliah.";
         header('location: dataCourse.php');

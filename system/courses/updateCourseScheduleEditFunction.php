@@ -18,6 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET["ScheduleId"])) {
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["update"])) {
 
     updateCourseScheduleEditController();
+} else {
+    $_SESSION["error"] = "Tidak menemukan permintaan yang valid!";
+    header("location: dataCourse.php");
+    exit;
 }
 
 function updateCourseScheduleEditView()
