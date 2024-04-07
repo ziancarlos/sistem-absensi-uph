@@ -22,9 +22,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cardId'])) {
     } else {
         echo json_encode(array("error" => "Student not found"));
     }
-} else if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['updateCard'])) {
-    // Handle POST request to update card
-    echo json_encode(updateCard($_POST['studentId'], $_POST['cardId']));
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Handle POST requests
+    if (isset($_POST['updateCard'])) {
+        // Update card information
+        echo json_encode(updateCard($_POST['studentId'], $_POST['cardId']));
+    } else if (isset($_POST['updateFace'])) {
+        // Update face information
+        echo json_encode(updateFace($_POST['studentId'], $_POST['faceId']));
+    }
+}
+
+/**
+ * Update student face information.
+ * 
+ * @param string $studentId The unique identifier of the student.
+ * @param string $faceId The unique identifier of the face to be updated.
+ * @return array An associative array containing the result of the face update attempt.
+ */
+function updateFace($studentId, $faceId)
+{
+    try {
+        // Check if the student ID format is valid
+        if (!preg_match("/^\d{11,}$/", $studentId)) {
+            return array("error" => "Student ID must consist of 11 or more digits");
+        }
+
+        // Check if the student exists
+        if (!isStudentExist($studentId)) {
+            return array("error" => "Student ID not found in the database");
+        }
+
+        // Database connection
+        $connection = getConnection();
+
+        // SQL query to update the face for the specified student
+        $sqlUpdateFace = "UPDATE students SET Face = :faceId WHERE StudentId = :studentId";
+
+        // Prepare and execute the query
+        $stmtUpdateFace = $connection->prepare($sqlUpdateFace);
+        $stmtUpdateFace->bindParam(':faceId', $faceId);
+        $stmtUpdateFace->bindParam(':studentId', $studentId);
+        $success = $stmtUpdateFace->execute();
+
+        // Close the connection
+        $connection = null;
+
+        // Return success message if face update was successful, otherwise return error message
+        return $success ? array("success" => "Student face updated successfully") : array("error" => "Failed to update student face");
+    } catch (PDOException $e) {
+        // Handle database errors
+        return array("error" => "Database error: " . $e->getMessage());
+    }
 }
 
 /**

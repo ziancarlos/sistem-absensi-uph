@@ -4,10 +4,10 @@ require_once ("../../helper/dbHelper.php");
 // Check if it's a POST request and attendance action is requested
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['attendance'])) {
     // Get the card ID from the POST parameters
-    $cardId = $_POST['cardId'];
+    $faceId = $_POST['faceId'];
 
     // Call the function to validate the card ID and update attendance
-    $result = checkAndUpdateAttendance($cardId);
+    $result = checkAndUpdateAttendance($faceId);
 
     // Prepare and send response to client based on the result
     if ($result !== "") {
@@ -28,19 +28,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['attendance'])) {
 /**
  * Validates the card ID, checks student enrollment, and updates attendance accordingly.
  * 
- * @param string $cardId The card ID to be validated.
+ * @param string $faceId The card ID to be validated.
  * @return string A message indicating the result of the attendance update.
  */
-function checkAndUpdateAttendance($cardId)
+function checkAndUpdateAttendance($faceId)
 {
     try {
         // Connect to the database
         $connection = getConnection();
 
         // Query to check if the card ID is registered to any student
-        $sqlCheckCard = "SELECT * FROM students WHERE Card = :cardId";
+        $sqlCheckCard = "SELECT * FROM students WHERE Face = :faceId";
         $stmtCheckCard = $connection->prepare($sqlCheckCard);
-        $stmtCheckCard->bindParam(':cardId', $cardId);
+        $stmtCheckCard->bindParam(':faceId', $faceId);
         $stmtCheckCard->execute();
         $student = $stmtCheckCard->fetch(PDO::FETCH_ASSOC);
 
@@ -49,6 +49,8 @@ function checkAndUpdateAttendance($cardId)
             // Get the current date and time
             $currentDate = date('Y-m-d');
             $currentTime = date('H:i:s');
+
+
 
             // Check if the student is enrolled in any class on the current day
             $sqlCheckEnrollment = "SELECT * FROM enrollments 
@@ -87,7 +89,7 @@ function checkAndUpdateAttendance($cardId)
 
                     // Query to update attendance
                     $sqlUpdateAttendance = "UPDATE attendances 
-                                            SET CardTimeIn = :attendanceDate, Status = :attendanceStatus 
+                                            SET FaceTimeIn = :attendanceDate, Status = :attendanceStatus 
                                             WHERE StudentId = :studentId AND ScheduleId = :scheduleId";
                     $stmtUpdateAttendance = $connection->prepare($sqlUpdateAttendance);
                     $stmtUpdateAttendance->bindParam(':attendanceDate', $attendanceDate);
@@ -109,7 +111,7 @@ function checkAndUpdateAttendance($cardId)
             }
         } else {
             // Card ID is not registered to any student
-            return "Face is invalid or not registered.";
+            return "Invalid Face ID.";
         }
     } catch (PDOException $e) {
         // Handle database connection or query execution errors
