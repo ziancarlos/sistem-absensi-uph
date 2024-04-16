@@ -9,6 +9,48 @@ if (!authorization($permittedRole, $_SESSION["UserId"])) {
 }
 
 dataCourseView();
+dataAttendanceStudent();
+
+function dataAttendanceStudent()
+{
+    global $data;
+    $userId = $_SESSION["UserId"];
+    $connection = getConnection();
+
+    try {
+        $stmt = $connection->prepare("
+        SELECT 
+            students.StudentId, 
+            users.Name, 
+            COUNT(CASE WHEN attendances.Status = 1 THEN 1 ELSE NULL END) AS AttendanceCount,
+            COUNT(CASE WHEN attendances.Status = 0 THEN 1 ELSE NULL END) AS AbsenceCount,
+            ROUND((COUNT(CASE WHEN attendances.Status = 1 THEN 1 ELSE NULL END) / COUNT(*)) * 100, 2) AS AttendancePercentage
+        FROM 
+            attendances 
+        INNER JOIN 
+            users ON attendances.StudentId = users.StudentId 
+        INNER JOIN 
+            students ON attendances.StudentId = students.StudentId 
+        INNER JOIN 
+            schedules ON attendances.ScheduleId = schedules.ScheduleId 
+        WHERE 
+            users.UserId = ? 
+            AND schedules.Date <= CURDATE() 
+        GROUP BY 
+            students.StudentId, 
+            users.Name 
+        ");
+        $stmt->execute([$userId]);
+        $attendanceData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Return the attendance data
+        return $attendanceData;
+    } catch (Exception $e) {
+        $_SESSION["error"] = $e->getMessage();
+        header("location: dashboard.php");
+        exit;
+    }
+}
 
 function dataCourseView()
 {
