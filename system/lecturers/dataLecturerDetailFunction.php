@@ -52,8 +52,8 @@ function dataLecturerDetailModel($lecturerId)
         $sql = "SELECT 
         users.Name AS LecturerName, 
         courses.CourseId,   
-        courses.StartDate, 
-        courses.EndDate, 
+        schedules.StartTime, 
+        schedules.EndTime, 
         courses.Code AS CourseCode, 
         courses.Name AS CourseName, 
         courses.Status,
@@ -64,6 +64,8 @@ function dataLecturerDetailModel($lecturerId)
         lecturerhascourses ON users.UserId = lecturerhascourses.LecturerId 
     JOIN 
         courses ON lecturerhascourses.CourseId = courses.CourseId 
+    JOIN 
+        schedules ON courses.CourseId = schedules.CourseId
     JOIN 
         classrooms ON courses.ClassroomId = classrooms.ClassroomId 
     JOIN 
