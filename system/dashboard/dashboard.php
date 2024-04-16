@@ -29,59 +29,62 @@ require_once("dashboardFunction.php");
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                     </div>
 
-                    <!-- Content Row -->
-                    <div class="row">
+                    <?php if ($role == "admin" || $role == "lecturer"): require_once("dashboardFunction.php");?>
 
-                        <!-- Kelas paling banyak dihadiri -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card background-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Kelas Paling Banyak Dihadiri</div>
-                                            <div class="h5 mb-0 font-weight-bold text-primary">
-                                                <?php $mostAttendedClass = getMostAttendedClass(); echo $mostAttendedClass['Name']; ?>
-                                            </div>
-                                            <hr>
-                                            <div>
-                                                <a href="dashboardMostAttendedClass.php"
-                                                    class="text-xs font-weight-normal text-primary mb-1">View
-                                                    Details</a>
-                                                <span class="fas fa-angle-right	sidebar-dashboard text-primary"
-                                                    style="float: right;"></span>
+                        <!-- Content Row -->
+                        <div class="row">
+
+                            
+                            <!-- Kelas paling banyak dihadiri -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card background-primary shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Kelas Paling Banyak Dihadiri</div>
+                                                <div class="h5 mb-0 font-weight-bold text-primary">
+                                                    <?php $mostAttendedClass = getMostAttendedClass(); echo $mostAttendedClass['Name']; ?>
+                                                </div>
+                                                <hr>
+                                                <div>
+                                                    <a href="dashboardMostAttendedClass.php"
+                                                        class="text-xs font-weight-normal text-primary mb-1">View
+                                                        Details</a>
+                                                    <span class="fas fa-angle-right	sidebar-dashboard text-primary"
+                                                        style="float: right;"></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Kelas paling banyak dihadiri -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card background-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Kelas Paling Jarang Dihadiri</div>
-                                            <div class="h5 mb-0 font-weight-bold text-primary">
-                                                <?php $leastAttendedClass = getLeastAttendedClass(); echo $leastAttendedClass['Name']; ?>
-                                            </div>
-                                            <hr>
-                                            <div>
-                                                <a href="dashboardLeastAttendedClass.php"
-                                                    class="text-xs font-weight-normal text-primary mb-1">View
-                                                    Details</a>
-                                                <span class="fas fa-angle-right	sidebar-dashboard text-primary"
-                                                    style="float: right;"></span>
+                            <!-- Kelas paling jarang dihadiri -->
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card background-warning shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Kelas Paling Jarang Dihadiri</div>
+                                                <div class="h5 mb-0 font-weight-bold text-primary">
+                                                    <?php $leastAttendedClass = getLeastAttendedClass(); echo $leastAttendedClass['Name']; ?>
+                                                </div>
+                                                <hr>
+                                                <div>
+                                                    <a href="dashboardLeastAttendedClass.php"
+                                                        class="text-xs font-weight-normal text-primary mb-1">View
+                                                        Details</a>
+                                                    <span class="fas fa-angle-right	sidebar-dashboard text-primary"
+                                                        style="float: right;"></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <?php if ($role == "admin" || $role == "lecturer"): ?>
+                            
                             <!-- Mahasiswa paling rajin -->
                             <div class="col-xl-3 col-md-6 mb-4">
                                 <div class="card background-success shadow h-100 py-2">
@@ -131,97 +134,147 @@ require_once("dashboardFunction.php");
                                     </div>
                                 </div>
                             </div>
-                    </div>
+                        </div>
 
-                    <!-- Content Row -->
+                        <!-- Content Row -->
+                        <div class="row">
 
-                    <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-6 col-lg-7">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="color: black !important;">Grafik Absensi Mahasiswa Harian</h6>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="dailyAttendanceChart"></canvas>
+                            <!-- Area Chart -->
+                            <div class="col-xl-6 col-lg-7">
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Dropdown -->
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-primary" style="color: black !important;">Grafik Absensi Mahasiswa Harian</h6>
+                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <div class="chart-area">
+                                            <canvas id="dailyAttendanceChart"></canvas>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-xl-6 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary" style="color: black !important;">Grafik Absensi Mahasiswa Bulanan</h6>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-bar">
-                                        <canvas id="monthlyAttendanceChart"></canvas>
+                            <div class="col-xl-6 col-lg-5">
+                                <div class="card shadow mb-4">
+                                    <!-- Card Header - Dropdown -->
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-primary" style="color: black !important;">Grafik Absensi Mahasiswa Bulanan</h6>
+                                    </div>
+                                    <!-- Card Body -->
+                                    <div class="card-body">
+                                        <div class="chart-bar">
+                                            <canvas id="monthlyAttendanceChart"></canvas>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
-                        <?php endif; ?>
-                    </div>
+                    <?php endif; ?>
                     
                     <!-- Begin Page Content -->
-                    <?php if ($role == "student"): require_once ("dataCourseStudentFunction.php"); ?>
-                    <div class="container-fluid">
+                    <?php if ($role == "student"): require_once("dataCourseStudentFunction.php");?>
+                        <div class="row">
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card background-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                Persentase Kehadiran
+                                            </div>
+                                            <div class="row no-gutters align-items-center">
+                                                <div class="col-auto">
+                                                    <?php $attendanceData = dataAttendanceStudent(); ?>
+                                                    <?php if ($attendanceData): ?>
+                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-primary">
+                                                            <?php echo $attendanceData['AttendancePercentage']; ?>%
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="progress">
+                                                        <?php if ($attendanceData): ?>
+                                                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="<?php echo $attendanceData['AttendancePercentage']; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $attendanceData['AttendancePercentage']; ?>%"></div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6 mb-4">
+                                <div class="card background-danger shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Jumlah Ketidakhadiran
+                                                </div>
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col-auto">
+                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-primary">
+                                                            <?php $attendanceData = dataAttendanceStudent(); ?>
+                                                            <?php if ($attendanceData): ?>
+                                                                <?php echo $attendanceData['AbsenceCount']; ?>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
 
                         <!-- Page Heading -->
                         <h1 class="h3 mb-4 text-gray-800">Mata Kuliah Hari Ini</h1>
-                        <div class="col-xl-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <!-- Tabel Mata Kuliah -->
-                                    <table id="example" class="display cell-border " style="width:100%">
-                                        <thead>
-                                            <tr>
-                                            <tr>
-                                                <th>Tanggal</th>
-                                                <th>Kode Mata Kuliah</th>
-                                                <th>Mata Kuliah</th>
-                                                <th>Ruang</th>
-                                                <th>Jam Mulai</th>
-                                                <th>Jam Selesai</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($data['courses'] as $course): ?>
-                                                <tr>
-                                                    <td>
-                                                        <?= $course["Date"] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?= $course["Code"] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?= $course['Name'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?= $course['Room'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?= $course['StartTime'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?= $course["EndTime"] ?>
-                                                    </td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Tabel Mata Kuliah -->
+                        <table id="example1" class="display cell-border " style="width:100%">
+                            <thead>
+                                <tr>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Kode Mata Kuliah</th>
+                                    <th>Mata Kuliah</th>
+                                    <th>Ruang</th>
+                                    <th>Jam Mulai</th>
+                                    <th>Jam Selesai</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($data['courses'] as $course): ?>
+                                    <tr>
+                                        <td>
+                                            <?= $course["Date"] ?>
+                                        </td>
+                                        <td>
+                                            <?= $course["Code"] ?>
+                                        </td>
+                                        <td>
+                                            <?= $course['Name'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $course['Room'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $course['StartTime'] ?>
+                                        </td>
+                                        <td>
+                                            <?= $course["EndTime"] ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
 
-                    </div>
                     <!-- /.container-fluid -->
                     <?php endif; ?>
                 </div>
@@ -275,10 +328,35 @@ require_once("dashboardFunction.php");
 
     <?php require_once("../components/js.php"); ?>
 
-    <!-- Chart.js -->
+    <!-- js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
     <script>
+    new DataTable('#example1', {
+        columns: [{
+            data: 'tanggal'
+        },
+        {
+            data: 'kode_mk'
+        },
+        {
+            data: 'mata_kuliah'
+        },
+        {
+            data: 'ruang'
+        }, 
+        {
+            data: 'jam_mulai'
+        },
+        {
+            data: 'jam_selesai'
+        }
+        ]
+    });
+    </script>
+    <script>
+
         // Load data for daily attendance chart
         <?php
             $dailyAttendanceData = getDailyAttendanceData();
@@ -415,27 +493,8 @@ require_once("dashboardFunction.php");
                 }
             }
         });
-        new DataTable('#example', {
-            columns: [{
-                data: 'tanggal'
-            },
-            {
-                data: 'kode_mk'
-            },
-            {
-                data: 'mata_kuliah'
-            },
-            {
-                data: 'ruang'
-            }, 
-            {
-                data: 'jam_mulai'
-            },
-            {
-                data: 'jam_selesai'
-            },
-            ]
-        });
+
+        
     </script>
 </body>
 
