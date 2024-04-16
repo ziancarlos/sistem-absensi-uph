@@ -55,10 +55,10 @@ $lecturerId = $_POST['lecturerId'];
                                             <?= $lecturerCourse["LecturerName"] ?>
                                         </td>
                                         <td>
-                                            <?= ($lecturerCourse["StartDate"] == null) ? "-" : $lecturerCourse["StartDate"] ?>
+                                            <?= ($lecturerCourse["StartTime"] == null) ? "-" : $lecturerCourse["StartTime"] ?>
                                         </td>
                                         <td>
-                                            <?= ($lecturerCourse["EndDate"] == null) ? "-" : $lecturerCourse["EndDate"] ?>
+                                            <?= ($lecturerCourse["EndTime"] == null) ? "-" : $lecturerCourse["EndTime"] ?>
                                         </td>
                                         <td>
                                             <?= $lecturerCourse["CourseCode"] ?>
