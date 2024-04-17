@@ -96,13 +96,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <div class="form-group row">
                                             <label for="inputPass" class="col-sm-2 col-form-label">Password</label>
                                             <div class="col-sm-10">
-                                                <input type="password" class="form-control" id="inputPass" name="password" value="<?= $user['Password'] ?>">
+                                                <input type="password" class="form-control" id="inputPass" name="password" value="">
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputKonfirmasiPass" class="col-sm-2 col-form-label">Konfirmasi Password</label>
                                             <div class="col-sm-10">
-                                                <input type="password" class="form-control" id="inputKonfirmasiPass" name="confirm_password" value="<?= $user['Password'] ?>">
+                                                <input type="password" class="form-control" id="inputKonfirmasiPass" name="confirm_password" value="">
                                             </div>
                                         </div>
                                         <div class="form-group row">
