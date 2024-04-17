@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once ("../../helper/dbHelper.php");
-require_once ("../../helper/authHelper.php");
+require_once("../../helper/dbHelper.php");
+require_once("../../helper/authHelper.php");
 
 $permittedRole = ["admin", "lecturer", "student"];
 $pageName = "Sistem Absensi UPH - Histori Absensi";
@@ -97,10 +97,14 @@ function dataAttendanceView()
     $connection = getConnection();
 
     try {
-        $stmt = $connection->query("
+        // Mendapatkan role pengguna dari session
+        $role = getUserRole($_SESSION["UserId"]);
+
+        // Query untuk menampilkan data absensi
+        $sql = "
         SELECT        
-        students.StudentId,
-        attendances.ScheduleId,    
+            students.StudentId,
+            attendances.ScheduleId,    
             users.Name, 
             courses.Code, 
             courses.Name AS ClassName, 
@@ -122,9 +126,21 @@ function dataAttendanceView()
         LEFT JOIN 
             classrooms ON courses.ClassroomId = classrooms.ClassroomId 
         LEFT JOIN 
-            buildings ON classrooms.BuildingId = buildings.BuildingId
-        
-        ");
+            buildings ON classrooms.BuildingId = buildings.BuildingId";
+
+        // Jika role adalah "student", tambahkan kondisi where
+        if ($role === "student") {
+            $sql .= " WHERE users.UserId = :userId";
+        }
+
+        $stmt = $connection->prepare($sql);
+
+        // Bind parameter jika role adalah "student"
+        if ($role === "student") {
+            $stmt->bindParam(':userId', $_SESSION["UserId"]);
+        }
+
+        $stmt->execute();
         $attendances = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Populate data array with all attendance information
@@ -135,3 +151,4 @@ function dataAttendanceView()
         exit;
     }
 }
+?>

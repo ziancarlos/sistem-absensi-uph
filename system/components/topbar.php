@@ -1,3 +1,35 @@
+<?php
+session_start();
+if (!isset($_SESSION["UserId"])) {
+    header("location: ../auth/login.php");
+    exit();
+}
+
+// Setelah login berhasil, ambil informasi pengguna dari database
+$userId = $_SESSION["UserId"];
+$userInfo = getUserInfo($userId);
+
+// Fungsi untuk mengambil informasi pengguna dari database
+function getUserInfo($userId) {
+    $connection = getConnection();
+    $statement = null;
+
+    try {
+        $sql = "SELECT Name FROM Users WHERE UserId = :userId";
+        $statement = $connection->prepare($sql);
+        $statement->bindParam(':userId', $userId);
+        $statement->execute();
+        $userInfo = $statement->fetch(PDO::FETCH_ASSOC);
+        return $userInfo;
+    } catch (PDOException $e) {
+        return null;
+    }
+}
+
+// Setelah mendapatkan informasi pengguna, tampilkan nama pengguna di top bar
+$userName = $userInfo['Name'];
+?>
+
 <!-- Topbar -->
 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
     <!-- Topbar Navbar -->
@@ -8,7 +40,7 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $userName ?></span>
                 <img class="img-profile rounded-circle" src="../../assets/img/undraw_profile.svg">
             </a>
             <!-- Dropdown - User Information -->
@@ -24,8 +56,6 @@
                 </a>
             </div>
         </li>
-
     </ul>
-
 </nav>
 <!-- End of Topbar -->

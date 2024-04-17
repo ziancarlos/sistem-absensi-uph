@@ -45,10 +45,11 @@ function detailStudentView()
 
             // Proceed with other actions if needed
             $stmt = $connection->prepare("
-        SELECT enrollments.EnrollmentId,  courses.Name, courses.Code AS Code,courses.StartDate, 
-               courses.EndDate, CONCAT(buildings.Letter, classrooms.Code) AS Room, enrollments.Status AS EnrollmentStatus, courses.Status AS CoursesStatus
+        SELECT enrollments.EnrollmentId,  courses.Name, courses.Code AS Code, schedules.StartTime, 
+        schedules.EndTime, CONCAT(buildings.Letter, classrooms.Code) AS Room, enrollments.Status AS EnrollmentStatus, courses.Status AS CoursesStatus
         FROM courses
         INNER JOIN classrooms ON courses.ClassroomId = classrooms.ClassroomId
+        INNER JOIN schedules ON courses.CourseId = schedules.CourseId
         INNER JOIN buildings ON classrooms.BuildingId = buildings.BuildingId
         INNER JOIN enrollments ON courses.CourseId = enrollments.CourseId
         INNER JOIN users ON enrollments.StudentId = users.StudentId
@@ -79,10 +80,11 @@ function detailStudentView()
 
             // Proceed with other actions if needed
             $stmt = $connection->prepare("
-        SELECT enrollments.EnrollmentId,  courses.Name, courses.Code AS Code,courses.StartDate, 
-               courses.EndDate, CONCAT(buildings.Letter, classrooms.Code) AS Room, enrollments.Status AS EnrollmentStatus, courses.Status AS CoursesStatus
+        SELECT enrollments.EnrollmentId,  courses.Name, courses.Code AS Code,schedules.StartTime, 
+        schedules.EndTime, CONCAT(buildings.Letter, classrooms.Code) AS Room, enrollments.Status AS EnrollmentStatus, courses.Status AS CoursesStatus
         FROM courses
-        INNER JOIN classrooms ON courses.ClassroomId = classrooms.ClassroomId
+        INNER JOIN classrooms ON courses.ClassroomId = classrooms.ClassroomId 
+        INNER JOIN schedules ON courses.CourseId = schedules.CourseId
         INNER JOIN buildings ON classrooms.BuildingId = buildings.BuildingId
         INNER JOIN enrollments ON courses.CourseId = enrollments.CourseId
         INNER JOIN users ON enrollments.StudentId = users.StudentId

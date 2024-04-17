@@ -29,7 +29,14 @@ require_once ("dataCourseDetailFunction.php");
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
+                    <?php if ($role == "admin" || $role == "lecturer"): ?>
                     <h1 class="h3 mb-4 text-gray-800">List Mahasiswa yang di Enroll</h1>
+                    <?php endif; ?>
+
+                    <?php if ($role == "student"): ?>
+                    <h1 class="h3 mb-4 text-gray-800">Detail Mata Kuliah</h1>
+                    <?php endif; ?>
+
                     <table id="example1" class="display cell-border" style="width:100%">
                         <thead>
                             <tr>
@@ -57,15 +64,14 @@ require_once ("dataCourseDetailFunction.php");
                         </tbody>
                     </table>
                     <br><br>
+                    <?php if ($role == "admin" || $role == "lecturer"): ?>
                     <table id="example" class="display cell-border" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Nama Mahasiswa</th>
                                 <th>NIM</th>
                                 <th>Tahun Angkatan</th>
-                                <?php if ($role != "student"): ?>
                                 <th>Aksi</th>
-                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -80,7 +86,6 @@ require_once ("dataCourseDetailFunction.php");
                                 <td>
                                     <?= $student["YearIn"] ?>
                                 </td>
-                                <?php if ($role != "student"): ?>
                                 <td style="display: flex; gap: 5px;">
                                     <?php if ($student["EnrollmentStatus"] == 1): ?>
                                     <form action="../students/deactivateEnrollmentFunction.php" method="post"
@@ -96,11 +101,11 @@ require_once ("dataCourseDetailFunction.php");
                                     </form>
                                     <?php endif; ?>
                                 </td>
-                                <?php endif; ?>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
+                    <?php endif; ?>
                 </div>
                 <!-- /.container-fluid -->
             </div>

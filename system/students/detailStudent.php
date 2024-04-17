@@ -51,10 +51,10 @@ require_once("detailStudentFunction.php");
                                     <?= $course["Code"] ?>
                                 </td>
                                 <td>
-                                    <?= $course["StartDate"] ?>
+                                    <?= $course["StartTime"] ?>
                                 </td>
                                 <td>
-                                    <?= $course["EndDate"] ?>
+                                    <?= $course["EndTime"] ?>
                                 </td>
 
                                 <td>
