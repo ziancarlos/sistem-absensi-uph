@@ -17,7 +17,7 @@ function getUserById($userId) {
     $statement = null;
 
     try {
-        $sql = "SELECT Name, Email, Password FROM Users WHERE UserId = :userId";
+        $sql = "SELECT Name, Email, Password FROM users WHERE UserId = :userId";
         $statement = $connection->prepare($sql);
         $statement->bindParam(':userId', $userId);
         $statement->execute();
@@ -45,7 +45,7 @@ function updateUser($userId, $name, $email, $password) {
             $hashedPassword = $user['Password'];
         }
 
-        $sql = "UPDATE Users SET Name = :name, Email = :email, Password = :password WHERE UserId = :userId";
+        $sql = "UPDATE users SET Name = :name, Email = :email, Password = :password WHERE UserId = :userId";
         $statement = $connection->prepare($sql);
         $statement->bindParam(':name', $name);
         $statement->bindParam(':email', $email);
