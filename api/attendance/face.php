@@ -38,7 +38,7 @@ function checkAndUpdateAttendance($faceId)
         $connection = getConnection();
 
         // Query to check if the card ID is registered to any student
-        $sqlCheckCard = "SELECT * FROM students WHERE Face = :faceId";
+        $sqlCheckCard = "SELECT * FROM students INNER JOIN users ON students.StudentId = users.StudentId WHERE Face = :faceId";
         $stmtCheckCard = $connection->prepare($sqlCheckCard);
         $stmtCheckCard->bindParam(':faceId', $faceId);
         $stmtCheckCard->execute();
@@ -55,6 +55,7 @@ function checkAndUpdateAttendance($faceId)
             // Check if the student is enrolled in any class on the current day
             $sqlCheckEnrollment = "SELECT * FROM enrollments 
                                     INNER JOIN schedules ON enrollments.CourseId = schedules.CourseId 
+                                    INNER JOIN courses ON enrollments.CourseId = courses.CourseId
                                     WHERE enrollments.StudentId = :studentId 
                                     AND schedules.Date = :currentDate 
                                     AND schedules.StartTime <= :currentTime 
@@ -99,15 +100,15 @@ function checkAndUpdateAttendance($faceId)
                     $stmtUpdateAttendance->execute();
 
                     // Return success message
-                    $message = "Attendance recorded successfully.";
+                    $message = "Absensi " . $student["Name"] . " di kelas " . $existingAttendance["Name"] . "telah ditandai.";
                     if ($attendanceStatus == 3) {
-                        $message .= " Student is late.";
+                        $message .= " Mahasiswa telat.";
                     }
                     return $message;
                 }
             } else {
                 // Student is not enrolled in any class on the current day or arrived more than 15 minutes after the class starts
-                return "Student is not enrolled in any class now.";
+                return $student["Name"] . " tidak terdaftar di kelas manapun.";
             }
         } else {
             // Card ID is not registered to any student
