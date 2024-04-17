@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("../../helper/dbHelper.php");
+require_once ("../../helper/dbHelper.php");
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST["login"])) {
@@ -25,8 +25,6 @@ function loginController()
     try {
         $statement = loginModel($email, $password);
     } catch (PDOException $e) {
-        $connection->rollback();
-
         $connection = null;
 
         $_SESSION["error"] = "default";

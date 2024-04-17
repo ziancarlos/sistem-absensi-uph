@@ -22,6 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cardId'])) {
     } else {
         echo json_encode(array("error" => "Student not found"));
     }
+} else if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['getAllStudents'])) {
+    $students = getAllStudents();
+    echo json_encode($students);
 } else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle POST requests
     if (isset($_POST['updateCard'])) {
@@ -32,6 +35,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cardId'])) {
         echo json_encode(updateFace($_POST['studentId'], $_POST['faceId']));
     }
 }
+
+/**
+ * Retrieves all students from the database.
+ * 
+ * @return array An associative array of all students from the database.
+ */
+function getAllStudents()
+{
+    try {
+        // Database connection
+        $connection = getConnection();
+
+        // SQL query to retrieve all students
+        $sql = "SELECT * FROM users INNER JOIN students ON users.StudentId = students.StudentId WHERE users.Status = 1 AND users.Role = 0";
+
+        // Prepare and execute the query
+        $stmt = $connection->prepare($sql);
+        $stmt->execute();
+
+        // Fetch all rows as an associative array
+        $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Close the connection
+        $connection = null;
+
+        // Return the array of students
+        return $students;
+    } catch (PDOException $e) {
+        // Handle database errors
+        return array("error" => "Database error: " . $e->getMessage());
+    }
+}
+
 
 /**
  * Update student face information.
