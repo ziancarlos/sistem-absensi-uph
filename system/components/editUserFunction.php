@@ -34,8 +34,16 @@ function updateUser($userId, $name, $email, $password) {
     $connection = getConnection();
 
     try {
-        // Enkripsi password sebelum menyimpannya ke dalam database
-        $hashedPassword = md5($password);
+        // Periksa apakah ada perubahan pada kata sandi
+        $hashedPassword = $password; // Tetapkan nilai awal hashedPassword
+        if (!empty($password)) {
+            // Jika kata sandi tidak kosong, hash ulang kata sandi
+            $hashedPassword = md5($password);
+        } else {
+            // Jika kata sandi kosong, gunakan kata sandi yang ada di database
+            $user = getUserById($userId);
+            $hashedPassword = $user['Password'];
+        }
 
         $sql = "UPDATE Users SET Name = :name, Email = :email, Password = :password WHERE UserId = :userId";
         $statement = $connection->prepare($sql);
@@ -72,3 +80,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Redirect jika metode request bukan POST
     header('location: editUser.php');
 }
+?>
