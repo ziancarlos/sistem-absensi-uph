@@ -17,7 +17,7 @@ function getUserById($userId) {
     $connection = getConnection();
 
     try {
-        $sql = "SELECT Name, Email, Password FROM Users WHERE UserId = :userId";
+        $sql = "SELECT Name, Email, Password FROM users WHERE UserId = :userId";
         $statement = $connection->prepare($sql);
         $statement->bindParam(':userId', $userId);
         $statement->execute();
