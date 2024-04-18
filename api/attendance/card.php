@@ -132,7 +132,17 @@ function checkAndUpdateAttendance($cardId)
             return "ID kartu tidak terkait dengan mahasiswa mana pun.";
         }
     } catch (PDOException $e) {
-        // Handle database connection or query execution errors
-        return $e->getMessage();
+        // Log database connection or query execution errors
+        http_response_code(500);
+        return json_encode(array("error" => "Kesalahan database. Silakan coba lagi nanti."));
+    } catch (Exception $e) {
+        // Log general exceptions
+        http_response_code(500);
+        return json_encode(array("error" => "Terjadi kesalahan. Silakan coba lagi nanti."));
+    } finally {
+        // Close the database connection if open
+        if ($connection) {
+            $connection = null;
+        }
     }
 }
