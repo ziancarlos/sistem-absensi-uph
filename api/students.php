@@ -33,6 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cardId'])) {
     } else if (isset($_POST['updateFace'])) {
         // Update face information
         echo json_encode(updateFace($_POST['studentId'], $_POST['faceId']));
+    } else if (isset($_POST['updateFingerprint'])) {
+        // Update fingerprint information
+        echo json_encode(updateFingerprint($_POST['studentId'], $_POST['fingerprintId']));
     }
 }
 
@@ -105,6 +108,49 @@ function updateFace($studentId, $faceId)
 
         // Return success message if face update was successful, otherwise return error message
         return $success ? array("success" => "Wajah siswa berhasil diperbarui") : array("error" => "Gagal memperbarui wajah siswa");
+    } catch (PDOException $e) {
+        // Handle database errors
+        return array("error" => "Kesalahan database: " . $e->getMessage());
+    }
+}
+
+/**
+ * Update student fingerprint information.
+ * 
+ * @param string $studentId The unique identifier of the student.
+ * @param string $fingerprintId The unique identifier of the fingerprint to be updated.
+ * @return array An associative array containing the result of the fingerprint update attempt.
+ */
+function updateFingerprint($studentId, $fingerprintId)
+{
+    try {
+        // Validate student ID format
+        if (!preg_match("/^\d{11,}$/", $studentId)) {
+            return array("error" => "ID siswa harus terdiri dari 11 digit atau lebih");
+        }
+
+        // Check if the student exists
+        if (!isStudentExist($studentId)) {
+            return array("error" => "ID siswa tidak ditemukan dalam database");
+        }
+
+        // Database connection
+        $connection = getConnection();
+
+        // SQL query to update the fingerprint for the specified student
+        $sqlUpdateFingerprint = "UPDATE students SET Fingerprint = :fingerprintId WHERE StudentId = :studentId";
+
+        // Prepare and execute the query
+        $stmtUpdateFingerprint = $connection->prepare($sqlUpdateFingerprint);
+        $stmtUpdateFingerprint->bindParam(':fingerprintId', $fingerprintId);
+        $stmtUpdateFingerprint->bindParam(':studentId', $studentId);
+        $success = $stmtUpdateFingerprint->execute();
+
+        // Close the connection
+        $connection = null;
+
+        // Return success message if fingerprint update was successful, otherwise return error message
+        return $success ? array("success" => "Sidik jari siswa berhasil diperbarui") : array("error" => "Gagal memperbarui sidik jari siswa");
     } catch (PDOException $e) {
         // Handle database errors
         return array("error" => "Kesalahan database: " . $e->getMessage());

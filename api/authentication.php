@@ -62,4 +62,3 @@ function login($email, $password)
         return array("error" => "Kesalahan database: " . $e->getMessage());
     }
 }
-?>
