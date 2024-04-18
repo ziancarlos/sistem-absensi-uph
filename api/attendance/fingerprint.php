@@ -109,7 +109,7 @@ function checkAndUpdateAttendance($fingerprintId)
                                             SET FingerprintTimeIn = :attendanceDate, Status = :attendanceStatus
                                             WHERE StudentId = :studentId AND ScheduleId = :scheduleId";
                     $stmtUpdateAttendance = $connection->prepare($sqlUpdateAttendance);
-                    $stmtUpdateAttendance->bindParam(':attendanceDate', attendanceDate);
+                    $stmtUpdateAttendance->bindParam(':attendanceDate', $attendanceDate);
                     $stmtUpdateAttendance->bindParam(':attendanceStatus', $attendanceStatus);
                     $stmtUpdateAttendance->bindParam(':studentId', $student['StudentId']);
                     $stmtUpdateAttendance->bindParam(':scheduleId', $enrollment['ScheduleId']);
