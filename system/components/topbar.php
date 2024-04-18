@@ -1,5 +1,4 @@
 <?php
-session_start();
 if (!isset($_SESSION["UserId"])) {
     header("location: ../auth/login.php");
     exit();
@@ -10,7 +9,8 @@ $userId = $_SESSION["UserId"];
 $userInfo = getUserInfo($userId);
 
 // Fungsi untuk mengambil informasi pengguna dari database
-function getUserInfo($userId) {
+function getUserInfo($userId)
+{
     $connection = getConnection();
     $statement = null;
 

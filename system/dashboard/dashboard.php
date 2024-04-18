@@ -1,8 +1,8 @@
 <?php
-require_once("dashboardFunction.php");
+require_once ("dashboardFunction.php");
 ?>
 
-<?php require_once("../components/header.php"); ?>
+<?php require_once ("../components/header.php"); ?>
 
 <body id="page-top">
 
@@ -10,7 +10,7 @@ require_once("dashboardFunction.php");
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php require_once("../components/sidebar.php"); ?>
+        <?php require_once ("../components/sidebar.php"); ?>
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -19,7 +19,7 @@ require_once("dashboardFunction.php");
             <!-- Main Content -->
             <div id="content">
 
-                <?php require_once("../components/topbar.php"); ?>
+                <?php require_once ("../components/topbar.php"); ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -29,12 +29,13 @@ require_once("dashboardFunction.php");
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                     </div>
 
-                    <?php if ($role == "admin" || $role == "lecturer"): require_once("dashboardFunction.php");?>
+                    <?php if ($role == "admin" || $role == "lecturer"):
+                        require_once ("dashboardFunction.php"); ?>
 
                         <!-- Content Row -->
                         <div class="row">
 
-                            
+
                             <!-- Kelas paling banyak dihadiri -->
                             <div class="col-xl-3 col-md-6 mb-4">
                                 <div class="card background-primary shadow h-100 py-2">
@@ -44,7 +45,8 @@ require_once("dashboardFunction.php");
                                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                     Kelas Paling Banyak Dihadiri</div>
                                                 <div class="h5 mb-0 font-weight-bold text-primary">
-                                                    <?php $mostAttendedClass = getMostAttendedClass(); echo $mostAttendedClass['Name']; ?>
+                                                    <?php $mostAttendedClass = getMostAttendedClass();
+                                                    echo ($mostAttendedClass) ? $mostAttendedClass['Name'] : "-" ?>
                                                 </div>
                                                 <hr>
                                                 <div>
@@ -69,7 +71,8 @@ require_once("dashboardFunction.php");
                                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                     Kelas Paling Jarang Dihadiri</div>
                                                 <div class="h5 mb-0 font-weight-bold text-primary">
-                                                    <?php $leastAttendedClass = getLeastAttendedClass(); echo $leastAttendedClass['Name']; ?>
+                                                    <?php $leastAttendedClass = getLeastAttendedClass();
+                                                    echo ($leastAttendedClass) ? $leastAttendedClass['Name'] : "-"; ?>
                                                 </div>
                                                 <hr>
                                                 <div>
@@ -84,7 +87,7 @@ require_once("dashboardFunction.php");
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Mahasiswa paling rajin -->
                             <div class="col-xl-3 col-md-6 mb-4">
                                 <div class="card background-success shadow h-100 py-2">
@@ -94,7 +97,8 @@ require_once("dashboardFunction.php");
                                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                     Mahasiswa Paling Rajin</div>
                                                 <div class="h5 mb-0 font-weight-bold text-primary">
-                                                    <?php $mostActiveStudent = getMostActiveStudent(); echo $mostActiveStudent['Name']; ?>
+                                                    <?php $mostActiveStudent = getMostActiveStudent();
+                                                    echo ($mostActiveStudent) ? $mostActiveStudent['Name'] : "-"; ?>
                                                 </div>
                                                 <hr>
                                                 <div>
@@ -119,7 +123,8 @@ require_once("dashboardFunction.php");
                                                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                                     Mahasiswa Potensi Cekal</div>
                                                 <div class="h5 mb-0 font-weight-bold text-primary">
-                                                    <?php $suspectStudent = getSuspectStudent(); echo $suspectStudent['Name']; ?>
+                                                    <?php $suspectStudent = getSuspectStudent();
+                                                    echo ($suspectStudent) ? $suspectStudent['Name'] : "-"; ?>
                                                 </div>
                                                 <hr>
                                                 <div>
@@ -143,8 +148,10 @@ require_once("dashboardFunction.php");
                             <div class="col-xl-6 col-lg-7">
                                 <div class="card shadow mb-4">
                                     <!-- Card Header - Dropdown -->
-                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h6 class="m-0 font-weight-bold text-primary" style="color: black !important;">Grafik Absensi Mahasiswa Harian</h6>
+                                    <div
+                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-primary" style="color: black !important;">
+                                            Grafik Absensi Mahasiswa Harian</h6>
                                     </div>
                                     <!-- Card Body -->
                                     <div class="card-body">
@@ -158,8 +165,10 @@ require_once("dashboardFunction.php");
                             <div class="col-xl-6 col-lg-5">
                                 <div class="card shadow mb-4">
                                     <!-- Card Header - Dropdown -->
-                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                        <h6 class="m-0 font-weight-bold text-primary" style="color: black !important;">Grafik Absensi Mahasiswa Bulanan</h6>
+                                    <div
+                                        class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                        <h6 class="m-0 font-weight-bold text-primary" style="color: black !important;">
+                                            Grafik Absensi Mahasiswa Bulanan</h6>
                                     </div>
                                     <!-- Card Body -->
                                     <div class="card-body">
@@ -169,41 +178,46 @@ require_once("dashboardFunction.php");
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                     <?php endif; ?>
-                    
+
                     <!-- Begin Page Content -->
-                    <?php if ($role == "student"): require_once("dataCourseStudentFunction.php");?>
+                    <?php if ($role == "student"):
+                        require_once ("dataCourseStudentFunction.php"); ?>
                         <div class="row">
                             <div class="col-xl-3 col-md-6 mb-4">
                                 <div class="card background-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Persentase Kehadiran
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <?php $attendanceData = dataAttendanceStudent(); ?>
-                                                    <?php if ($attendanceData): ?>
-                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-primary">
-                                                            <?php echo $attendanceData['AttendancePercentage']; ?>%
-                                                        </div>
-                                                    <?php endif; ?>
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                                    Persentase Kehadiran
                                                 </div>
-                                                <div class="col">
-                                                    <div class="progress">
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col-auto">
+                                                        <?php $attendanceData = dataAttendanceStudent(); ?>
                                                         <?php if ($attendanceData): ?>
-                                                            <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="<?php echo $attendanceData['AttendancePercentage']; ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $attendanceData['AttendancePercentage']; ?>%"></div>
+                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-primary">
+                                                                <?php echo $attendanceData['AttendancePercentage']; ?>%
+                                                            </div>
                                                         <?php endif; ?>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="progress">
+                                                            <?php if ($attendanceData): ?>
+                                                                <div class="progress-bar bg-warning" role="progressbar"
+                                                                    aria-valuenow="<?php echo $attendanceData['AttendancePercentage']; ?>"
+                                                                    aria-valuemin="0" aria-valuemax="100"
+                                                                    style="width: <?php echo $attendanceData['AttendancePercentage']; ?>%">
+                                                                </div>
+                                                            <?php endif; ?>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
                                 </div>
                             </div>
@@ -232,7 +246,7 @@ require_once("dashboardFunction.php");
                                 </div>
                             </div>
                         </div>
-                        
+
 
                         <!-- Page Heading -->
                         <h1 class="h3 mb-4 text-gray-800">Mata Kuliah Hari Ini</h1>
@@ -275,7 +289,7 @@ require_once("dashboardFunction.php");
                             </tbody>
                         </table>
 
-                    <!-- /.container-fluid -->
+                        <!-- /.container-fluid -->
                     <?php endif; ?>
                 </div>
                 <!-- /.container-fluid -->
@@ -326,42 +340,41 @@ require_once("dashboardFunction.php");
 
     <!-- Bootstrap core JavaScript-->
 
-    <?php require_once("../components/js.php"); ?>
+    <?php require_once ("../components/js.php"); ?>
 
     <!-- js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
     <script>
-    new DataTable('#example1', {
-        columns: [{
-            data: 'tanggal'
-        },
-        {
-            data: 'kode_mk'
-        },
-        {
-            data: 'mata_kuliah'
-        },
-        {
-            data: 'ruang'
-        }, 
-        {
-            data: 'jam_mulai'
-        },
-        {
-            data: 'jam_selesai'
-        }
-        ]
-    });
+        new DataTable('#example1', {
+            columns: [{
+                data: 'tanggal'
+            },
+            {
+                data: 'kode_mk'
+            },
+            {
+                data: 'mata_kuliah'
+            },
+            {
+                data: 'ruang'
+            },
+            {
+                data: 'jam_mulai'
+            },
+            {
+                data: 'jam_selesai'
+            }
+            ]
+        });
     </script>
     <script>
-
         // Load data for daily attendance chart
         <?php
-            $dailyAttendanceData = getDailyAttendanceData();
-            $dailyAttendanceLabels = json_encode($dailyAttendanceData['labels']);
-            $dailyAttendanceData = json_encode($dailyAttendanceData['data']);
+        $dailyAttendanceData = getDailyAttendanceData();
+        $dailyAttendanceLabels = json_encode($dailyAttendanceData['labels']);
+        $dailyAttendanceData = json_encode($dailyAttendanceData['data']);
         ?>
         var ctx = document.getElementById('dailyAttendanceChart').getContext('2d');
         var dailyAttendanceChart = new Chart(ctx, {
@@ -430,9 +443,9 @@ require_once("dashboardFunction.php");
 
         // Load data for monthly attendance chart
         <?php
-            $monthlyAttendanceData = getMonthlyAttendanceData();
-            $monthlyAttendanceLabels = json_encode($monthlyAttendanceData['labels']);
-            $monthlyAttendanceData = json_encode($monthlyAttendanceData['data']);
+        $monthlyAttendanceData = getMonthlyAttendanceData();
+        $monthlyAttendanceLabels = json_encode($monthlyAttendanceData['labels']);
+        $monthlyAttendanceData = json_encode($monthlyAttendanceData['data']);
         ?>
         var ctx2 = document.getElementById('monthlyAttendanceChart').getContext('2d');
         var monthlyAttendanceChart = new Chart(ctx2, {
@@ -493,8 +506,6 @@ require_once("dashboardFunction.php");
                 }
             }
         });
-
-        
     </script>
 </body>
 
