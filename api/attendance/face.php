@@ -11,16 +11,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['attendance'])) {
     // Call the function to validate the card ID and update attendance
     $result = checkAndUpdateAttendance($faceId);
 
-    // Prepare and send response to client based on the result
-    if ($result !== "") {
-        // Attendance update success or failure, send appropriate message
-        http_response_code(200); // OK
-        echo json_encode(array("message" => $result));
-    } else {
-        // Attendance update failure, send error message
-        http_response_code(500); // Internal Server Error
-        echo json_encode(array("error" => "Unknown error occurred."));
-    }
+    http_response_code($result["code"]);
+    echo json_encode(array("message" => $result["message"]));
+
 } else {
     // Method not allowed for other request types
     http_response_code(405); // Method Not Allowed
@@ -31,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['attendance'])) {
  * Validates the face ID, checks student enrollment, and updates attendance accordingly.
  * 
  * @param string $faceId The face ID to be validated.
- * @return string A message indicating the result of the attendance update.
+ * @return array A message indicating the result of the attendance update.
  */
 function checkAndUpdateAttendance($faceId)
 {
@@ -57,7 +50,7 @@ function checkAndUpdateAttendance($faceId)
         if ($student) {
             // Check if the student's status is inactive
             if ($student['Status'] == 0) {
-                return "Mahasiswa " . $student['Name'] . " sudah tidak aktif.";
+                return ["code" => 200, "message" => "Mahasiswa " . $student['Name'] . " sudah tidak aktif."];
             }
 
             // Get the current date and time
@@ -84,12 +77,12 @@ function checkAndUpdateAttendance($faceId)
             if ($enrollment) {
                 // Check if the enrollment is active
                 if ($enrollment['EnrollmentStatus'] == 0) {
-                    return "Mahasiswa telah dinonaktifkan dari kelas " . $enrollment["Name"] . ".";
+                    return ["code" => 200, "message" => "Mahasiswa telah dinonaktifkan dari kelas " . $enrollment["Name"] . "."];
                 }
 
                 // Check if the course is available
                 if ($enrollment['CourseStatus'] == 0) {
-                    return "Mata kuliah " . $enrollment["Name"] . " tidak tersedia saat ini.";
+                    return ["code" => 200, "message" => "Mata kuliah " . $enrollment["Name"] . " tidak tersedia saat ini."];
                 }
 
                 // Check if attendance has already been recorded for the student today
@@ -105,8 +98,7 @@ function checkAndUpdateAttendance($faceId)
                 $existingAttendance = $stmtCheckAttendance->fetch(PDO::FETCH_ASSOC);
 
                 if ($existingAttendance) {
-                    // Attendance already recorded using FaceTimeIn, FingerprintTimeIn, or CardTimeIn
-                    return $student["Name"] . " telah masuk kelas " . $enrollment["Name"] . ".";
+                    return ["code" => 200, "message" => $student["Name"] . " telah masuk kelas " . $enrollment["Name"] . "."];
                 } else {
                     // Update attendance in the attendances table
                     $attendanceDate = date('Y-m-d H:i:s');
@@ -130,24 +122,25 @@ function checkAndUpdateAttendance($faceId)
                         $responseMessage .= " Mahasiswa terlambat.";
                     }
 
-                    return $responseMessage;
+                    return ["code" => 200, "message" => $responseMessage];
+
                 }
             } else {
                 // Student is not enrolled in any class on the current day or arrived more than 15 minutes after the class starts
-                return $student["Name"] . " tidak memiliki jadwal kelas sekarang.";
+                return ["code" => 500, "message" => $student["Name"] . " tidak memiliki jadwal kelas sekarang."];
+
             }
         } else {
             // Face ID is not registered to any student
-            return "ID wajah tidak terkait dengan mahasiswa mana pun.";
+            return ["code" => 500, "message" => "ID wajah tidak terkait dengan mahasiswa mana pun."];
         }
     } catch (PDOException $e) {
         // Log database connection or query execution errors
-        http_response_code(500);
-        return json_encode(array("error" => "Kesalahan database. Silakan coba lagi nanti."));
+        return ["code" => 500, "message" => "Terjadi Kesalahan Di Database"];
+
     } catch (Exception $e) {
         // Log general exceptions
-        http_response_code(500);
-        return json_encode(array("error" => "Terjadi kesalahan. Silakan coba lagi nanti."));
+        return ["code" => 500, "message" => "Terjadi Kesalahan Di Sistem"];
     } finally {
         // Close the database connection if open
         if ($connection) {
