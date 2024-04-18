@@ -1,5 +1,7 @@
 <?php
 require_once ("../../helper/dbHelper.php");
+date_default_timezone_set('Asia/Jakarta');
+
 
 // Check if it's a POST request and attendance action is requested
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['attendance'])) {
@@ -50,8 +52,6 @@ function checkAndUpdateAttendance($faceId)
             $currentDate = date('Y-m-d');
             $currentTime = date('H:i:s');
 
-
-
             // Check if the student is enrolled in any class on the current day
             $sqlCheckEnrollment = "SELECT * FROM enrollments 
                                     INNER JOIN schedules ON enrollments.CourseId = schedules.CourseId 
@@ -82,7 +82,7 @@ function checkAndUpdateAttendance($faceId)
 
                 if ($existingAttendance) {
                     // Attendance already recorded using FaceTimeIn, FingerprintTimeIn, or CardTimeIn
-                    return "Attendance already recorded.";
+                    return $student["Name"] . "sudah masuk ke kelas " . $enrollment["Name"] . ".";
                 } else {
                     // Update attendance in the attendances table
                     $attendanceDate = date('Y-m-d H:i:s');
@@ -100,10 +100,12 @@ function checkAndUpdateAttendance($faceId)
                     $stmtUpdateAttendance->execute();
 
                     // Return success message
-                    $message = "Absensi " . $student["Name"] . " di kelas " . $existingAttendance["Name"] . "telah ditandai.";
+                    $message = "Absensi " . $student["Name"] . " di kelas " . $enrollment["Name"] . "telah direkap.";
+
                     if ($attendanceStatus == 3) {
                         $message .= " Mahasiswa telat.";
                     }
+
                     return $message;
                 }
             } else {
@@ -112,9 +114,10 @@ function checkAndUpdateAttendance($faceId)
             }
         } else {
             // Card ID is not registered to any student
-            return "Invalid Face ID.";
+            return "Muka tidak terasosiasi dengan mahasiswa.";
         }
     } catch (PDOException $e) {
+        echo $e;
         // Handle database connection or query execution errors
         return $e;
     }
