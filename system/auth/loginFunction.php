@@ -11,40 +11,42 @@ function loginController()
     $email = htmlspecialchars($_POST["email"]);
     $password = htmlspecialchars($_POST["password"]);
 
-
     if (empty($email) || empty($password)) {
         $_SESSION["error"] = "Email atau password kosong!";
-
         return;
     }
 
     $password = md5($_POST['password']);
 
-    $connection = getConnection();
-
     try {
         $statement = loginModel($email, $password);
+
+        // Check if the user was found
+        if ($statement->rowCount() <= 0) {
+            $_SESSION["error"] = "User tidak ditemukan!";
+            return;
+        }
+
+        // Fetch user information
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+
+        // Check if the user's status is 0 (deactivated)
+        if ($user['Status'] === 0) {
+            $_SESSION["error"] = "User sudah dinonaktifkan!";
+            return;
+        }
+
+        // Save the user ID in the session
+        $_SESSION["UserId"] = $user["UserId"];
+
+        // Redirect to the dashboard
+        header('location: ../dashboard/dashboard.php');
     } catch (PDOException $e) {
-        $connection = null;
-
-        $_SESSION["error"] = "default";
-
+        $_SESSION["error"] = "Terjadi kesalahan pada database!";
         return;
     }
-
-    if ($statement->rowCount() <= 0) {
-        $_SESSION["error"] = "User tidak ditemukan!";
-        return;
-    }
-
-    $userId = $statement->fetch()["UserId"];
-
-    $_SESSION["UserId"] = $userId;
-
-    header('location: ../dashboard/dashboard.php');
-
-    return;
 }
+
 
 
 function loginModel($email, $password)

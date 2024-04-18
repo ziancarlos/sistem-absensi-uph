@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("../../helper/dbHelper.php");
-require_once("../../helper/authHelper.php");
+require_once ("../../helper/dbHelper.php");
+require_once ("../../helper/authHelper.php");
 $permittedRole = ["lecturer", "admin"];
 $pageName = "Sistem Absensi UPH - Data Mahasiswa";
 $data = [];
@@ -41,7 +41,7 @@ function dataStudentModel()
     try {
         $connection = getConnection();
 
-        $sql = "SELECT users.UserId, users.Name, users.Email, Students.StudentId, YEAR(Students.YearIn) AS YearIn, users.Status FROM Users INNER JOIN Students ON Users.StudentId = Students.StudentId ORDER BY Users.UserId DESC;";
+        $sql = "SELECT users.UserId, users.Name, users.Email, Students.StudentId, YEAR(Students.YearIn) AS YearIn, users.Status, students.Face, students.Card, students.Fingerprint FROM Users INNER JOIN Students ON Users.StudentId = Students.StudentId ORDER BY Users.UserId DESC;";
 
         $statement = $connection->prepare($sql);
         $statement->execute();

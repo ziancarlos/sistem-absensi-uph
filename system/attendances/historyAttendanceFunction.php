@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("../../helper/dbHelper.php");
-require_once("../../helper/authHelper.php");
+require_once ("../../helper/dbHelper.php");
+require_once ("../../helper/authHelper.php");
 
 $permittedRole = ["admin", "lecturer", "student"];
 $pageName = "Sistem Absensi UPH - Histori Absensi";
@@ -31,34 +31,46 @@ function filterAttendanceData($kodeMK = null, $tanggal = null)
     $connection = getConnection();
 
     try {
-        $sql = "
-        SELECT   
+        $sql = "SELECT
         students.StudentId,
-        attendances.ScheduleId,     
-        users.Name, 
-        courses.Code, 
-        courses.Name AS ClassName, 
-        CONCAT(buildings.Letter, classrooms.Code) AS Room, 
-        schedules.Date, schedules.StartTime, schedules.EndTime,
-        DATE_FORMAT(attendances.FingerprintTimeIn, '%H:%i:%s') AS TimeIn,
+        attendances.ScheduleId,
+        users.Name AS StudentName,
+        courses.Code AS CourseCode,
+        courses.Name AS ClassName,
+        CONCAT(buildings.Letter, classrooms.Code) AS Room,
+        schedules.Date,
+        schedules.StartTime,
+        schedules.EndTime,
+        -- Dynamic selection of TimeIn based on method
+        CASE 
+            WHEN attendances.FingerprintTimein IS NOT NULL THEN DATE_FORMAT(attendances.FingerprintTimein, '%H:%i:%s')
+            WHEN attendances.CardTimein IS NOT NULL THEN DATE_FORMAT(attendances.CardTimein, '%H:%i:%s')
+            WHEN attendances.FaceTimein IS NOT NULL THEN DATE_FORMAT(attendances.FaceTimein, '%H:%i:%s')
+            ELSE NULL
+        END AS TimeIn,
         attendances.StudentId,
-        attendances.Status 
-    FROM 
-        attendances 
-    LEFT JOIN 
-        students ON attendances.StudentId = students.StudentId 
-    LEFT JOIN 
-        users ON students.StudentId = users.StudentId 
-    LEFT JOIN 
-        schedules ON attendances.ScheduleId = schedules.ScheduleId 
-    LEFT JOIN 
-        courses ON schedules.CourseId = courses.CourseId 
-    LEFT JOIN 
-        classrooms ON courses.ClassroomId = classrooms.ClassroomId 
-    LEFT JOIN 
-        buildings ON classrooms.BuildingId = buildings.BuildingId
-
-        WHERE 1 ";
+        attendances.Status,
+        CASE
+            WHEN attendances.FaceTimein IS NOT NULL THEN 'Wajah'
+            WHEN attendances.FingerprintTimein IS NOT NULL THEN 'Sidik Jari'
+            WHEN attendances.CardTimein IS NOT NULL THEN 'Kartu'
+            ELSE 'Tidak Diketahui'
+        END AS TimeinMethod
+    FROM
+        attendances
+    LEFT JOIN
+        students ON attendances.StudentId = students.StudentId
+    LEFT JOIN
+        users ON students.StudentId = users.StudentId
+    LEFT JOIN
+        schedules ON attendances.ScheduleId = schedules.ScheduleId
+    LEFT JOIN
+        courses ON schedules.CourseId = courses.CourseId
+    LEFT JOIN
+        classrooms ON courses.ClassroomId = classrooms.ClassroomId
+    LEFT JOIN
+        buildings ON classrooms.BuildingId = buildings.BuildingId;
+    WHERE 1 ";
 
         if (!empty($kodeMK)) {
             $sql .= " AND courses.Code = :kodeMK ";
@@ -101,32 +113,45 @@ function dataAttendanceView()
         $role = getUserRole($_SESSION["UserId"]);
 
         // Query untuk menampilkan data absensi
-        $sql = "
-        SELECT        
-            students.StudentId,
-            attendances.ScheduleId,    
-            users.Name, 
-            courses.Code, 
-            courses.Name AS ClassName, 
-            CONCAT(buildings.Letter, classrooms.Code) AS Room, 
-            schedules.Date, schedules.StartTime, schedules.EndTime,
-            DATE_FORMAT(attendances.FingerprintTimeIn, '%H:%i:%s') AS TimeIn,
-            attendances.StudentId,
-            attendances.Status 
-        FROM 
-            attendances 
-        LEFT JOIN 
-            students ON attendances.StudentId = students.StudentId 
-        LEFT JOIN 
-            users ON students.StudentId = users.StudentId 
-        LEFT JOIN 
-            schedules ON attendances.ScheduleId = schedules.ScheduleId 
-        LEFT JOIN 
-            courses ON schedules.CourseId = courses.CourseId 
-        LEFT JOIN 
-            classrooms ON courses.ClassroomId = classrooms.ClassroomId 
-        LEFT JOIN 
-            buildings ON classrooms.BuildingId = buildings.BuildingId";
+        $sql = "SELECT
+        students.StudentId,
+        attendances.ScheduleId,
+        users.Name AS StudentName,
+        courses.Code AS CourseCode,
+        courses.Name AS ClassName,
+        CONCAT(buildings.Letter, classrooms.Code) AS Room,
+        schedules.Date,
+        schedules.StartTime,
+        schedules.EndTime,
+        -- Dynamic selection of TimeIn based on method
+        CASE 
+            WHEN attendances.FingerprintTimein IS NOT NULL THEN DATE_FORMAT(attendances.FingerprintTimein, '%H:%i:%s')
+            WHEN attendances.CardTimein IS NOT NULL THEN DATE_FORMAT(attendances.CardTimein, '%H:%i:%s')
+            WHEN attendances.FaceTimein IS NOT NULL THEN DATE_FORMAT(attendances.FaceTimein, '%H:%i:%s')
+            ELSE NULL
+        END AS TimeIn,
+        attendances.StudentId,
+        attendances.Status,
+        CASE
+            WHEN attendances.FaceTimein IS NOT NULL THEN 'Wajah'
+            WHEN attendances.FingerprintTimein IS NOT NULL THEN 'Sidik Jari'
+            WHEN attendances.CardTimein IS NOT NULL THEN 'Kartu'
+            ELSE 'Tidak Diketahui'
+        END AS TimeinMethod
+    FROM
+        attendances
+    LEFT JOIN
+        students ON attendances.StudentId = students.StudentId
+    LEFT JOIN
+        users ON students.StudentId = users.StudentId
+    LEFT JOIN
+        schedules ON attendances.ScheduleId = schedules.ScheduleId
+    LEFT JOIN
+        courses ON schedules.CourseId = courses.CourseId
+    LEFT JOIN
+        classrooms ON courses.ClassroomId = classrooms.ClassroomId
+    LEFT JOIN
+        buildings ON classrooms.BuildingId = buildings.BuildingId;";
 
         // Jika role adalah "student", tambahkan kondisi where
         if ($role === "student") {

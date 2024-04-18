@@ -9,7 +9,7 @@ if (!authorization($permittedRole, $_SESSION["UserId"])) {
     header('location: ../auth/login.php');
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset ($_GET["CourseId"])) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET["CourseId"])) {
     courseDetailView();
 } else {
     $_SESSION["error"] = "Tidak menemukan permintaan yang valid!";
@@ -22,7 +22,7 @@ function courseDetailView()
     global $data;
 
     // Check if CourseId is provided in the URL
-    if (!isset ($_GET["CourseId"])) {
+    if (!isset($_GET["CourseId"])) {
         $_SESSION["error"] = "CourseId tidak ditemukan.";
         header("location: dataCourse.php");
         exit;
@@ -57,7 +57,7 @@ function courseDetailView()
         $sql_lecturers = "SELECT u.UserId, u.Name, u.Email, u.Status 
                 FROM users u 
                 INNER JOIN lecturerhascourses lhc ON u.UserId = lhc.LecturerId
-                WHERE lhc.CourseId = :courseId";
+                WHERE lhc.CourseId = :courseId AND u.status = 1";
 
         // Prepare and execute the query for lecturers
         $stmt_lecturers = $connection->prepare($sql_lecturers);
@@ -72,7 +72,7 @@ function courseDetailView()
                 FROM users
                 INNER JOIN enrollments  ON users.StudentId = enrollments.StudentId
                 INNER JOIN students ON enrollments.StudentId = students.StudentId
-                WHERE users.role = 0 AND enrollments.CourseId = :courseId";
+                WHERE users.role = 0 AND enrollments.CourseId = :courseId AND users.Status = 1";
 
         // Prepare and execute the query for students
         $stmt_students = $connection->prepare($sql_students);

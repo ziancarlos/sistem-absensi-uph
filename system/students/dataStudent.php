@@ -1,8 +1,8 @@
 <?php
-require_once("dataStudentFunction.php");
+require_once ("dataStudentFunction.php");
 ?>
 
-<?php require_once("../components/header.php"); ?>
+<?php require_once ("../components/header.php"); ?>
 
 
 <body id="page-top">
@@ -11,7 +11,7 @@ require_once("dataStudentFunction.php");
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <?php require_once("../components/sidebar.php"); ?>
+        <?php require_once ("../components/sidebar.php"); ?>
 
         <!-- End of Sidebar -->
 
@@ -22,7 +22,7 @@ require_once("dataStudentFunction.php");
             <div id="content">
 
                 <!-- Topbar -->
-                <?php require_once("../components/topbar.php"); ?>
+                <?php require_once ("../components/topbar.php"); ?>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -38,62 +38,74 @@ require_once("dataStudentFunction.php");
                                 <th>Nama Mahasiswa</th>
                                 <th>Email</th>
                                 <th>Tahun Angkatan</th>
+                                <th>Wajah</th>
+                                <th>Sidik Jari</th>
+                                <th>Kartu</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php foreach ($data["students"] as $student): ?>
-                                <tr>
-                                    <td>
-                                        <?= $student["UserId"] ?>
-                                    </td>
-                                    <td>
-                                        <?= $student["StudentId"] ?>
-                                    </td>
-                                    <td>
-                                        <?= $student["Name"] ?>
-                                    </td>
-                                    <td>
-                                        <?= $student["Email"] ?>
-                                    </td>
-                                    <td>
-                                        <?= $student["YearIn"] ?>
-                                    </td>
-                                    <td>
-                                        <?php if ($student["Status"] == 1): ?>
-                                            <span class="badge badge-primary">Aktif</span>
-                                        <?php else: ?>
-                                            <span class="badge badge-danger">Tidak Aktif</span>
-                                        <?php endif; ?>
+                            <tr>
+                                <td>
+                                    <?= $student["UserId"] ?>
+                                </td>
+                                <td>
+                                    <?= $student["StudentId"] ?>
+                                </td>
+                                <td>
+                                    <?= $student["Name"] ?>
+                                </td>
+                                <td>
+                                    <?= $student["Email"] ?>
+                                </td>
+                                <td>
+                                    <?= $student["YearIn"] ?>
+                                </td>
+                                <td>
+                                    <?= ($student["Face"] == null) ? '<span class="badge badge-danger">Tidak Aktif</span>' : '<span class="badge badge-primary">Aktif</span>' ?>
+                                </td>
+                                <td>
+                                    <?= ($student["Fingerprint"] == null) ? '<span class="badge badge-danger">Tidak Aktif</span>' : 'span class="badge badge-primary">Aktif</span>' ?>
+                                </td>
+                                <td>
+                                    <?= ($student["Card"] == null) ? '<span class="badge badge-danger">Tidak Aktif</span>' : 'span class="badge badge-primary">Aktif</span>' ?>
+                                </td>
+                                <td>
+                                    <?php if ($student["Status"] == 1): ?>
+                                    <span class="badge badge-primary">Aktif</span>
+                                    <?php else: ?>
+                                    <span class="badge badge-danger">Tidak Aktif</span>
+                                    <?php endif; ?>
 
 
-                                    </td>
-                                    <td style="display: flex; gap: 5px;">
-                                        <a class="btn btn-info btn-sm"
-                                            href="detailStudent.php?UserId=<?= $student["UserId"]; ?>"
-                                            style="width: 90px">Detail</a>
+                                </td>
+                                <td style="display: flex; gap: 5px;">
+                                    <a class="btn btn-info btn-sm"
+                                        href="detailStudent.php?UserId=<?= $student["UserId"]; ?>"
+                                        style="width: 90px">Detail</a>
 
-                                        <form action="updateStudent.php" method="post" style="display: inline-block;">
-                                            <button type="submit" name="ubahView" value="<?= $student["UserId"]; ?>"
-                                                class="btn btn-primary btn-sm" style="width: 90px">Edit</button>
-                                        </form>
+                                    <form action="updateStudent.php" method="post" style="display: inline-block;">
+                                        <button type="submit" name="ubahView" value="<?= $student["UserId"]; ?>"
+                                            class="btn btn-primary btn-sm" style="width: 90px">Edit</button>
+                                    </form>
 
-                                        <?php if ($student["Status"] == 1): ?>
-                                            <form action="deactivateStudentFunction.php" method="post"
-                                                style="display: inline-block;">
-                                                <button type="submit" name="deactivate" value="<?= $student["UserId"]; ?>"
-                                                    class="btn btn-danger btn-sm" style="width: 90px">Non Aktif</button>
-                                            </form>
-                                        <?php else: ?>
-                                            <form action="activateStudentFunction.php" method="post"
-                                                style="display: inline-block;">
-                                                <button type="submit" name="activate" value="<?= $student["UserId"]; ?>"
-                                                    class="btn btn-success btn-sm" style="width: 90px">Aktifkan</button>
-                                            </form>
-                                        <?php endif; ?>
-                                    </td>
-                                </tr>
+                                    <?php if ($student["Status"] == 1): ?>
+                                    <form action="deactivateStudentFunction.php" method="post"
+                                        style="display: inline-block;">
+                                        <button type="submit" name="deactivate" value="<?= $student["UserId"]; ?>"
+                                            class="btn btn-danger btn-sm" style="width: 90px">Non Aktif</button>
+                                    </form>
+                                    <?php else: ?>
+                                    <form action="activateStudentFunction.php" method="post"
+                                        style="display: inline-block;">
+                                        <button type="submit" name="activate" value="<?= $student["UserId"]; ?>"
+                                            class="btn btn-success btn-sm" style="width: 90px">Aktifkan</button>
+                                    </form>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
 
                             <?php endforeach; ?>
                         </tbody>
@@ -150,13 +162,13 @@ require_once("dataStudentFunction.php");
 
 
 
-    <?php require_once("../components/js.php"); ?>
+    <?php require_once ("../components/js.php"); ?>
 
 
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script>
-        new DataTable('#example', {
-            columns: [{
+    new DataTable('#example', {
+        columns: [{
                 data: 'id'
             }, {
                 data: 'nama_mahasiswa'
@@ -169,6 +181,12 @@ require_once("dataStudentFunction.php");
             },
             {
                 data: 'angakatan'
+            }, {
+                data: 'angakatan1'
+            }, {
+                data: 'angakatan2'
+            }, {
+                data: 'angakatan3'
             },
             {
                 data: 'aksi1'
@@ -176,8 +194,8 @@ require_once("dataStudentFunction.php");
             {
                 data: 'aksi'
             }
-            ]
-        });
+        ]
+    });
     </script>
 
 </body>

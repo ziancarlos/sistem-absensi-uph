@@ -78,7 +78,7 @@ function enrollCourseStudentView()
         FROM users u
         LEFT JOIN students s ON u.StudentId = s.StudentId
         LEFT JOIN enrollments e ON u.StudentId = e.StudentId AND e.CourseId = :courseId
-        WHERE u.role = 0";
+        WHERE u.Role = 0 AND u.Status = 1";
 
         // Prepare and execute the query
         $stmt = $connection->prepare($sql);
@@ -116,7 +116,7 @@ function searchStudents()
                 FROM users u
                 LEFT JOIN students s ON u.StudentId = s.StudentId
                 LEFT JOIN enrollments e ON u.StudentId = e.StudentId AND e.CourseId = :courseId
-                WHERE u.role = 0";
+                WHERE u.Role = 0  AND u.Status = 1";
 
         if (!empty($tahunAngkatan)) {
             $sql .= " AND s.YearIn = :tahunAngkatan";

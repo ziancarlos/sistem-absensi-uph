@@ -27,9 +27,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['attendance'])) {
 }
 
 /**
- * Validates the card ID, checks student enrollment, and updates attendance accordingly.
+ * Validates the fingerprint ID, checks student enrollment, and updates attendance accordingly.
  * 
- * @param string $fingerprintId The card ID to be validated.
+ * @param string $fingerprintId The fingerprint ID to be validated.
  * @return string A message indicating the result of the attendance update.
  */
 function checkAndUpdateAttendance($fingerprintId)
@@ -38,8 +38,11 @@ function checkAndUpdateAttendance($fingerprintId)
         // Connect to the database
         $connection = getConnection();
 
-        // Query to check if the card ID is registered to any student
-        $sqlCheckCard = "SELECT * FROM students INNER JOIN users ON students.StudentId = users.StudentId WHERE Fingerprint = :fingerprintId";
+        // Query to check if the fingerprint ID is registered to any student
+        $sqlCheckCard = "SELECT students.StudentId, students.Name, users.Status 
+                         FROM students 
+                         INNER JOIN users ON students.StudentId = users.StudentId 
+                         WHERE Fingerprint = :fingerprintId";
         $stmtCheckCard = $connection->prepare($sqlCheckCard);
         $stmtCheckCard->bindParam(':fingerprintId', $fingerprintId);
         $stmtCheckCard->execute();
@@ -47,20 +50,25 @@ function checkAndUpdateAttendance($fingerprintId)
 
         // If student is found
         if ($student) {
+            // Check if the user's status is 0 (inactive)
+            if ($student['Status'] == 0) {
+                // Return an error message indicating the user is inactive
+                return "Mahasiswa " . $student['Name'] . " sudah tidak aktif.";
+            }
+
             // Get the current date and time
             $currentDate = date('Y-m-d');
             $currentTime = date('H:i:s');
 
-
-
             // Check if the student is enrolled in any class on the current day
-            $sqlCheckEnrollment = "SELECT * FROM enrollments 
-            INNER JOIN schedules ON enrollments.CourseId = schedules.CourseId 
-            INNER JOIN courses ON enrollments.CourseId = courses.CourseId
-            WHERE enrollments.StudentId = :studentId 
-            AND schedules.Date = :currentDate 
-            AND schedules.StartTime <= :currentTime 
-            AND schedules.EndTime >= :currentTime";
+            $sqlCheckEnrollment = "SELECT enrollments.CourseId, courses.Name as CourseName, schedules.ScheduleId, schedules.StartTime, schedules.EndTime, enrollments.Status
+                                   FROM enrollments
+                                   INNER JOIN schedules ON enrollments.CourseId = schedules.CourseId
+                                   INNER JOIN courses ON enrollments.CourseId = courses.CourseId
+                                   WHERE enrollments.StudentId = :studentId
+                                   AND schedules.Date = :currentDate
+                                   AND schedules.StartTime <= :currentTime
+                                   AND schedules.EndTime >= :currentTime";
             $stmtCheckEnrollment = $connection->prepare($sqlCheckEnrollment);
             $stmtCheckEnrollment->bindParam(':studentId', $student['StudentId']);
             $stmtCheckEnrollment->bindParam(':currentDate', $currentDate);
@@ -68,13 +76,20 @@ function checkAndUpdateAttendance($fingerprintId)
             $stmtCheckEnrollment->execute();
             $enrollment = $stmtCheckEnrollment->fetch(PDO::FETCH_ASSOC);
 
-            // If student is enrolled in a class on the current day
+            // If the student is enrolled in a class on the current day
             if ($enrollment) {
+                // Check if the enrollment is active
+                if ($enrollment['Status'] == 0) {
+                    // Return an error message indicating the student has been deactivated from the class
+                    return "Mahasiswa telah dinonaktifkan dari kelas " . $enrollment["CourseName"] . ".";
+                }
+
                 // Check if attendance has already been recorded for the student today
-                $sqlCheckAttendance = "SELECT * FROM attendances 
-                                        WHERE StudentId = :studentId 
-                                        AND ScheduleId = :scheduleId 
-                                        AND (FaceTimeIn IS NOT NULL OR FingerprintTimeIn IS NOT NULL OR CardTimeIn IS NOT NULL)";
+                $sqlCheckAttendance = "SELECT *
+                                       FROM attendances
+                                       WHERE StudentId = :studentId
+                                       AND ScheduleId = :scheduleId
+                                       AND (FaceTimeIn IS NOT NULL OR FingerprintTimeIn IS NOT NULL OR CardTimeIn IS NOT NULL)";
                 $stmtCheckAttendance = $connection->prepare($sqlCheckAttendance);
                 $stmtCheckAttendance->bindParam(':studentId', $student['StudentId']);
                 $stmtCheckAttendance->bindParam(':scheduleId', $enrollment['ScheduleId']);
@@ -83,25 +98,25 @@ function checkAndUpdateAttendance($fingerprintId)
 
                 if ($existingAttendance) {
                     // Attendance already recorded using FaceTimeIn, FingerprintTimeIn, or CardTimeIn
-                    return $student["Name"] . " telah masuk kelas " . $enrollment["Name"] . ".";
+                    return $student["Name"] . " telah masuk kelas " . $enrollment["CourseName"] . ".";
                 } else {
                     // Update attendance in the attendances table
                     $attendanceDate = date('Y-m-d H:i:s');
                     $attendanceStatus = ($currentTime <= date('H:i:s', strtotime($enrollment['StartTime'] . '+15 minutes'))) ? 1 : 3; // Mark as present if within 15 minutes, otherwise mark as late
 
                     // Query to update attendance
-                    $sqlUpdateAttendance = "UPDATE attendances 
-                                            SET FingerprintTimeIn = :attendanceDate, Status = :attendanceStatus 
+                    $sqlUpdateAttendance = "UPDATE attendances
+                                            SET FingerprintTimeIn = :attendanceDate, Status = :attendanceStatus
                                             WHERE StudentId = :studentId AND ScheduleId = :scheduleId";
                     $stmtUpdateAttendance = $connection->prepare($sqlUpdateAttendance);
-                    $stmtUpdateAttendance->bindParam(':attendanceDate', $attendanceDate);
+                    $stmtUpdateAttendance->bindParam(':attendanceDate', attendanceDate);
                     $stmtUpdateAttendance->bindParam(':attendanceStatus', $attendanceStatus);
                     $stmtUpdateAttendance->bindParam(':studentId', $student['StudentId']);
                     $stmtUpdateAttendance->bindParam(':scheduleId', $enrollment['ScheduleId']);
                     $stmtUpdateAttendance->execute();
 
                     // Return success message
-                    $message = "Kehadiran " . $student["Name"] . " di kelas " . $enrollment["Name"] . " telah dicatat.";
+                    $message = "Kehadiran " . $student["Name"] . " di kelas " . $enrollment["CourseName"] . " telah dicatat.";
 
                     if ($attendanceStatus == 3) {
                         $message .= " Mahasiswa terlambat.";
@@ -114,11 +129,11 @@ function checkAndUpdateAttendance($fingerprintId)
                 return $student["Name"] . " tidak memiliki jadwal kelas sekarang.";
             }
         } else {
-            // Card ID is not registered to any student
-            return "ID wajah tidak terkait dengan mahasiswa mana pun.";
+            // Fingerprint ID is not registered to any student
+            return "ID sidik jari tidak terkait dengan mahasiswa mana pun.";
         }
     } catch (PDOException $e) {
         // Handle database connection or query execution errors
-        return $e;
+        return $e->getMessage();
     }
 }

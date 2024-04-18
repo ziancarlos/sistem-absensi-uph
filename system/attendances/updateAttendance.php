@@ -84,6 +84,8 @@ require_once ("updateAttendanceFunction.php");
                                             <div class="col-sm-9">
                                                 <select id="status-mhs" name="status" class="form-control">
 
+                                                    <option value="3" <?= ($data["Status"] == 3) ? 'selected' : ''; ?>>
+                                                        Telat</option>
                                                     <option value="2" <?= ($data["Status"] == 2) ? 'selected' : ''; ?>>
                                                         Izin</option>
                                                     <option value="1" <?= ($data["Status"] == 1) ? 'selected' : ''; ?>>

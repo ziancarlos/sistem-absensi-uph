@@ -65,6 +65,24 @@ function updateCourseController()
         // Begin a transaction
         $connection->beginTransaction();
 
+
+        // Validate selected lecturers' status
+        foreach ($selectedLecturers as $lecturerId) {
+            $stmt_check_status = $connection->prepare("SELECT Status FROM users WHERE UserId = :UserId;");
+            $stmt_check_status->bindParam(':UserId', $lecturerId);
+            $stmt_check_status->execute();
+            $lecturerStatus = $stmt_check_status->fetchColumn();
+
+            // If the lecturer's status is 0, set error message and redirect
+            if ($lecturerStatus == 0) {
+                $_SESSION["error"] = "Error: Dosen sudah dinonaktifkan.";
+                header('location: dataCourse.php');
+                // Rollback the transaction before exiting
+                $connection->rollBack();
+                exit;
+            }
+        }
+
         // Update course information
         $stmt_update_course = $connection->prepare("
             UPDATE courses
@@ -154,7 +172,7 @@ function updateCourseView()
         $stmt_lecturers = $connection->prepare("
             SELECT users.UserId as LecturerId, users.Name
             FROM users
-            WHERE users.Role = '1';
+            WHERE users.Role = '1' AND users.Status = '1';
         ");
         $stmt_lecturers->execute();
         $lecturers = $stmt_lecturers->fetchAll(PDO::FETCH_ASSOC);
