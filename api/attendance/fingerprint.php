@@ -1,5 +1,6 @@
 <?php
 require_once ("../../helper/dbHelper.php");
+date_default_timezone_set('Asia/Jakarta');
 
 // Check if it's a POST request and attendance action is requested
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['attendance'])) {
@@ -38,7 +39,7 @@ function checkAndUpdateAttendance($fingerprintId)
         $connection = getConnection();
 
         // Query to check if the card ID is registered to any student
-        $sqlCheckCard = "SELECT * FROM students WHERE Fingerprint = :fingerprintId";
+        $sqlCheckCard = "SELECT * FROM students INNER JOIN users ON students.StudentId = users.StudentId WHERE Fingerprint = :fingerprintId";
         $stmtCheckCard = $connection->prepare($sqlCheckCard);
         $stmtCheckCard->bindParam(':fingerprintId', $fingerprintId);
         $stmtCheckCard->execute();
@@ -54,11 +55,12 @@ function checkAndUpdateAttendance($fingerprintId)
 
             // Check if the student is enrolled in any class on the current day
             $sqlCheckEnrollment = "SELECT * FROM enrollments 
-                                    INNER JOIN schedules ON enrollments.CourseId = schedules.CourseId 
-                                    WHERE enrollments.StudentId = :studentId 
-                                    AND schedules.Date = :currentDate 
-                                    AND schedules.StartTime <= :currentTime 
-                                    AND schedules.EndTime >= :currentTime";
+            INNER JOIN schedules ON enrollments.CourseId = schedules.CourseId 
+            INNER JOIN courses ON enrollments.CourseId = courses.CourseId
+            WHERE enrollments.StudentId = :studentId 
+            AND schedules.Date = :currentDate 
+            AND schedules.StartTime <= :currentTime 
+            AND schedules.EndTime >= :currentTime";
             $stmtCheckEnrollment = $connection->prepare($sqlCheckEnrollment);
             $stmtCheckEnrollment->bindParam(':studentId', $student['StudentId']);
             $stmtCheckEnrollment->bindParam(':currentDate', $currentDate);
@@ -81,7 +83,7 @@ function checkAndUpdateAttendance($fingerprintId)
 
                 if ($existingAttendance) {
                     // Attendance already recorded using FaceTimeIn, FingerprintTimeIn, or CardTimeIn
-                    return "Attendance already recorded.";
+                    return $student["Name"] . " telah masuk kelas " . $enrollment["Name"] . ".";
                 } else {
                     // Update attendance in the attendances table
                     $attendanceDate = date('Y-m-d H:i:s');
@@ -99,19 +101,21 @@ function checkAndUpdateAttendance($fingerprintId)
                     $stmtUpdateAttendance->execute();
 
                     // Return success message
-                    $message = "Attendance recorded successfully.";
+                    $message = "Kehadiran " . $student["Name"] . " di kelas " . $enrollment["Name"] . " telah dicatat.";
+
                     if ($attendanceStatus == 3) {
-                        $message .= " Student is late.";
+                        $message .= " Mahasiswa terlambat.";
                     }
+
                     return $message;
                 }
             } else {
                 // Student is not enrolled in any class on the current day or arrived more than 15 minutes after the class starts
-                return "Student is not enrolled in any class now.";
+                return $student["Name"] . " tidak memiliki jadwal kelas sekarang.";
             }
         } else {
             // Card ID is not registered to any student
-            return "Invalid Fingerprint ID.";
+            return "ID wajah tidak terkait dengan mahasiswa mana pun.";
         }
     } catch (PDOException $e) {
         // Handle database connection or query execution errors

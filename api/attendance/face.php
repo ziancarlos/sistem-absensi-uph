@@ -82,7 +82,7 @@ function checkAndUpdateAttendance($faceId)
 
                 if ($existingAttendance) {
                     // Attendance already recorded using FaceTimeIn, FingerprintTimeIn, or CardTimeIn
-                    return $student["Name"] . "sudah masuk ke kelas " . $enrollment["Name"] . ".";
+                    return $student["Name"] . " telah masuk kelas " . $enrollment["Name"] . ".";
                 } else {
                     // Update attendance in the attendances table
                     $attendanceDate = date('Y-m-d H:i:s');
@@ -100,21 +100,21 @@ function checkAndUpdateAttendance($faceId)
                     $stmtUpdateAttendance->execute();
 
                     // Return success message
-                    $message = "Absensi " . $student["Name"] . " di kelas " . $enrollment["Name"] . "telah direkap.";
+                    $message = "Kehadiran " . $student["Name"] . " di kelas " . $enrollment["Name"] . " telah dicatat.";
 
                     if ($attendanceStatus == 3) {
-                        $message .= " Mahasiswa telat.";
+                        $message .= " Mahasiswa terlambat.";
                     }
 
                     return $message;
                 }
             } else {
                 // Student is not enrolled in any class on the current day or arrived more than 15 minutes after the class starts
-                return $student["Name"] . " tidak terdaftar di kelas manapun.";
+                return $student["Name"] . " tidak memiliki jadwal kelas sekarang.";
             }
         } else {
             // Card ID is not registered to any student
-            return "Muka tidak terasosiasi dengan mahasiswa.";
+            return "ID wajah tidak terkait dengan mahasiswa mana pun.";
         }
     } catch (PDOException $e) {
         echo $e;

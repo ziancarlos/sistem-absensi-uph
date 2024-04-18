@@ -8,8 +8,8 @@ require_once ("../helper/dbHelper.php");
  * It handles GET and POST requests, returning JSON responses.
  * 
  * Endpoints:
- *  - GET /students?cardId={cardId} : Retrieves student information by card ID.
- *  - POST /students/update : Updates student card information.
+ *  - GET /students?cardId={cardId}: Retrieves student information by card ID.
+ *  - POST /students/update: Updates student card information.
  * 
  * @package StudentCardAPI
  */
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['cardId'])) {
     if ($student) {
         echo json_encode($student);
     } else {
-        echo json_encode(array("error" => "Student not found"));
+        echo json_encode(array("error" => "Siswa tidak ditemukan"));
     }
 } else if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['getAllStudents'])) {
     $students = getAllStudents();
@@ -64,10 +64,9 @@ function getAllStudents()
         return $students;
     } catch (PDOException $e) {
         // Handle database errors
-        return array("error" => "Database error: " . $e->getMessage());
+        return array("error" => "Kesalahan database: " . $e->getMessage());
     }
 }
-
 
 /**
  * Update student face information.
@@ -81,12 +80,12 @@ function updateFace($studentId, $faceId)
     try {
         // Check if the student ID format is valid
         if (!preg_match("/^\d{11,}$/", $studentId)) {
-            return array("error" => "Student ID must consist of 11 or more digits");
+            return array("error" => "ID siswa harus terdiri dari 11 digit atau lebih");
         }
 
         // Check if the student exists
         if (!isStudentExist($studentId)) {
-            return array("error" => "Student ID not found in the database");
+            return array("error" => "ID siswa tidak ditemukan dalam database");
         }
 
         // Database connection
@@ -105,10 +104,10 @@ function updateFace($studentId, $faceId)
         $connection = null;
 
         // Return success message if face update was successful, otherwise return error message
-        return $success ? array("success" => "Student face updated successfully") : array("error" => "Failed to update student face");
+        return $success ? array("success" => "Wajah siswa berhasil diperbarui") : array("error" => "Gagal memperbarui wajah siswa");
     } catch (PDOException $e) {
         // Handle database errors
-        return array("error" => "Database error: " . $e->getMessage());
+        return array("error" => "Kesalahan database: " . $e->getMessage());
     }
 }
 
@@ -124,7 +123,7 @@ function updateCard($studentId, $cardId)
     try {
         // Validate input
         if (!preg_match("/^\d{11,}$/", $studentId)) {
-            return array("error" => "Student ID must consist of 11 or more digits");
+            return array("error" => "ID siswa harus terdiri dari 11 digit atau lebih");
         }
 
         // Database connection
@@ -132,12 +131,12 @@ function updateCard($studentId, $cardId)
 
         // Check if the card is already registered
         if (isCardExist($cardId)) {
-            return array("error" => "Card ID has already been registered");
+            return array("error" => "ID kartu sudah didaftarkan");
         }
 
         // Check if the student exists
         if (!isStudentExist($studentId)) {
-            return array("error" => "Student ID not found in the database");
+            return array("error" => "ID siswa tidak ditemukan dalam database");
         }
 
         // SQL query to update the card for the specified student
@@ -153,10 +152,10 @@ function updateCard($studentId, $cardId)
         $connection = null;
 
         // Return success message if card update was successful, otherwise return error message
-        return $success ? array("success" => "Student card updated successfully") : array("error" => "Failed to update student card");
+        return $success ? array("success" => "Kartu siswa berhasil diperbarui") : array("error" => "Gagal memperbarui kartu siswa");
     } catch (PDOException $e) {
         // Handle database errors
-        return array("error" => "Database error: " . $e->getMessage());
+        return array("error" => "Kesalahan database: " . $e->getMessage());
     }
 }
 

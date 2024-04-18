@@ -10,7 +10,7 @@ require_once ("../helper/dbHelper.php");
  * the result as JSON before echoing it.
  */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
-    // Hash the password using MD5 algorithm
+    // Hash the password using the MD5 algorithm
     $hashedPassword = md5($_POST['password']);
 
     // Call the login function and encode the result as JSON
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
 } else {
     // Invalid request method or missing parameters
     http_response_code(400); // Bad Request
-    echo json_encode(array("error" => "Invalid request."));
+    echo json_encode(array("error" => "Permintaan tidak valid."));
 }
 
 /**
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
 function login($email, $password)
 {
     try {
-        // Establish database connection
+        // Establish a database connection
         $connection = getConnection();
 
         // SQL query to retrieve admin user based on email, password, role, and status conditions
@@ -49,17 +49,17 @@ function login($email, $password)
         // Close the database connection
         $connection = null;
 
-        // Check if admin user exists
+        // Check if the admin user exists
         if ($admin) {
-            // Admin login successful, return success message along with user details
-            return array("success" => "Admin login successful", "user" => $admin);
+            // Admin login successful, return a success message along with user details
+            return array("success" => "Login admin berhasil", "user" => $admin);
         } else {
             // Admin login failed
-            return array("error" => "Invalid email or password");
+            return array("error" => "Email atau kata sandi tidak valid");
         }
     } catch (PDOException $e) {
         // Handle database connection or query execution errors
-        return array("error" => "Database error: " . $e->getMessage());
+        return array("error" => "Kesalahan database: " . $e->getMessage());
     }
 }
 ?>
