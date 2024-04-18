@@ -40,7 +40,7 @@ function checkAndUpdateAttendance($faceId)
         $connection = getConnection();
 
         // Query to check if the face ID is registered to any student
-        $sqlCheckCard = "SELECT students.StudentId, students.Name, users.Status 
+        $sqlCheckCard = "SELECT students.StudentId, Users.Name, users.Status 
                          FROM students 
                          INNER JOIN users ON students.StudentId = users.StudentId 
                          WHERE Face = :faceId";
@@ -87,7 +87,7 @@ function checkAndUpdateAttendance($faceId)
 
                 // Check if the course is available
                 if ($enrollment['CourseStatus'] == 0) {
-                    return "Kursus " . $enrollment["Name"] . " tidak tersedia saat ini.";
+                    return "Mata Kuliah " . $enrollment["Name"] . " tidak tersedia saat ini.";
                 }
 
                 // Check if attendance has already been recorded for the student today
