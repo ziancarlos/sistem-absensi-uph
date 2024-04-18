@@ -57,7 +57,7 @@ function checkAndUpdateAttendance($cardId)
             $currentTime = date('H:i:s');
 
             // Check if the student is enrolled in any class on the current day
-            $sqlCheckEnrollment = "SELECT enrollments.Status AS EnrollmentStatus, schedules.ScheduleId, courses.Name, courses.Status AS CourseStatus
+            $sqlCheckEnrollment = "SELECT enrollments.Status AS EnrollmentStatus, schedules.ScheduleId, courses.Name, courses.Status AS CourseStatus, schedules.StartTime
             FROM enrollments
             INNER JOIN schedules ON enrollments.CourseId = schedules.CourseId 
             INNER JOIN courses ON enrollments.CourseId = courses.CourseId
@@ -75,7 +75,7 @@ function checkAndUpdateAttendance($cardId)
             // Check if the student is enrolled in a class on the current day
             if ($enrollment) {
                 // Check the status of the enrollment
-                if ($enrollment['Status'] == 0) {
+                if ($enrollment['EnrollmentStatus'] == 0) {
                     return "Mahasiswa telah dinonaktifkan dari kelas " . $enrollment["Name"] . ".";
                 }
 

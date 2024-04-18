@@ -39,7 +39,7 @@ function checkAndUpdateAttendance($fingerprintId)
         $connection = getConnection();
 
         // Query to check if the fingerprint ID is registered to any student
-        $sqlCheckCard = "SELECT students.StudentId, students.Name, users.Status 
+        $sqlCheckCard = "SELECT students.StudentId, users.Name, users.Status 
                          FROM students 
                          INNER JOIN users ON students.StudentId = users.StudentId 
                          WHERE Fingerprint = :fingerprintId";
@@ -61,7 +61,7 @@ function checkAndUpdateAttendance($fingerprintId)
             $currentTime = date('H:i:s');
 
             // Check if the student is enrolled in any class on the current day
-            $sqlCheckEnrollment = "SELECT enrollments.Status AS EnrollmentStatus, schedules.ScheduleId, courses.Name, courses.Status AS CourseStatus
+            $sqlCheckEnrollment = "SELECT enrollments.Status AS EnrollmentStatus, schedules.ScheduleId, courses.Name, courses.Status AS CourseStatus, schedules.StartTime
             FROM enrollments
             INNER JOIN schedules ON enrollments.CourseId = schedules.CourseId 
             INNER JOIN courses ON enrollments.CourseId = courses.CourseId
@@ -79,14 +79,14 @@ function checkAndUpdateAttendance($fingerprintId)
             // If the student is enrolled in a class on the current day
             if ($enrollment) {
                 // Check if the enrollment is active
-                if ($enrollment['Status'] == 0) {
+                if ($enrollment['EnrollmentStatus'] == 0) {
                     // Return an error message indicating the student has been deactivated from the class
-                    return "Mahasiswa telah dinonaktifkan dari kelas " . $enrollment["CourseName"] . ".";
+                    return "Mahasiswa telah dinonaktifkan dari kelas " . $enrollment["Name"] . ".";
                 }
 
                 // Check if the course is available
                 if ($enrollment['CourseStatus'] == 0) {
-                    return "Kursus " . $enrollment["Name"] . " tidak tersedia saat ini.";
+                    return "Mata Kuliah " . $enrollment["Name"] . " tidak tersedia saat ini.";
                 }
 
                 // Check if attendance has already been recorded for the student today
