@@ -62,14 +62,14 @@ function checkAndUpdateAttendance($faceId)
             $currentTime = date('H:i:s');
 
             // Check if the student is enrolled in any class on the current day
-            $sqlCheckEnrollment = "SELECT enrollments.Status, enrollments.CourseId, courses.Name as CourseName, schedules.ScheduleId, schedules.StartTime, schedules.EndTime
-                                   FROM enrollments
-                                   INNER JOIN schedules ON enrollments.CourseId = schedules.CourseId
-                                   INNER JOIN courses ON enrollments.CourseId = courses.CourseId
-                                   WHERE enrollments.StudentId = :studentId
-                                   AND schedules.Date = :currentDate
-                                   AND schedules.StartTime <= :currentTime
-                                   AND schedules.EndTime >= :currentTime";
+            $sqlCheckEnrollment = "SELECT enrollments.Status AS EnrollmentStatus, schedules.ScheduleId, courses.Name, courses.Status AS CourseStatus
+            FROM enrollments
+            INNER JOIN schedules ON enrollments.CourseId = schedules.CourseId 
+            INNER JOIN courses ON enrollments.CourseId = courses.CourseId
+            WHERE enrollments.StudentId = :studentId 
+            AND schedules.Date = :currentDate 
+            AND schedules.StartTime <= :currentTime 
+            AND schedules.EndTime >= :currentTime";
             $stmtCheckEnrollment = $connection->prepare($sqlCheckEnrollment);
             $stmtCheckEnrollment->bindParam(':studentId', $student['StudentId']);
             $stmtCheckEnrollment->bindParam(':currentDate', $currentDate);
@@ -83,6 +83,11 @@ function checkAndUpdateAttendance($faceId)
                 if ($enrollment['Status'] == 0) {
                     // Return an error message indicating the student has been deactivated from the class
                     return "Mahasiswa telah dinonaktifkan dari kelas " . $enrollment["CourseName"] . ".";
+                }
+
+                // Check if the course is available
+                if ($enrollment['CourseStatus'] == 0) {
+                    return "Kursus " . $enrollment["Name"] . " tidak tersedia saat ini.";
                 }
 
                 // Check if attendance has already been recorded for the student today
