@@ -28,6 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET["inputKodeMK"]) && isset
 function filterAttendanceData($kodeMK = null, $tanggal = null)
 {
     global $data;
+
+    $role = getUserRole($_SESSION["UserId"]);
+
     $connection = getConnection();
 
     try {
@@ -69,7 +72,7 @@ function filterAttendanceData($kodeMK = null, $tanggal = null)
     LEFT JOIN
         classrooms ON courses.ClassroomId = classrooms.ClassroomId
     LEFT JOIN
-        buildings ON classrooms.BuildingId = buildings.BuildingId;
+        buildings ON classrooms.BuildingId = buildings.BuildingId
     WHERE 1 ";
 
         if (!empty($kodeMK)) {
@@ -80,6 +83,17 @@ function filterAttendanceData($kodeMK = null, $tanggal = null)
             $sql .= " AND DATE_FORMAT(DATE(schedules.Date), '%Y-%m-%d') = :tanggal ";
         }
 
+        // Jika role adalah "student", tambahkan kondisi where
+        if ($role == "student") {
+            $sql .= " WHERE users.UserId = :userId";
+        } else if ($role == "lecturer") {
+            $sql .= "-- Join with lecturerhascourses table to filter by lecturer
+            INNER JOIN
+                lecturerhascourses ON courses.CourseId = lecturerhascourses.CourseId
+             WHERE lecturerhascourses.LecturerId = :lecturerId";
+        }
+
+
         $stmt = $connection->prepare($sql);
 
         if (!empty($kodeMK)) {
@@ -88,6 +102,14 @@ function filterAttendanceData($kodeMK = null, $tanggal = null)
 
         if (!empty($tanggal)) {
             $stmt->bindParam(':tanggal', $tanggal);
+        }
+
+        // Bind parameter jika role adalah "student"
+        if ($role == "student") {
+            $stmt->bindParam(':userId', $_SESSION["UserId"]);
+
+        } else if ($role == "lecturer") {
+            $stmt->bindParam(':lecturerId', $_SESSION["UserId"]);
         }
 
         $stmt->execute();
@@ -151,18 +173,28 @@ function dataAttendanceView()
     LEFT JOIN
         classrooms ON courses.ClassroomId = classrooms.ClassroomId
     LEFT JOIN
-        buildings ON classrooms.BuildingId = buildings.BuildingId;";
+        buildings ON classrooms.BuildingId = buildings.BuildingId
+    ";
+
 
         // Jika role adalah "student", tambahkan kondisi where
-        if ($role === "student") {
+        if ($role == "student") {
             $sql .= " WHERE users.UserId = :userId";
+        } else if ($role == "lecturer") {
+            $sql .= "-- Join with lecturerhascourses table to filter by lecturer
+            INNER JOIN
+                lecturerhascourses ON courses.CourseId = lecturerhascourses.CourseId
+             WHERE lecturerhascourses.LecturerId = :lecturerId";
         }
 
         $stmt = $connection->prepare($sql);
 
         // Bind parameter jika role adalah "student"
-        if ($role === "student") {
+        if ($role == "student") {
             $stmt->bindParam(':userId', $_SESSION["UserId"]);
+
+        } else if ($role == "lecturer") {
+            $stmt->bindParam(':lecturerId', $_SESSION["UserId"]);
         }
 
         $stmt->execute();
@@ -176,4 +208,3 @@ function dataAttendanceView()
         exit;
     }
 }
-?>
