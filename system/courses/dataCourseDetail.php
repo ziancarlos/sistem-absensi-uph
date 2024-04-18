@@ -71,6 +71,9 @@ require_once ("dataCourseDetailFunction.php");
                                 <th>Nama Mahasiswa</th>
                                 <th>NIM</th>
                                 <th>Tahun Angkatan</th>
+                                <th>Jumlah Absen</th>
+                                <th>Jumlah Telat</th>
+                                <th>Jumlah Hadir</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -85,6 +88,15 @@ require_once ("dataCourseDetailFunction.php");
                                 </td>
                                 <td>
                                     <?= $student["YearIn"] ?>
+                                </td>
+                                <td>
+                                    <?= $student["numberAbsent"] ?>
+                                </td>
+                                <td>
+                                    <?= $student["numberLate"] ?>
+                                </td>
+                                <td>
+                                    <?= $student["numberPresent"] ?>
                                 </td>
                                 <td style="display: flex; gap: 5px;">
                                     <?php if ($student["EnrollmentStatus"] == 1): ?>
@@ -166,6 +178,15 @@ require_once ("dataCourseDetailFunction.php");
                 },
                 {
                     data: 'angakatan'
+                },
+                {
+                    data: 'angakatan1'
+                },
+                {
+                    data: 'angakatan2'
+                },
+                {
+                    data: 'angakatan3'
                 }
                 <?php if ($role != "student"): ?>,
 

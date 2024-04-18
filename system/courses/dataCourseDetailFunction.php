@@ -68,11 +68,50 @@ function courseDetailView()
         $data["lecturers"] = $stmt_lecturers->fetchAll(PDO::FETCH_ASSOC);
 
         // Prepare SQL query to retrieve students enrolled in the course
-        $sql_students = "SELECT enrollments.EnrollmentId, enrollments.Status AS EnrollmentStatus, users.Name, users.Email, enrollments.StudentId, students.YearIn 
-                FROM users
-                INNER JOIN enrollments  ON users.StudentId = enrollments.StudentId
-                INNER JOIN students ON enrollments.StudentId = students.StudentId
-                WHERE users.role = 0 AND enrollments.CourseId = :courseId AND users.Status = 1";
+        $sql_students = "SELECT
+        enrollments.EnrollmentId,
+        enrollments.Status AS EnrollmentStatus,
+        users.Name,
+        users.Email,
+        enrollments.StudentId,
+        students.YearIn,
+        COALESCE(attendance_counts.numberLate, 0) AS numberLate,
+        COALESCE(attendance_counts.numberAbsent, 0) AS numberAbsent,
+        COALESCE(attendance_counts.numberPresent, 0) AS numberPresent
+    FROM
+        users
+    INNER JOIN
+        enrollments ON users.StudentId = enrollments.StudentId
+    INNER JOIN
+        students ON enrollments.StudentId = students.StudentId
+    LEFT JOIN
+        (
+            SELECT
+                a.StudentId,
+                s.CourseId,
+                SUM(CASE WHEN a.Status = 3 THEN 1 ELSE 0 END) AS numberLate,
+                SUM(CASE WHEN a.Status = 1 THEN 1 ELSE 0 END) AS numberPresent,
+                SUM(CASE
+                    WHEN a.FingerprintTimein IS NULL
+                        AND a.FaceTimein IS NULL
+                        AND a.CardTimein IS NULL THEN 1
+                    ELSE 0
+                END) AS numberAbsent
+            FROM
+                attendances a
+            INNER JOIN
+                schedules s ON a.ScheduleId = s.ScheduleId
+            WHERE
+                s.CourseId = :courseId
+            GROUP BY
+                a.StudentId,
+                s.CourseId
+        ) AS attendance_counts ON enrollments.StudentId = attendance_counts.StudentId
+        AND enrollments.CourseId = attendance_counts.CourseId
+    WHERE
+        users.role = 0
+        AND enrollments.CourseId = :courseId
+        AND users.Status = 1";
 
         // Prepare and execute the query for students
         $stmt_students = $connection->prepare($sql_students);
