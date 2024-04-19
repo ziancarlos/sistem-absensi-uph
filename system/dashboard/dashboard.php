@@ -196,10 +196,14 @@ require_once ("dashboardFunction.php");
                                                 </div>
                                                 <div class="row no-gutters align-items-center">
                                                     <div class="col-auto">
-                                                        <?php $attendanceData = dataAttendanceStudent(); ?>
+                                                    <?php $attendanceData = dataAttendanceStudent(); ?>
                                                         <?php if ($attendanceData): ?>
                                                             <div class="h5 mb-0 mr-3 font-weight-bold text-primary">
-                                                                <?php echo $attendanceData['AttendancePercentage']; ?>%
+                                                                <?= $attendanceData['AttendancePercentage']; ?>%
+                                                            </div>
+                                                        <?php else: ?>
+                                                            <div class="h5 mb-0 mr-3 font-weight-bold text-primary">
+                                                                0%
                                                             </div>
                                                         <?php endif; ?>
                                                     </div>
@@ -233,9 +237,11 @@ require_once ("dashboardFunction.php");
                                                 <div class="row no-gutters align-items-center">
                                                     <div class="col-auto">
                                                         <div class="h5 mb-0 mr-3 font-weight-bold text-primary">
-                                                            <?php $attendanceData = dataAttendanceStudent(); ?>
+                                                        <?php $attendanceData = dataAttendanceStudent(); ?>
                                                             <?php if ($attendanceData): ?>
-                                                                <?php echo $attendanceData['AbsenceCount']; ?>
+                                                                <?= $attendanceData['AbsenceCount']; ?>
+                                                            <?php else: ?>
+                                                                -
                                                             <?php endif; ?>
                                                         </div>
                                                     </div>

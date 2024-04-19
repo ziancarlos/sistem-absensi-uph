@@ -109,9 +109,11 @@
     <?php endif; ?>
 
 
+    <?php if ($role == "admin"): ?>
+            
     <!-- Divider -->
     <hr class="sidebar-divider">
-    <?php if ($role == "admin"): ?>
+
     <!-- Heading -->
     <div class="sidebar-heading">
         Admin
