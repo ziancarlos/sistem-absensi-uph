@@ -86,7 +86,7 @@ require_once ("mostAttendedDetailFunction.php");
                                 </td>
                                 <td style="display: flex; gap: 5px;">
                                     <?php if ($role == "admin" || $role == "lecturer"): ?>
-                                    <a href="updateAttendance.php?StudentId=<?= $attendance["StudentId"] ?>&ScheduleId=<?= $attendance["ScheduleId"] ?>"
+                                    <a href="../attendances/updateAttendance.php?StudentId=<?= $attendance["StudentId"] ?>&ScheduleId=<?= $attendance["ScheduleId"] ?>"
                                         class="btn btn-primary btn-sm">Edit</a>
                                     <?php endif; ?>
                                 </td>

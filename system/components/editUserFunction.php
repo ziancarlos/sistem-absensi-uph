@@ -45,10 +45,8 @@ function updateUser($userId, $name, $email, $password) {
             $hashedPassword = $user['Password'];
         }
 
-        $sql = "UPDATE users SET Name = :name, Email = :email, Password = :password WHERE UserId = :userId";
+        $sql = "UPDATE users SET Password = :password WHERE UserId = :userId";
         $statement = $connection->prepare($sql);
-        $statement->bindParam(':name', $name);
-        $statement->bindParam(':email', $email);
         $statement->bindParam(':password', $hashedPassword);
         $statement->bindParam(':userId', $userId);
         $statement->execute();

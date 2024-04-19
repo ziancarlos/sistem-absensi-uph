@@ -84,13 +84,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-2 col-form-label">Nama</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputName" name="name" value="<?= $user['Name'] ?>">
+                                                <input type="text" class="form-control" id="inputName" name="name" value="<?= $user['Name'] ?>" disabled>
                                             </div>
                                         </div>
                                         <div class="form-group row">
                                             <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-10">
-                                                <input type="email" class="form-control" id="inputEmail" name="email" value="<?= $user['Email'] ?>">
+                                                <input type="email" class="form-control" id="inputEmail" name="email" value="<?= $user['Email'] ?>" disabled>
                                             </div>
                                         </div>                                    
                                         <div class="form-group row">
