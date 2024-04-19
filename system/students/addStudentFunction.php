@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("../../helper/dbHelper.php");
-require_once("../../helper/authHelper.php");
+require_once ("../../helper/dbHelper.php");
+require_once ("../../helper/authHelper.php");
 $permittedRole = ["lecturer", "admin"];
 $pageName = "Sistem Absensi UPH - Tambah Mahasiswa";
 $data = [];
@@ -63,7 +63,7 @@ function addStudentController()
         $connection->beginTransaction();
 
         // Check if the nim already exists in the Students table
-        $nimCheckQuery = "SELECT * FROM Students WHERE StudentId = :nim";
+        $nimCheckQuery = "SELECT * FROM students WHERE StudentId = :nim";
         $nimCheckStmt = $connection->prepare($nimCheckQuery);
         $nimCheckStmt->bindParam(':nim', $nim);
         $nimCheckStmt->execute();
@@ -75,7 +75,7 @@ function addStudentController()
         }
 
         // Check if the email already exists in the Users table
-        $emailCheckQuery = "SELECT * FROM Users WHERE email = :email";
+        $emailCheckQuery = "SELECT * FROM users WHERE email = :email";
         $emailCheckStmt = $connection->prepare($emailCheckQuery);
         $emailCheckStmt->bindParam(':email', $email);
         $emailCheckStmt->execute();
@@ -87,14 +87,14 @@ function addStudentController()
         }
 
         // Insert data into Students table
-        $insertStudentQuery = "INSERT INTO Students (StudentId, YearIn) VALUES (:nim, :yearIn)";
+        $insertStudentQuery = "INSERT INTO students (StudentId, YearIn) VALUES (:nim, :yearIn)";
         $insertStudentStmt = $connection->prepare($insertStudentQuery);
         $insertStudentStmt->bindParam(':nim', $nim);
         $insertStudentStmt->bindParam(':yearIn', $yearIn);
         $insertStudentStmt->execute();
 
         // Insert data into Users table
-        $insertUserQuery = "INSERT INTO Users (Name, Email, StudentId, Password) VALUES (:name, :email, :nim, :password)";
+        $insertUserQuery = "INSERT INTO users (Name, Email, StudentId, Password) VALUES (:name, :email, :nim, :password)";
         $insertUserStmt = $connection->prepare($insertUserQuery);
         $insertUserStmt->bindParam(':name', $name);
         $insertUserStmt->bindParam(':email', $email);

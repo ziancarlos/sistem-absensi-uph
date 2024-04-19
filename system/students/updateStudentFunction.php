@@ -38,7 +38,7 @@ function updateStudentController()
         $connection = getConnection(); // Mengasumsikan Anda memiliki fungsi bernama getConnection() untuk membuat koneksi PDO
 
         // Query untuk mendapatkan data mahasiswa sebelum perubahan
-        $stmt = $connection->prepare("SELECT * FROM Students INNER JOIN Users  ON Students.StudentId = Users.StudentId WHERE Students.StudentId = :studentId");
+        $stmt = $connection->prepare("SELECT * FROM students INNER JOIN users  ON students.StudentId = users.StudentId WHERE students.StudentId = :studentId");
         $stmt->bindParam(':studentId', $studentId);
         $stmt->execute();
         $existingStudent = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -53,12 +53,12 @@ function updateStudentController()
         }
 
         // Lakukan perubahan jika ada perubahan dalam data
-        $updateStmt = $connection->prepare("UPDATE Students SET YearIn = :yearIn WHERE StudentId = :studentId");
+        $updateStmt = $connection->prepare("UPDATE students SET YearIn = :yearIn WHERE StudentId = :studentId");
         $updateStmt->bindParam(':yearIn', $yearIn);
         $updateStmt->bindParam(':studentId', $studentId);
         $updateStmt->execute();
 
-        $updateUserStmt = $connection->prepare("UPDATE Users SET Name = :name, Email = :email WHERE StudentId = :studentId");
+        $updateUserStmt = $connection->prepare("UPDATE users SET Name = :name, Email = :email WHERE StudentId = :studentId");
         $updateUserStmt->bindParam(':name', $name);
         $updateUserStmt->bindParam(':email', $email);
         $updateUserStmt->bindParam(':studentId', $studentId);
@@ -67,7 +67,7 @@ function updateStudentController()
         // Jika password tidak kosong, update password
         if (!empty($password)) {
             $hashedPassword = md5($password);
-            $updatePasswordStmt = $connection->prepare("UPDATE Users SET Password = :password WHERE StudentId = :studentId");
+            $updatePasswordStmt = $connection->prepare("UPDATE users SET Password = :password WHERE StudentId = :studentId");
             $updatePasswordStmt->bindParam(':password', $hashedPassword);
             $updatePasswordStmt->bindParam(':studentId', $studentId);
             $updatePasswordStmt->execute();
@@ -93,9 +93,9 @@ function updateStudentView()
     try {
         $connection = getConnection(); // Assuming you have a function named getConnection() to establish a PDO connection
 
-        // Query to fetch the required information from Students and Users tables
-        $stmt = $connection->prepare("SELECT Students.StudentId, Users.Name, Users.Email, Students.YearIn 
-        FROM Users INNER JOIN Students ON Users.StudentId = Students.StudentId WHERE Users.UserId = :userId");
+        // Query to fetch the required information from Students and users tables
+        $stmt = $connection->prepare("SELECT Students.StudentId, users.Name, users.Email, Students.YearIn 
+        FROM users INNER JOIN Students ON users.StudentId = Students.StudentId WHERE users.UserId = :userId");
         $stmt->bindParam(':userId', $userId);
         $stmt->execute();
 

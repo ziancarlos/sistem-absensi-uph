@@ -25,7 +25,7 @@ function activateStudentController()
 
         $connection = getConnection(); // Mengasumsikan Anda memiliki fungsi bernama getConnection() untuk membuat koneksi PDO
 
-        $stmt = $connection->prepare("SELECT Status FROM Users WHERE UserId = :userId");
+        $stmt = $connection->prepare("SELECT Status FROM users WHERE UserId = :userId");
         $stmt->bindParam(':userId', $userId);
         $stmt->execute();
 
@@ -36,7 +36,7 @@ function activateStudentController()
                 throw new Exception("Pengguna sudah aktif!");
             }
 
-            $updateStmt = $connection->prepare("UPDATE Users SET Status = 1 WHERE UserId = :userId");
+            $updateStmt = $connection->prepare("UPDATE users SET Status = 1 WHERE UserId = :userId");
             $updateStmt->bindParam(':userId', $userId);
             $updateStmt->execute();
 

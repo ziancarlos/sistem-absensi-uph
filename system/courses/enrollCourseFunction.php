@@ -10,7 +10,7 @@ if (!authorization($permittedRole, $_SESSION["UserId"])) {
 }
 
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset ($_GET["CourseId"])) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET["CourseId"])) {
     enrollCourseView();
 } else {
     $_SESSION["error"] = "Tidak menemukan permintaan yang valid!";
@@ -24,7 +24,7 @@ function enrollCourseView()
     global $data;
 
     // Check if CourseId is provided in the URL
-    if (!isset ($_GET["CourseId"])) {
+    if (!isset($_GET["CourseId"])) {
         $_SESSION["error"] = "CourseId tidak ditemukan.";
         header("location: dataCourse.php");
         exit;
@@ -37,7 +37,7 @@ function enrollCourseView()
     $connection = getConnection();
 
     // Check if the courseId exists in the Courses table
-    $sql_check_course = "SELECT * FROM Courses WHERE CourseId = :courseId";
+    $sql_check_course = "SELECT * FROM courses WHERE CourseId = :courseId";
 
     try {
         // Prepare and execute the query

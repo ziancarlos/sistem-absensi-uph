@@ -45,7 +45,7 @@ function updateAdminController()
         $connection = getConnection(); // Mengasumsikan Anda memiliki fungsi bernama getConnection() untuk membuat koneksi PDO
 
         // Query untuk mendapatkan data dosen sebelum perubahan
-        $stmt = $connection->prepare("SELECT * FROM Users WHERE UserId = :userId");
+        $stmt = $connection->prepare("SELECT * FROM users WHERE UserId = :userId");
         $stmt->bindParam(':userId', $userId);
         $stmt->execute();
 
@@ -61,8 +61,8 @@ function updateAdminController()
         }
 
         // Lakukan pengecekan apakah nama atau email sudah ada dalam database
-        $nameCheckQuery = "SELECT * FROM Users WHERE Name = :name AND UserId != :userId";
-        $emailCheckQuery = "SELECT * FROM Users WHERE Email = :email AND UserId != :userId";
+        $nameCheckQuery = "SELECT * FROM users WHERE Name = :name AND UserId != :userId";
+        $emailCheckQuery = "SELECT * FROM users WHERE Email = :email AND UserId != :userId";
 
         $nameCheckStmt = $connection->prepare($nameCheckQuery);
         $nameCheckStmt->bindParam(':name', $name);
@@ -83,7 +83,7 @@ function updateAdminController()
         }
 
         // Lakukan perubahan jika ada perubahan dalam data
-        $updateUserStmt = $connection->prepare("UPDATE Users SET Name = :name, Email = :email WHERE UserId = :userId");
+        $updateUserStmt = $connection->prepare("UPDATE users SET Name = :name, Email = :email WHERE UserId = :userId");
         $updateUserStmt->bindParam(':name', $name);
         $updateUserStmt->bindParam(':email', $email);
         $updateUserStmt->bindParam(':userId', $userId);
@@ -92,7 +92,7 @@ function updateAdminController()
         // Jika password tidak kosong, update password
         if (!empty($password)) {
             $hashedPassword = md5($password);
-            $updatePasswordStmt = $connection->prepare("UPDATE Users SET Password = :password WHERE UserId = :userId");
+            $updatePasswordStmt = $connection->prepare("UPDATE users SET Password = :password WHERE UserId = :userId");
             $updatePasswordStmt->bindParam(':password', $hashedPassword);
             $updatePasswordStmt->bindParam(':userId', $userId);
             $updatePasswordStmt->execute();
@@ -118,7 +118,7 @@ function updateAdminView()
         $connection = getConnection(); // Mengasumsikan Anda memiliki fungsi bernama getConnection() untuk membuat koneksi PDO
 
         // Query untuk mengambil informasi dosen
-        $stmt = $connection->prepare("SELECT Name, UserId, Email FROM Users WHERE UserId = :userId");
+        $stmt = $connection->prepare("SELECT Name, UserId, Email FROM users WHERE UserId = :userId");
         $stmt->bindParam(':userId', $userId);
         $stmt->execute();
 

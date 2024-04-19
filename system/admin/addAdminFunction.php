@@ -48,7 +48,7 @@ function addAdminController()
         $connection->beginTransaction();
 
         // Check if the email already exists in the Users table
-        $emailCheckQuery = "SELECT * FROM Users WHERE email = :email";
+        $emailCheckQuery = "SELECT * FROM users WHERE email = :email";
         $emailCheckStmt = $connection->prepare($emailCheckQuery);
         $emailCheckStmt->bindParam(':email', $email);
         $emailCheckStmt->execute();
@@ -59,8 +59,8 @@ function addAdminController()
             return;
         }
 
-        // Check if the name already exists in the Users table
-        $nameCheckQuery = "SELECT * FROM Users WHERE Name = :name";
+        // Check if the name already exists in the users table
+        $nameCheckQuery = "SELECT * FROM users WHERE Name = :name";
         $nameCheckStmt = $connection->prepare($nameCheckQuery);
         $nameCheckStmt->bindParam(':name', $name);
         $nameCheckStmt->execute();
@@ -71,8 +71,8 @@ function addAdminController()
             return;
         }
 
-        // Insert data into Users table
-        $insertUserQuery = "INSERT INTO Users (UserId, Name, Email, Password, Role) VALUES (:nip, :name, :email, :password, 2)";
+        // Insert data into users table
+        $insertUserQuery = "INSERT INTO users (UserId, Name, Email, Password, Role) VALUES (:nip, :name, :email, :password, 2)";
         $insertUserStmt = $connection->prepare($insertUserQuery);
         $insertUserStmt->bindParam(':nip', $nim);
         $insertUserStmt->bindParam(':name', $name);

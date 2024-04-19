@@ -37,7 +37,7 @@ function updateCourseScheduleView()
 
     try {
         // Check if the course exists
-        $sql_check_course = "SELECT * FROM Courses WHERE CourseId = :courseId";
+        $sql_check_course = "SELECT * FROM courses WHERE CourseId = :courseId";
         $stmt_check_course = $connection->prepare($sql_check_course);
         $stmt_check_course->bindParam(':courseId', $courseId);
         $stmt_check_course->execute();

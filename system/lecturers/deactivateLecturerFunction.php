@@ -23,7 +23,7 @@ function deactivateLecturerController()
         $userId = htmlspecialchars($_POST["deactivate"]);
         $connection = getConnection();
 
-        $stmt = $connection->prepare("SELECT Status FROM Users WHERE UserId = :userId");
+        $stmt = $connection->prepare("SELECT Status FROM users WHERE UserId = :userId");
         $stmt->bindParam(':userId', $userId);
         $stmt->execute();
 
@@ -34,7 +34,7 @@ function deactivateLecturerController()
                 throw new Exception("Pengguna sudah tidak aktif!");
             }
 
-            $updateStmt = $connection->prepare("UPDATE Users SET Status = 0 WHERE UserId = :userId");
+            $updateStmt = $connection->prepare("UPDATE users SET Status = 0 WHERE UserId = :userId");
             $updateStmt->bindParam(':userId', $userId);
             $updateStmt->execute();
 

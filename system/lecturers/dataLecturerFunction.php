@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("../../helper/dbHelper.php");
-require_once("../../helper/authHelper.php");
+require_once ("../../helper/dbHelper.php");
+require_once ("../../helper/authHelper.php");
 $permittedRole = ["admin"];
 $pageName = "Sistem Absensi UPH - Data Dosen";
 $data = [];
@@ -41,7 +41,7 @@ function dataLecturerModel()
     try {
         $connection = getConnection();
 
-        $sql = "SELECT users.UserId, users.Name, users.Email, users.Status FROM Users WHERE users.Role='1';";
+        $sql = "SELECT users.UserId, users.Name, users.Email, users.Status FROM users WHERE users.Role='1';";
 
         $statement = $connection->prepare($sql);
         $statement->execute();

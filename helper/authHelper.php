@@ -13,7 +13,7 @@ WHEN role = 1 THEN 'lecturer'
 WHEN role = 2 THEN 'admin'
 ELSE 'unknown'
 END AS user_role
-FROM Users
+FROM users
 WHERE UserId = :userId FOR UPDATE";
 
         $statement = $connection->prepare($sql);
@@ -62,7 +62,7 @@ function getUserRole($userId)
                         WHEN role = 2 THEN 'admin'
                         ELSE 'unknown'
                     END AS user_role
-                FROM Users
+                FROM users
                 WHERE UserId = :userId";
 
         $statement = $connection->prepare($sql);

@@ -59,7 +59,7 @@ function dataLecturerDetailModel($lecturerId)
         courses.Status,
         CONCAT(buildings.Letter, classrooms.Code) AS Class
     FROM 
-        Users 
+    users 
     JOIN 
         lecturerhascourses ON users.UserId = lecturerhascourses.LecturerId 
     JOIN 

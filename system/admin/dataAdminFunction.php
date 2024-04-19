@@ -41,7 +41,7 @@ function dataAdminModel()
     try {
         $connection = getConnection();
 
-        $sql = "SELECT users.UserId, users.Name, users.Email, users.Status FROM Users WHERE users.Role='2';";
+        $sql = "SELECT users.UserId, users.Name, users.Email, users.Status FROM users WHERE users.Role='2';";
 
         $statement = $connection->prepare($sql);
         $statement->execute();

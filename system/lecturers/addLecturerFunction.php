@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once("../../helper/dbHelper.php");
-require_once("../../helper/authHelper.php");
+require_once ("../../helper/dbHelper.php");
+require_once ("../../helper/authHelper.php");
 $permittedRole = ["admin"];
 $pageName = "Sistem Absensi UPH - Tambah Dosen";
 $data = [];
@@ -48,7 +48,7 @@ function addLecturerController()
         $connection->beginTransaction();
 
         // Check if the email already exists in the Users table
-        $emailCheckQuery = "SELECT * FROM Users WHERE email = :email";
+        $emailCheckQuery = "SELECT * FROM users WHERE email = :email";
         $emailCheckStmt = $connection->prepare($emailCheckQuery);
         $emailCheckStmt->bindParam(':email', $email);
         $emailCheckStmt->execute();
@@ -59,8 +59,8 @@ function addLecturerController()
             return;
         }
 
-        // Check if the name already exists in the Users table
-        $nameCheckQuery = "SELECT * FROM Users WHERE Name = :name";
+        // Check if the name already exists in the users table
+        $nameCheckQuery = "SELECT * FROM users WHERE Name = :name";
         $nameCheckStmt = $connection->prepare($nameCheckQuery);
         $nameCheckStmt->bindParam(':name', $name);
         $nameCheckStmt->execute();
@@ -71,8 +71,8 @@ function addLecturerController()
             return;
         }
 
-        // Insert data into Users table
-        $insertUserQuery = "INSERT INTO Users (UserId, Name, Email, Password, Role) VALUES (:nip, :name, :email, :password, 1)";
+        // Insert data into users table
+        $insertUserQuery = "INSERT INTO users (UserId, Name, Email, Password, Role) VALUES (:nip, :name, :email, :password, 1)";
         $insertUserStmt = $connection->prepare($insertUserQuery);
         $insertUserStmt->bindParam(':nip', $nim);
         $insertUserStmt->bindParam(':name', $name);
