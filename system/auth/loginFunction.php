@@ -41,6 +41,7 @@ function loginController()
 
         // Redirect to the dashboard
         header('location: ../dashboard/dashboard.php');
+        return;
     } catch (PDOException $e) {
         $_SESSION["error"] = "Terjadi kesalahan pada database!";
         return;
@@ -55,7 +56,7 @@ function loginModel($email, $password)
     $statement = null;
 
     try {
-        $sql = "SELECT UserId FROM Users WHERE email = :email AND password = :password FOR UPDATE";
+        $sql = "SELECT UserId FROM Users WHERE email = :email AND password = :password";
 
         $statement = $connection->prepare($sql);
         $statement->bindParam('email', $email);
