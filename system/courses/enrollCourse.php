@@ -4,7 +4,9 @@ require_once ("enrollCourseFunction.php");
 
 <?php require_once ("../components/header.php"); ?>
 
-
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+</head>
 <body id="page-top">
 
     <!-- Page Wrapper -->
@@ -151,9 +153,10 @@ require_once ("enrollCourseFunction.php");
 
     <?php require_once ("../components/js.php"); ?>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script>
         new DataTable('#example', {
+            responsive : true,
             columns: [{
                 data: 'kode_MK'
             }, {
