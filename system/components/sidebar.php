@@ -62,7 +62,7 @@
                 <a class="collapse-item" href="../courses/dataCourse.php">List Mata Kuliah</a>
                 <?php if ($role != "student"): ?>
                 <a class="collapse-item" href="../courses/addCourse.php">Tambah Mata Kuliah</a>
-                <a class="collapse-item" href="../classroom/addClassroom.php">Ruang Kelas</a>
+                <a class="collapse-item" href="../classroom/addClassroom.php">Ruang Kuliah</a>
                 <a class="collapse-item" href="../courses/courseSchedule.php">Jadwal Mata Kuliah</a>
                 <?php endif; ?>
             </div>
