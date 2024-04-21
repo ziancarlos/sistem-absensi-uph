@@ -70,10 +70,10 @@ require_once ("dataStudentFunction.php");
                                     <?= ($student["Face"] == null) ? '<span class="badge badge-danger">Tidak Aktif</span>' : '<span class="badge badge-primary">Aktif</span>' ?>
                                 </td>
                                 <td>
-                                    <?= ($student["Fingerprint"] == null) ? '<span class="badge badge-danger">Tidak Aktif</span>' : 'span class="badge badge-primary">Aktif</span>' ?>
+                                    <?= ($student["Fingerprint"] == null) ? '<span class="badge badge-danger">Tidak Aktif</span>' : '<span class="badge badge-primary">Aktif</span>' ?>
                                 </td>
                                 <td>
-                                    <?= ($student["Card"] == null) ? '<span class="badge badge-danger">Tidak Aktif</span>' : 'span class="badge badge-primary">Aktif</span>' ?>
+                                    <?= ($student["Card"] == null) ? '<span class="badge badge-danger">Tidak Aktif</span>' : '<span class="badge badge-primary">Aktif</span>' ?>
                                 </td>
                                 <td>
                                     <?php if ($student["Status"] == 1): ?>
